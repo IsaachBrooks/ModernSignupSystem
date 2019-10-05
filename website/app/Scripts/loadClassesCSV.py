@@ -75,10 +75,11 @@ def classesFileValidator(filename):
 def classesFileLoader(filename):
     #create new entries in database
     with open(filename, newline='') as csvfile:
+        print('Beginning file load into database...')
         reader = csv.DictReader(csvfile)
         csvfile.seek(0)
         for row in reader:
-            cID = int(row['cID (classes ID)'] if row['cID (classes ID)'] != '' else None)
+            cID = int(row['cID (classes ID)']) if row['cID (classes ID)'] != '' else None
             dpID = int(row['dpID (department ID)'])
             degreeID = int(row['degreeID (degree ID)'])
             cNumber = int(row['cNumber (class number)'])
@@ -86,10 +87,19 @@ def classesFileLoader(filename):
             prereqs = list(int(cid) for cid in row['prereqs (class IDs)'].split(" "))
             priority = int(row['priority'])
             
-            entry = Classes(cID=(cID if cID else None), dpID=dpID, degreeID=degreeID, cNumber=cNumber, desc=desc, priority=priority)
+            entry = Classes(
+                cID=(cID if cID else None), 
+                dpID=dpID, 
+                degreeID=degreeID, 
+                cNumber=cNumber, 
+                description=desc, 
+                priority=priority
+            )
             if len(prereqs) > 0:
                 for cid in prereqs:
                     prereqClass = Classes.query.filter(Classes.cID==cid).first()
                     entry.prereqs.append(prereqClass)
             db.session.add(entry)
             db.session.commit()
+            print(f'Loaded {entry}.')
+    print('Finished')
