@@ -1,0 +1,8 @@
+website/app/__pycache__/__init__.cpython-37.pyc
+website/app/__pycache__/forms.cpython-37.pyc
+env/
+config.py
+*.txt
+*.csv
+.vscode
+app/__pycache__/
