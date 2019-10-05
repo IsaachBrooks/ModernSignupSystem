@@ -77,6 +77,7 @@ class Classes(BaseTable):
     name = db.Column(db.String(60), nullable=False)
     sections = db.relationship('Section', backref='sectFor', lazy=True)
     description = db.Column(db.String(1000), nullable=False, default='')
+    creditHours = db.Column(db.Integer, nullable=False, default=0)
     prereqs = db.relationship('Classes', secondary=classes_prereq, 
                             primaryjoin="classes.c.cID==classes_prereq.c.prereqCID",
                             secondaryjoin="classes.c.cID==classes_prereq.c.forClassCID",

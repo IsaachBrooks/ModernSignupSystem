@@ -24,11 +24,15 @@ def classesFileValidator(filename):
                 if cID != '':
                     cID = int(cID)
                     if Classes.query.filter(Classes.cID==cID).first() or cID in knownCID:
-                        print(f'Error at line {linenum}. CID either already exists in database or exists in a previous entry.')
+                        print(f'Error at line {linenum}. Class ID = {cID} either already exists in database or exists in a previous entry.')
                         print('Stopping...')
                         return False
                     else:
                         knownCID.append(cID)
+                else:
+                    print(f'Error at line {linenum}. Class ID cannot be null.')
+                    print('Stopping...')
+                    return False
                 dpID = int(row['dpID (department ID)'])
                 if not Department.query.filter(Department.dpID==dpID).first():
                     print(f'Error at line {linenum}. There is no department with ID = {dpID}.')
@@ -46,12 +50,17 @@ def classesFileValidator(filename):
                     return False
                 else:
                     knownCNumbers.append((cNumber, dpID, degreeID))
+                name = row['name']
+                if name == '':
+                    print(f'Error at line {linenum}. Class name cannot be null.')
+                    print('Stopping...')
+                    return False
                 desc = row['description']
                 if len(desc) > 1000:
                     print(f'Error at line {linenum}. Description is longer than 1000 characters.')
                     print('Stopping...')
                     return False
-                prereqs = list(int(cid) for cid in row['prereqs (class IDs)'].split(" ") if cid != '')
+                prereqs = list(int(cid) for cid in row['prereqs (class IDs comma-space separated)'].split(", ") if cid != '')
                 for prereqid in prereqs:
                     if not Classes.query.filter(Classes.cID==prereqid).first() and not prereqid in knownCID:
                         print(f'Error at line {linenum}. prereqid {prereqid} either does not exist in database or does not exist in a previous entry.')
@@ -79,10 +88,11 @@ def classesFileLoader(filename):
         reader = csv.DictReader(csvfile)
         csvfile.seek(0)
         for row in reader:
-            cID = int(row['cID (classes ID)']) if row['cID (classes ID)'] != '' else None
+            cID = int(row['cID (classes ID)'])
             dpID = int(row['dpID (department ID)'])
             degreeID = int(row['degreeID (degree ID)'])
             cNumber = int(row['cNumber (class number)'])
+            name = row['name']
             desc = row['description']
             prereqs = list(int(cid) for cid in row['prereqs (class IDs)'].split(" "))
             priority = int(row['priority'])
@@ -91,7 +101,8 @@ def classesFileLoader(filename):
                 cID=(cID if cID else None), 
                 dpID=dpID, 
                 degreeID=degreeID, 
-                cNumber=cNumber, 
+                cNumber=cNumber,
+                name=name, 
                 description=desc, 
                 priority=priority
             )
