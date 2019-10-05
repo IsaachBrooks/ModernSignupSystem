@@ -80,7 +80,8 @@ class Classes(BaseTable):
                             primaryjoin="classes.c.cID==classes_prereq.c.prereqCID",
                             secondaryjoin="classes.c.cID==classes_prereq.c.forClassCID",
                             backref='prereqFor', lazy=True)
-    priority = db.Column(db.Integer, nullable=False, default=0)
+    priority = db.Column(db.Integer, nullable=False, default=0, autoincrement=True)
+    __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
 
     def __repr__(self):
         return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber})"
