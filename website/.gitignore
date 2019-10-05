@@ -1,6 +1,7 @@
 # Project exclude paths
-/venv/
+env/
 config.py
 *.txt
+*.csv
 .vscode
-/__pycache__/
+app/__pycache__/
