@@ -2,7 +2,6 @@
 env/
 config.py
 *.txt
-*.csv
 .vscode
 app/__pycache__/
 dbImport.py
