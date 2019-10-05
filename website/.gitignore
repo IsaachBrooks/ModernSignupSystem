@@ -5,3 +5,5 @@ config.py
 *.csv
 .vscode
 app/__pycache__/
+dbImport.py
+dbReset.py
