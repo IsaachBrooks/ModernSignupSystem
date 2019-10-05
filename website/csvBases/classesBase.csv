@@ -1,1 +1,1 @@
-cID (classes ID),dpID (department ID),degreeID (degree ID),cNumber (class number),description,prereqs[class number],priority
+cID (classes ID),dpID (department ID),degreeID (degree ID),cNumber (class number),name,description,prereqs[class number],priority

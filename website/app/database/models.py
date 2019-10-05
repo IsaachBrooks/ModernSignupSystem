@@ -74,6 +74,7 @@ class Classes(BaseTable):
     dpID = db.Column(db.Integer, db.ForeignKey('department.dpID'))
     degreeID = db.Column(db.Integer, db.ForeignKey('degree.degreeID'))
     cNumber = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(60), nullable=False)
     sections = db.relationship('Section', backref='sectFor', lazy=True)
     description = db.Column(db.String(1000), nullable=False, default='')
     prereqs = db.relationship('Classes', secondary=classes_prereq, 
@@ -84,7 +85,7 @@ class Classes(BaseTable):
     __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
 
     def __repr__(self):
-        return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber})"
+        return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber} name={self.name})"
 
 class Section(BaseTable):
     crn = db.Column(db.Integer, primary_key=True, autoincrement=True)  
