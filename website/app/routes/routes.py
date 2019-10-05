@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from app import app, db, bc
-from app.models import Student
-from app.forms import RegistrationForm, LoginForm
+from app.database.models import Student
+from app.forms.forms import RegistrationForm, LoginForm
 from app.Scripts.databaseAdd import registerStudent
 from flask_login import login_user, logout_user, current_user, login_required
 
