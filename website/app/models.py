@@ -31,6 +31,7 @@ student_classes = db.Table('student_classes',
     db.Column('complete', db.Boolean, nullable=False, default=False),
     db.Column('passed', db.Boolean, nullable=False, default=False),
     db.Column('grade', db.String(1), nullable=False, default='F'))
+
 """
 degree_classes = db.Table('degree_classes',
     db.Column('degreeID', db.Integer, db.ForeignKey('degree.degreeID'), primary_key=True),
@@ -55,7 +56,7 @@ class Student(BaseTable, UserMixin):
         return self.sID
 
     def __repr__(self):
-        return f"Student '{self.fname + ' ' + self.lname}', id={self.sID}"
+        return f"Student('{self.fname + ' ' + self.lname}', id={self.sID})"
 
 class Faculty(BaseTable):
     fID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -66,7 +67,7 @@ class Faculty(BaseTable):
     sections = db.relationship('Section', backref='instructor', lazy=True)
 
     def __repr__(self):
-        return f"Faculty '{self.fname + ' ' + self.lname}', id={self.fID}"
+        return f"Faculty('{self.fname + ' ' + self.lname}', id={self.fID})"
 
 class Classes(BaseTable):
     cID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -82,7 +83,7 @@ class Classes(BaseTable):
     priority = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
-        return f"cID={self.cID} dpID={self.dpID} cNumber={self.cNumber}"
+        return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber})"
 
 class Section(BaseTable):
     crn = db.Column(db.Integer, primary_key=True, autoincrement=True)  
@@ -97,7 +98,7 @@ class Section(BaseTable):
     numCurEnrolled = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
-        return f"crn={self.crn} sectFor={self.sectFor}"
+        return f"Section(crn={self.crn} sectFor={self.sectFor.department.code + str(self.sectFor.cNumber)} days={self.days} time={self.tStart} - {self.tEnd})"
 
 class Degree(BaseTable):
     degreeID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -109,13 +110,16 @@ class Degree(BaseTable):
     dClasses = db.relationship('Classes', backref='degree', lazy=True)
 
     def __repr__(self):
-        return f"degreeID={self.degreeID} name={self.name}"
+        return f"Degree(degreeID={self.degreeID} name={self.name})"
 
 class Department(BaseTable):
     dpID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(60), nullable=False)
     code = db.Column(db.String(4), nullable=False)
     classesMember = db.relationship('Classes', backref='department', lazy=True)
+    degreeMember = db.relationship('Degree', backref='department', lazy=True)
+    facultyMember = db.relationship('Faculty', backref='department', lazy=True)
+
     def __repr__(self):
-        return f"dpID={self.dpID} name={self.name} code={self.code}"
+        return f"Department(dpID={self.dpID} name={self.name} code={self.code})"
 

@@ -2,6 +2,7 @@ from flask import render_template, url_for, flash, redirect, request
 from app import app, db, bc
 from app.models import Student
 from app.forms import RegistrationForm, LoginForm
+from app.Scripts.databaseAdd import registerStudent
 from flask_login import login_user, logout_user, current_user, login_required
 
 @app.route("/")
@@ -47,21 +48,3 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
-def registerStudent(form):
-    hashed_password = bc.generate_password_hash(form.password.data).decode('utf-8')
-    username = (form.lastName.data + form.firstName.data[0] + (form.middleName.data[0] if len(form.middleName.data) > 0 else '')).lower()
-    sListLen = len(db.session.query(Student).filter(Student.username.like(username + '%')).all())
-    if sListLen > 0: username = username + str(sListLen + (1 if sListLen != 1 else 0))
-    email = username+'@appstate.edu'
-    student = Student(
-        fname=form.firstName.data,
-        mname=form.middleName.data,
-        lname=form.lastName.data,
-        username=username,
-        email=email,
-        password=hashed_password
-    )
-    db.session.add(student)
-    db.session.commit()
-    return username
