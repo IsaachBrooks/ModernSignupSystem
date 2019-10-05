@@ -1,1 +1,1 @@
-crn,instructorfname,instructormname,instructorlname,cID,days,tStart,tEnd,dateStart,dateEnd
+crn,cID (classes ID),iID (instructor ID),days(MTWRF),tStart(00:00:00)24hr,tEnd(00:00:00)24hr,dateStart(yyyy-mm-dd),dateEnd(yyyy-mm-dd),capacity
