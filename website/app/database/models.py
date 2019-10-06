@@ -86,7 +86,7 @@ class Classes(BaseTable):
     __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
 
     def __repr__(self):
-        return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber} name={self.name})"
+        return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber} name='{self.name}')"
 
 class Section(BaseTable):
     crn = db.Column(db.Integer, primary_key=True, autoincrement=True)  
@@ -126,7 +126,7 @@ class Degree(BaseTable):
     dClasses = db.relationship('Classes', backref='degree', lazy=True)
 
     def __repr__(self):
-        return f"Degree(degreeID={self.degreeID} name={self.name})"
+        return f"Degree(degreeID={self.degreeID} name='{self.name}')"
 
 class Department(BaseTable):
     dpID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -137,5 +137,5 @@ class Department(BaseTable):
     facultyMember = db.relationship('Faculty', backref='department', lazy=True)
 
     def __repr__(self):
-        return f"Department(dpID={self.dpID} name={self.name} code={self.code})"
+        return f"Department(dpID={self.dpID} name='{self.name}' code={self.code})"
 
