@@ -1,4 +1,4 @@
-from app.Scripts.loadSectionCSV import sectionFileValidator, sectionFileLoader
+from app.Scripts.tableLoaderCSVSection import sectionFileValidator, sectionFileLoader
 
 filename = 'testdata/section-test.csv'
 

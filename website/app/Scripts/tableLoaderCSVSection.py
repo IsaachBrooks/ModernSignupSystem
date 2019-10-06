@@ -26,6 +26,21 @@ def constructDate(dateString):
         return datetime.date(yrs, mnth, day)
     return None
 
+def sectionExists(cID, iID, mon, tue, wed, thu, fri, tStart, tEnd, dateStart, dateEnd, capacity):
+    section = Section.query \
+            .filter(Section.cID==cID) \
+            .filter(Section.iID==iID) \
+            .filter(Section.mon==mon) \
+            .filter(Section.tue==tue) \
+            .filter(Section.wed==wed) \
+            .filter(Section.thu==thu) \
+            .filter(Section.fri==fri) \
+            .filter(Section.tStart==tStart) \
+            .filter(Section.tEnd==tEnd) \
+            .filter(Section.dateStart==dateStart) \
+            .filter(Section.dateEnd==dateEnd).first()
+    return section
+
 #file validation
 def sectionFileValidator(filename):
     if filename[-4:] != '.csv':
@@ -124,6 +139,16 @@ def sectionFileValidator(filename):
                     print('Stopping...')
                     return False
                 print(f'Line {linenum} validated.')
+                mon = bool(row['mon'])
+                tue = bool(row['tue'])
+                wed = bool(row['wed'])
+                thu = bool(row['thu'])
+                fri = bool(row['fri'])
+                sect = sectionExists(cID, iID, mon, tue, wed, thu, fri, tStart, tEnd, dateStart, dateEnd, capacity)
+                if sect:
+                    print(f'Error at line {linenum}. {sect} already exists with CRN = {sect.crn}.')
+                    print('Stopping...')
+                    return False
                 linenum += 1    
     except FileNotFoundError:
         print('File not found. Check your spelling and try again.')

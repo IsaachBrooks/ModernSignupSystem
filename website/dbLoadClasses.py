@@ -1,4 +1,4 @@
-from app.Scripts.loadClassesCSV import classesFileValidator, classesFileLoader
+from app.Scripts.tableLoaderCSVClasses import classesFileValidator, classesFileLoader
 
 filename = 'testdata/classes-test.csv'
 

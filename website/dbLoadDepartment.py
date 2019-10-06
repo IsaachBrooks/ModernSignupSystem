@@ -1,4 +1,4 @@
-from app.Scripts.loadDepartmentCSV import departmentFileValidator, departmentFileLoader
+from app.Scripts.tableLoaderCSVDepartment import departmentFileValidator, departmentFileLoader
 
 filename = 'testdata/department-test.csv' #input('Department file CSV: ')
 

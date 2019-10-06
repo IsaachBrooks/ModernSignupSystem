@@ -1,4 +1,4 @@
-from app.Scripts.loadFacultyCSV import facultyFileValidator, facultyFileLoader
+from app.Scripts.tableLoaderCSVFaculty import facultyFileValidator, facultyFileLoader
 
 filename = 'testdata/faculty-test.csv'
 

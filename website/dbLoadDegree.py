@@ -1,4 +1,4 @@
-from app.Scripts.loadDegreeCSV import degreeFileValidator, degreeFileLoader
+from app.Scripts.tableLoaderCSVDegree import degreeFileValidator, degreeFileLoader
 
 filename = 'testdata/degree-test.csv'
 
