@@ -1,5 +1,5 @@
 body {
-    background: #fafafa;
+    background: #383838;
     color: #333333;
     margin-top: 5rem;
   }
@@ -12,8 +12,16 @@ body {
     background-color: #5f788a;
   }
   
+  .bg-gold {
+    background-color: #fc0;
+  }
+
+  .bg-cgray {
+    background-color: #494949;
+  }
+
   .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
+    color: #fc0;
   }
   
   .site-header .navbar-nav .nav-link:hover {

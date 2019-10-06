@@ -5,7 +5,7 @@ from app.forms.forms import RegistrationForm, LoginForm
 from app.Scripts.databaseAdd import registerStudent
 from flask_login import login_user, logout_user, current_user, login_required
 
-@app.route("/")
+@app.route("/", methods=['GET','POST'])
 @app.route("/login", methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:
@@ -19,18 +19,18 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('signup'))
         else:
             flash('Bad login. Check username and/or password.', 'danger')
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', title='Login', form=form, debug=app.debug)
 
 @app.route("/main")
 @app.route("/classSignup")
 @login_required
 def signup():
-    return render_template('classSignup.html', title='Main')
+    return render_template('classSignup.html', title='Main', debug=app.debug)
 
 @app.route("/degree")
 @login_required
 def degree():
-    return render_template('degreeViewer.html', title='Degree')
+    return render_template('degreeViewer.html', title='Degree', debug=app.debug)
 
 @app.route("/hiddenRegister", methods=['GET', 'POST'])
 def hiddenRegister():
@@ -41,7 +41,7 @@ def hiddenRegister():
         username = registerStudent(form)
         flash(f'Registered {form.firstName.data} {form.lastName.data} with username {username}. Please log in.', 'success')
         return redirect(url_for('login'))
-    return render_template('secretRegister.html', title='Hidden Register', form=form)
+    return render_template('secretRegister.html', title='Hidden Register', form=form, debug=app.debug)
 
 @app.route("/logout")
 def logout():

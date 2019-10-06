@@ -6,23 +6,23 @@ class RegistrationForm(FlaskForm):
     firstName = StringField('First Name', validators=[
         DataRequired(),
         Regexp(r'^[a-zA-Z]+$', message='Contains non-alpha characters or whitespace')
-        ])
+        ], render_kw={"placeholder": "First name"})
     middleName = StringField('Middle Name', validators=[
         Regexp(r'^[a-zA-Z]*$', message='Contains non-alpha characters or whitespace')
-        ])
+        ], render_kw={"placeholder": "Middle name or Initial"})
     lastName = StringField('Last Name', validators=[
         DataRequired(),
-         Regexp(r'^[a-zA-Z]+$', message='Contains non-alpha characters or whitespace')])
-    password = PasswordField('Password', validators=[DataRequired()])
+        Regexp(r'^[a-zA-Z]+$', message='Contains non-alpha characters or whitespace')], render_kw={"placeholder": "Last name"})
+    password = PasswordField('Password', validators=[DataRequired()], render_kw={"placeholder": "password"})
     confirmPassword = PasswordField('Confirm Password', validators=[
         DataRequired(),
-        EqualTo('password')])
+        EqualTo('password')], render_kw={"placeholder": "confirm password"})
 
     submit = SubmitField('Secret Register')
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()], render_kw={"placeholder": "login or email"})
+    password = PasswordField('Password', validators=[DataRequired()], render_kw={"placeholder": "password"})
 
-    submit = SubmitField('Log in')
+    submit = SubmitField('Sign in')
     

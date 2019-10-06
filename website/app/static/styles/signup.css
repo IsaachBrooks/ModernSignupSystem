@@ -1,0 +1,54 @@
+
+content.signup-holder {
+    border: 1px #fc0 solid;
+    display: grid;
+    grid-template-areas:
+    ". opt opt opt ."
+    "cur main main main sel"
+    "cur main main main sel"
+    "cur main main main sel"
+    ". btn btn btn .";
+}
+
+.signdiv {
+    border: 3px black solid;
+}
+
+.signup-main {
+    background-color: #dddddd;
+    grid-area: main;
+    min-height: 400px;
+    height: 60vh;
+    min-width: 800px;
+}
+
+.signup-cur {
+    background-color: rgb(141, 182, 141);
+    grid-area: cur;
+    min-height: 400px;
+    min-width: 100px;
+}
+
+.signup-sel {
+    background-color: rgb(167, 112, 112);
+    grid-area: sel;
+    min-height: 400px;
+    min-width: 100px;
+
+}
+
+.signup-opt {
+    background-color: gray;
+    grid-area: opt;
+    overflow: auto;
+    min-width: 200px;
+    height: 100px;
+}
+
+.signup-btn {
+    background-color: gray;
+    grid-area: btn;
+    overflow: auto;
+    min-width: 200px;
+    height: 100px;
+}
