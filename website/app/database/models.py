@@ -3,10 +3,6 @@ from app import db, loginManager
 from flask_login import UserMixin
 
 
-#TODO: make some new tables for Instructor, class priority list, 
-#      class prerequisites, and sectionInstructor
-
-
 @loginManager.user_loader
 def loadUser(user_id):
     return Student.query.get(int(user_id))
