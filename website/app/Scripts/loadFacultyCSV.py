@@ -2,7 +2,7 @@ import csv
 import sys
 from app import db
 from app.database.models import Department, Faculty
-
+import re
 
 #file validation
 def facultyFileValidator(filename):
@@ -34,18 +34,34 @@ def facultyFileValidator(filename):
                     print('Stopping...')
                     return False
                 fname = row['fname (first name)']
-                if fname == '':
+                if fname != '':
+                    if not re.match('^[a-zA-Z]+$', fname):
+                        print(f'Error at line {linenum}. First name can only contain alphabet characters.')
+                else:
                     print(f'Error at line {linenum}. Faculty first name cannot be null.')
                     print('Stopping...')
                     return False
+                mname = row['mname (middle name)']
+                if mname != '':
+                    if not re.match('^[a-zA-Z]+$', mname):
+                        print(f'Error at line {linenum}. Middle name can only contain alphabet characters.')
                 lname = row['lname (last name)']
-                if fname == '':
+                if lname != '':
+                    if not re.match('^[a-zA-Z]+$', lname):
+                        print(f'Error at line {linenum}. Last name can only contain alphabet characters.')
+                else:
                     print(f'Error at line {linenum}. Faculty last name cannot be null.')
                     print('Stopping...')
                     return False
-                dpID = int(row['dpID (department ID)'])
-                if not Department.query.filter(Department.dpID==dpID).first():
-                    print(f'Error at line {linenum}. There is no department with ID = {dpID}.')
+                dpID = row['dpID (department ID)']
+                if dpID != '':
+                    dpID = int(dpID)
+                    if not Department.query.filter(Department.dpID==dpID).first():
+                        print(f'Error at line {linenum}. There is no department with ID = {dpID}.')
+                        print('Stopping...')
+                        return False
+                else:
+                    print(f'Error at line {linenum}. Department ID cannot be null.')
                     print('Stopping...')
                     return False
                 print(f'Line {linenum} validated.')
@@ -64,9 +80,9 @@ def facultyFileLoader(filename):
         csvfile.seek(0)
         for row in reader:
             fID = int(row['fID (faculty ID)'])
-            fname = row['fname (first name)']
-            mname = row['mname (middle name)'] 
-            lname = row['lname (last name)']
+            fname = row['fname (first name)'].title()
+            mname = row['mname (middle name)'].title() 
+            lname = row['lname (last name)'].title()
             dpID = int(row['dpID (department ID)'])
             
             entry = Faculty(

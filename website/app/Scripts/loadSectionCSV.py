@@ -115,7 +115,10 @@ def sectionFileValidator(filename):
                     return False
                 capacity = row['capacity']
                 if capacity != '':
-                    pass
+                    if not re.match('^[\d]+$', capacity):
+                        print(f'Error at line {linenum}. Capacity can only contain 0-9.')
+                        print('Stopping...')
+                        return False
                 else:
                     print(f'Error at line {linenum}. Capacity cannot be null.')
                     print('Stopping...')

@@ -1,6 +1,8 @@
 from app.Scripts.loadSectionCSV import sectionFileValidator, sectionFileLoader
 
-filename = input('Section file CSV: ')
+filename = 'testdata/section-test.csv'
+
+#filename = input('Section file CSV: ')
 
 if (sectionFileValidator(filename)):
     sectionFileLoader(filename)

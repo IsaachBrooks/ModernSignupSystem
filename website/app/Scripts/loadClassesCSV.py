@@ -33,31 +33,54 @@ def classesFileValidator(filename):
                     print(f'Error at line {linenum}. Class ID cannot be null.')
                     print('Stopping...')
                     return False
-                dpID = int(row['dpID (department ID)'])
-                if not Department.query.filter(Department.dpID==dpID).first():
-                    print(f'Error at line {linenum}. There is no department with ID = {dpID}.')
-                    print('Stopping...')
-                    return False
-                degreeID = int(row['degreeID (degree ID)'])
-                if not Degree.query.filter(Degree.degreeID==degreeID).first():
-                    print(f'Error at line {linenum}. There is no degree with ID = {degreeID}.')
-                    print('Stopping...')           
-                    return False
-                cNumber = int(row['cNumber (class number)'])
-                if Classes.query.filter(Classes.cNumber==cNumber).filter(Classes.dpID==dpID).filter(Classes.degreeID==degreeID).first() or (cNumber, dpID, degreeID) in knownCNumbers:
-                    print(f'Error at line {linenum}. Cnumber {cNumber} already exists within department ID = {dpID} and Degree = {degreeID}.')
-                    print('Stopping...')
-                    return False
+                dpID = row['dpID (department ID)']
+                if dpID != '':
+                    dpID = int(dpID)
+                    if not Department.query.filter(Department.dpID==dpID).first():
+                        print(f'Error at line {linenum}. There is no department with ID = {dpID}.')
+                        print('Stopping...')
+                        return False
                 else:
-                    knownCNumbers.append((cNumber, dpID, degreeID))
+                    print(f'Error at line {linenum}. Department ID cannot be null.')
+                    print('Stopping...')
+                    return False
+                degreeID = row['degreeID (degree ID)']
+                if degreeID != '':
+                    degreeID = int(degreeID)
+                    if not Degree.query.filter(Degree.degreeID==degreeID).first():
+                        print(f'Error at line {linenum}. There is no degree with ID = {degreeID}.')
+                        print('Stopping...')           
+                        return False
+                else:
+                    print(f'Error at line {linenum}. Degree ID cannot be null.')
+                    print('Stopping...')
+                    return False
+                cNumber = row['cNumber (class number)']
+                if cNumber != '':
+                    cNumber = int(cNumber)
+                    if Classes.query.filter(Classes.cNumber==cNumber).filter(Classes.dpID==dpID).filter(Classes.degreeID==degreeID).first() or (cNumber, dpID, degreeID) in knownCNumbers:
+                        print(f'Error at line {linenum}. Cnumber {cNumber} already exists within department ID = {dpID} and Degree = {degreeID}.')
+                        print('Stopping...')
+                        return False
+                    else:
+                        knownCNumbers.append((cNumber, dpID, degreeID))
+                else:
+                    print(f'Error at line {linenum}. Class Number cannot be null.')
+                    print('Stopping...')
+                    return False
                 name = row['name']
                 if name == '':
                     print(f'Error at line {linenum}. Class name cannot be null.')
                     print('Stopping...')
                     return False
                 desc = row['description']
-                if len(desc) > 1000:
-                    print(f'Error at line {linenum}. Description is longer than 1000 characters.')
+                if desc != '':
+                    if len(desc) > 1000:
+                        print(f'Error at line {linenum}. Description is longer than 1000 characters.')
+                        print('Stopping...')
+                        return False
+                else:
+                    print(f'Error at line {linenum}. Description Number cannot be null.')
                     print('Stopping...')
                     return False
                 prereqs = list(int(cid) for cid in row['prereqs (class IDs comma-space separated)'].split(", ") if cid != '')
@@ -66,13 +89,19 @@ def classesFileValidator(filename):
                         print(f'Error at line {linenum}. prereqid {prereqid} either does not exist in database or does not exist in a previous entry.')
                         print('Stopping...')
                         return False
-                priority = int(row['priority'])
-                if Classes.query.filter(Classes.degreeID==degreeID).filter(Classes.priority==priority).first() or (priority, degreeID) in knownPriorities:
-                    print(f'Error at line {linenum}. There is already a class with priority {priority} in the degree with ID = {degreeID}')
+                priority = row['priority']
+                if priority != '':
+                    priority = int(priority)                
+                    if Classes.query.filter(Classes.degreeID==degreeID).filter(Classes.priority==priority).first() or (priority, degreeID) in knownPriorities:
+                        print(f'Error at line {linenum}. There is already a class with priority {priority} in the degree with ID = {degreeID}')
+                        print('Stopping...')
+                        return False
+                    else:
+                        knownPriorities.append((priority, dpID))
+                else:
+                    print(f'Error at line {linenum}. Priority cannot be null.')
                     print('Stopping...')
                     return False
-                else:
-                    knownPriorities.append((priority, dpID))
                 print(f'Line {linenum} validated.')
                 linenum += 1    
     except FileNotFoundError:
@@ -94,7 +123,7 @@ def classesFileLoader(filename):
             cNumber = int(row['cNumber (class number)'])
             name = row['name']
             desc = row['description']
-            prereqs = list(int(cid) for cid in row['prereqs (class IDs)'].split(" "))
+            prereqs = list(int(cid) for cid in row['prereqs (class IDs comma-space separated)'].split(", "))
             priority = int(row['priority'])
             
             entry = Classes(

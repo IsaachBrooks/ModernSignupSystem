@@ -2,7 +2,7 @@ import csv
 import sys
 from app import db
 from app.database.models import Department
-
+import re
 
 #file validation
 def departmentFileValidator(filename):
@@ -32,13 +32,30 @@ def departmentFileValidator(filename):
                     print(f'Error at line {linenum}. Department ID cannot be null.')
                     print('Stopping...')
                     return False
-                code = row['code']
-                if Department.query.filter(Department.code==code).first() or code in knownCode:
-                    print(f'Error at line {linenum}. There is already a department with code = {code}.')
+                name = row['name']
+                if name != '':
+                    pass
+                else:
+                    print(f'Error at line {linenum}. Department Name cannot be null.')
                     print('Stopping...')
                     return False
+                code = row['code']
+                if code != '':
+                    if not re.match('^[a-zA-Z]{2,4}$', code):
+                        print(f'Error at line {linenum}. Capacity can only contain between 2 and 4 alphabet characters.')
+                        print('Stopping...')
+                        return False
+                    if Department.query.filter(Department.code==code).first() or code in knownCode:
+                        print(f'Error at line {linenum}. There is already a department with code = {code}.')
+                        print('Stopping...')
+                        return False
+                    else:
+                        knownCode.append(code)
                 else:
-                    knownCode.append(code)
+                    print(f'Error at line {linenum}. Department Code cannot be null.')
+                    print('Stopping...')
+                    return False
+                
                 print(f'Line {linenum} validated.')
                 linenum += 1    
     except FileNotFoundError:

@@ -2,7 +2,7 @@ import csv
 import sys
 from app import db
 from app.database.models import Classes, Department, Degree
-
+import re
 
 #file validation
 def degreeFileValidator(filename):
@@ -31,9 +31,15 @@ def degreeFileValidator(filename):
                     print(f'Error at line {linenum}. Degree ID cannot be null.')
                     print('Stopping...')
                     return False
-                dpID = int(row['dpID (department ID)'])
-                if not Department.query.filter(Department.dpID==dpID).first():
-                    print(f'Error at line {linenum}. There is no department with ID = {dpID}.')
+                dpID = row['dpID (department ID)']
+                if dpID != '':
+                    dpID = int(dpID)
+                    if not Department.query.filter(Department.dpID==dpID).first():
+                        print(f'Error at line {linenum}. There is no department with ID = {dpID}.')
+                        print('Stopping...')
+                        return False
+                else:
+                    print(f'Error at line {linenum}. Department ID cannot be null.')
                     print('Stopping...')
                     return False
                 name = row['name']
@@ -47,17 +53,23 @@ def degreeFileValidator(filename):
                     print('Stopping...')
                     return False
                 desc = row['description']
-                if len(desc) > 1000:
-                    print(f'Error at line {linenum}. Description is longer than 1000 characters.')
+                if desc != '':
+                    if len(desc) > 1000:
+                        print(f'Error at line {linenum}. Description is longer than 1000 characters.')
+                        print('Stopping...')
+                        return False
+                else:
+                    print(f'Error at line {linenum}. Description Number cannot be null.')
                     print('Stopping...')
                     return False
                 totalHours= row['totalHours']
-                if totalHours == '':
+                if totalHours != '':
+                    if not re.match('^[\d]+$', totalHours):
+                        print(f'Error at line {linenum}. Total Hours can only contain 0-9.')
+                else:
                     print(f'Error at line {linenum}. Total Hours cannot be null.')
                     print('Stopping...')
                     return False
-                else:
-                    totalHours = int(totalHours)
                 print(f'Line {linenum} validated.')
                 linenum += 1    
     except FileNotFoundError:
