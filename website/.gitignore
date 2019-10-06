@@ -3,6 +3,7 @@ env/
 config.py
 *.txt
 .vscode
+*.pyc
 app/__pycache__/
 dbImport.py
 dbReset.py
