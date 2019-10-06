@@ -1,1 +1,1 @@
-crn,cID (classes ID),iID (instructor ID),days(MTWRF),tStart(00:00:00)24hr,tEnd(00:00:00)24hr,dateStart(yyyy-mm-dd),dateEnd(yyyy-mm-dd),capacity
+cID (classes ID),iID (instructor ID),mon,tue,wed,thu,fri,tStart(00:00:00)24hr,tEnd(00:00:00)24hr,dateStart(mm/dd/yyyy),dateEnd(mm/dd/yyyy),capacity

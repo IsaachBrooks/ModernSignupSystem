@@ -98,7 +98,7 @@ def classesFileLoader(filename):
             priority = int(row['priority'])
             
             entry = Classes(
-                cID=(cID if cID else None), 
+                cID=cID, 
                 dpID=dpID, 
                 degreeID=degreeID, 
                 cNumber=cNumber,

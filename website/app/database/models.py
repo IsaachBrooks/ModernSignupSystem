@@ -61,7 +61,7 @@ class Student(BaseTable, UserMixin):
 class Faculty(BaseTable):
     fID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fname = db.Column(db.String(50), nullable=False)
-    mname = db.Column(db.String(50))
+    mname = db.Column(db.String(50), default='')
     lname = db.Column(db.String(50), nullable=False)
     dpID = db.Column(db.Integer, db.ForeignKey('department.dpID'))
     sections = db.relationship('Section', backref='instructor', lazy=True)
@@ -92,7 +92,11 @@ class Section(BaseTable):
     crn = db.Column(db.Integer, primary_key=True, autoincrement=True)  
     cID = db.Column(db.Integer, db.ForeignKey('classes.cID'), nullable=False)
     iID = db.Column(db.Integer, db.ForeignKey('faculty.fID'))
-    days = db.Column(db.String(5), nullable=False, default='MTWRF')
+    mon = db.Column(db.Boolean, nullable=False, default=False)
+    tue = db.Column(db.Boolean, nullable=False, default=False)
+    wed = db.Column(db.Boolean, nullable=False, default=False)
+    thu = db.Column(db.Boolean, nullable=False, default=False)
+    fri = db.Column(db.Boolean, nullable=False, default=False)
     tStart = db.Column(db.Time, nullable=False, default=datetime.now().time())
     tEnd = db.Column(db.Time, nullable=False, default=datetime.now().time())
     dateStart = db.Column(db.Date, nullable=False, default=datetime.now().date())
@@ -100,8 +104,17 @@ class Section(BaseTable):
     capacity = db.Column(db.Integer, nullable=False, default=30)
     numCurEnrolled = db.Column(db.Integer, nullable=False, default=0)
 
+    def getDayString(self):
+        days = ''
+        days += 'M' if self.mon else ''
+        days += 'T' if self.tue else ''
+        days += 'W' if self.wed else ''
+        days += 'R' if self.thu else ''
+        days += 'F' if self.fri else ''
+        return days
+
     def __repr__(self):
-        return f"Section(crn={self.crn} sectFor={self.sectFor.department.code + str(self.sectFor.cNumber)} days={self.days} time={self.tStart} - {self.tEnd})"
+        return f"Section(crn={self.crn} sectFor={self.sectFor.department.code + str(self.sectFor.cNumber)} days={self.getDayString()} time={self.tStart} - {self.tEnd})"
 
 class Degree(BaseTable):
     degreeID = db.Column(db.Integer, primary_key=True, autoincrement=True)
