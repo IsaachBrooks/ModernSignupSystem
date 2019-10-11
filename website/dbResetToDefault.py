@@ -5,7 +5,7 @@ from app.database.models import *
 from app.Scripts.tableLoaderCSVDepartment import departmentFileValidator, departmentFileLoader
 from app.Scripts.tableLoaderCSVDegree import degreeFileValidator, degreeFileLoader
 from app.Scripts.tableLoaderCSVFaculty import facultyFileValidator, facultyFileLoader
-from app.Scripts.tableLoaderCSVClasses import classesFileValidator, classesFileLoader
+from app.Scripts.tableLoaderCSVDegreeClassList import degreeClassesListFileValidator, degreeClassesListFileLoader
 from app.Scripts.tableLoaderCSVSection import sectionFileValidator, sectionFileLoader
 
 
@@ -35,7 +35,7 @@ To load the default dataset properly load order MUST be as follows:
 defaultDepartment_path = 'defaultdata/defaultDataset_Department.csv'
 defaultDegree_path = 'defaultdata/defaultDataset_Degree.csv'
 defaultFaculty_path = 'defaultdata/defaultDataset_Faculty.csv'
-defaultClasses_path = 'defaultdata/defaultDataset_Classes.csv'
+defaultDegreeClassLists_path = ['defaultdata/defaultDataset_CSClassList.csv']
 defaultSection_path = 'defaultdata/defaultDataset_Section.csv'
 
 print('Validating default Department dataset at path = {default_path} .')
@@ -58,12 +58,13 @@ else:
     db.drop_all()
     sys.exit('Failed to validate default Faculty.\nDropping existing tables and exiting.')
 
-print('Validating default Classes dataset at path = {defaultClasses_path} .')
-if classesFileValidator(defaultClasses_path):
-    classesFileLoader(defaultClasses_path)
-else:
-    db.drop_all()
-    sys.exit('Failed to validate default Classes.\nDropping existing tables and exiting.')
+for path in defaultDegreeClassLists_path:
+    print('Validating default Classes dataset at path = {path} .')
+    if degreeClassesListFileValidator(path):
+        degreeClassesListFileLoader(path)
+    else:
+        db.drop_all()
+        sys.exit('Failed to validate default Classes.\nDropping existing tables and exiting.')
 
 print('Validating default Section dataset at path = {defaultSection_path} .')
 if sectionFileValidator(defaultSection_path):

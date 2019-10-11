@@ -2,12 +2,6 @@ from app.Scripts.tableLoaderCSVDegreeClassList import degreeClassesListFileValid
 
 filename = 'testdata/Test_DegreeClassList.csv'
 
-degreeClassesListFileValidator(filename)
-
 #filename = input('Class file CSV: ')
-
-#if (degreeClassesListFileValidator(filename)):
-
-
-
-    #degreeClassesListFileLoader(filename)
+if (degreeClassesListFileValidator(filename)):
+    degreeClassesListFileLoader(filename)

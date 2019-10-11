@@ -64,7 +64,6 @@ class Student(BaseTable, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     degreeID = db.Column(db.Integer, db.ForeignKey('degree.degreeID'))
     gpa = db.Column(db.Float, nullable=False, default=0.0)
-    #classesTaken = db.relationship('Classes', secondary='asc_student_classes', lazy=True)
     classesTaken = db.relationship('asc_student_classes_taken', back_populates='student', lazy=True)
     classesEnrolled = db.relationship('Section', secondary=student_cur_enroll, backref='students', lazy=True)
 
@@ -121,7 +120,7 @@ class Classes(BaseTable):
                             secondaryjoin="classes.c.cID==classes_linked.c.linkedToID",
                             uselist=False,
                             backref=db.backref('linkedTo', uselist=False), lazy=True)
-    #studentsTaken = db.relationship('asc_student_classes_taken', back_populates='classTaken', lazy=True)
+
     def getShortName(self):
         return f"{self.department.code}{self.cNumber}"
 
@@ -161,6 +160,7 @@ class Section(BaseTable):
     capacity = db.Column(db.Integer, nullable=False, default=30)
     numCurEnrolled = db.Column(db.Integer, nullable=False, default=0)
     __table_args__ = (db.UniqueConstraint('sec', 'cID', name='UniqueSectionClassNumber'),)
+
     def getDayString(self):
         days = ''
         days += 'M' if self.mon else ''
