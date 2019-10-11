@@ -35,16 +35,20 @@ class asc_student_classes_taken(BaseTable):
     sID = db.Column(db.Integer, db.ForeignKey('student.sID'), primary_key=True)
     student = db.relationship('Student', back_populates='classesTaken')
     classTaken = db.relationship('Classes')#, back_populates='studentsTaken')
-
-    complete = db.Column(db.Boolean, nullable=False, default=False)
     passed = db.Column(db.Boolean, nullable=False, default=False)
     grade = db.Column(db.String(1), nullable=False, default='F')
+
+    def __repr__(self):
+        return f"ClassTaken({self.classTaken.getShortName()} passed={self.passed} grade={self.grade})"
 
 class asc_degree_classes(BaseTable):
     degreeID = db.Column(db.Integer, db.ForeignKey('degree.degreeID'), primary_key=True)
     cID = db.Column(db.Integer, db.ForeignKey('classes.cID'), primary_key=True)
     priority = db.Column(db.Integer, nullable=False, default=0, autoincrement=True)
     __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
+
+    def __repr__(self):
+        return f"DegreeClass(degreeID={self.degreeID} cID={self.cID} priority={self.priority})"
 
 
 
@@ -64,6 +68,20 @@ class Student(BaseTable, UserMixin):
 
     def get_id(self):
         return self.sID
+
+    def signUpFor(self, sect):
+        return sect.enroll(self)
+
+    def completeClass(self, cl):
+        #TODO:
+        #Remove section of class from currently enrolled
+        #add class to classesTaken
+        pass
+
+    def updateGPA(self):
+        #TODO:
+        #updateGPA based off classes taken grades/credit hrs
+        pass
 
     def __repr__(self):
         return f"Student('{self.fname + ' ' + self.lname}', id={self.sID})"
@@ -103,6 +121,9 @@ class Classes(BaseTable):
                             backref=db.backref('linkedTo', uselist=False), lazy=True)
     #studentsTaken = db.relationship('asc_student_classes_taken', back_populates='classTaken', lazy=True)
 
+    def getShortName(self):
+        return f"{self.department.code}{self.cNumber}"
+
     def hasLinkedClass(self):
         return bool(self.linkedClass) or bool(self.linkedTo)
     
@@ -138,6 +159,32 @@ class Section(BaseTable):
         days += 'R' if self.thu else ''
         days += 'F' if self.fri else ''
         return days
+
+    def getDaysArray(self):
+        return [mon, tue, wed, thu, fri]
+
+    def overlapsWith(self, sect):
+        if self.overlapsDaysWith(sect):
+            return self.overlapsTimesWith(sect)
+        else:
+            return False
+
+    def overlapsDaysWith(self, sect):
+        #TODO:
+        #check if two lists of days overlap
+        pass
+    
+    def overlapsTimesWith(self, sect):
+        #TODO:
+        #check if two sections times overlap
+        pass
+
+    def enroll(self, student):
+        #TODO:
+        #Check student current schulde, compare against section times/days
+        #Check student credit hours
+        #check self.capacity > self.numCurEnrolled
+        pass
 
     def __repr__(self):
         return f"Section(crn={self.crn} sectFor={self.sectFor.department.code + str(self.sectFor.cNumber)} days={self.getDayString()} time={self.tStart} - {self.tEnd})"
