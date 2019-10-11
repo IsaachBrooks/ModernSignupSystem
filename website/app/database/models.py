@@ -21,19 +21,32 @@ classes_prereq = db.Table('classes_prereq',
     db.Column('prereqCID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True),
     db.Column('forClassCID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True))
 
-student_classes = db.Table('student_classes',
-    db.Column('cID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True),
-    db.Column('sID', db.Integer, db.ForeignKey('student.sID'), primary_key=True),
-    db.Column('complete', db.Boolean, nullable=False, default=False),
-    db.Column('passed', db.Boolean, nullable=False, default=False),
-    db.Column('grade', db.String(1), nullable=False, default='F'))
+classes_coreq = db.Table('classes_coreq',
+    db.Column('coreqCID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True),
+    db.Column('forClassCID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True))
 
-"""
-degree_classes = db.Table('degree_classes',
-    db.Column('degreeID', db.Integer, db.ForeignKey('degree.degreeID'), primary_key=True),
-    db.Column('cID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True),
-    db.Column('priority', db.Integer, nullable=False, default=0))
-"""
+classes_linked = db.Table('classes_linked',
+    db.Column('linkID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True),
+    db.Column('linkedToID', db.Integer, db.ForeignKey('classes.cID'), primary_key=True))
+
+class asc_student_classes_taken(BaseTable):
+    __tablename = 'asc_student_classes'
+    cID = db.Column(db.Integer, db.ForeignKey('classes.cID'), primary_key=True)
+    sID = db.Column(db.Integer, db.ForeignKey('student.sID'), primary_key=True)
+    student = db.relationship('Student', back_populates='classesTaken')
+    classTaken = db.relationship('Classes')#, back_populates='studentsTaken')
+
+    complete = db.Column(db.Boolean, nullable=False, default=False)
+    passed = db.Column(db.Boolean, nullable=False, default=False)
+    grade = db.Column(db.String(1), nullable=False, default='F')
+
+class asc_degree_classes(BaseTable):
+    degreeID = db.Column(db.Integer, db.ForeignKey('degree.degreeID'), primary_key=True)
+    cID = db.Column(db.Integer, db.ForeignKey('classes.cID'), primary_key=True)
+    priority = db.Column(db.Integer, nullable=False, default=0, autoincrement=True)
+    __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
+
+
 
 class Student(BaseTable, UserMixin):
     sID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -45,7 +58,8 @@ class Student(BaseTable, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     degreeID = db.Column(db.Integer, db.ForeignKey('degree.degreeID'))
     gpa = db.Column(db.Float, nullable=False, default=0.0)
-    classesTaken = db.relationship('Classes', secondary=student_classes, backref='studentsTaken', lazy=True)
+    #classesTaken = db.relationship('Classes', secondary='asc_student_classes', lazy=True)
+    classesTaken = db.relationship('asc_student_classes_taken', back_populates='student', lazy=True)
     classesEnrolled = db.relationship('Section', secondary=student_cur_enroll, backref='students', lazy=True)
 
     def get_id(self):
@@ -78,8 +92,24 @@ class Classes(BaseTable):
                             primaryjoin="classes.c.cID==classes_prereq.c.prereqCID",
                             secondaryjoin="classes.c.cID==classes_prereq.c.forClassCID",
                             backref='prereqFor', lazy=True)
-    priority = db.Column(db.Integer, nullable=False, default=0, autoincrement=True)
-    __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
+    coreqs = db.relationship('Classes', secondary=classes_coreq, 
+                            primaryjoin="classes.c.cID==classes_coreq.c.coreqCID",
+                            secondaryjoin="classes.c.cID==classes_coreq.c.forClassCID",
+                            backref='coreqFor', lazy=True)
+    linkedClass = db.relationship('Classes', secondary=classes_linked, 
+                            primaryjoin="classes.c.cID==classes_linked.c.linkID",
+                            secondaryjoin="classes.c.cID==classes_linked.c.linkedToID",
+                            uselist=False,
+                            backref=db.backref('linkedTo', uselist=False), lazy=True)
+    #studentsTaken = db.relationship('asc_student_classes_taken', back_populates='classTaken', lazy=True)
+
+    def hasLinkedClass(self):
+        return bool(self.linkedClass) or bool(self.linkedTo)
+    
+    def getLinkedClass(self):
+        if hasLinkedClass(self):
+            return self.linkedClass if self.linkedClass else self.linkedTo
+        return None
 
     def __repr__(self):
         return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber} name='{self.name}')"
