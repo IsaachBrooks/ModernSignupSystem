@@ -5,7 +5,7 @@ from app.database.models import Classes, Department, Degree
 
 
 #file validation
-def classesFileValidator(filename):
+def degreeClassesListFileValidator(filename):
     if filename[-4:] != '.csv':
         print('File is not a csv.')
         return False
@@ -18,7 +18,8 @@ def classesFileValidator(filename):
             knownCID = []
             knownCNumbers = []
             knownPriorities = []
-            linenum = 1
+            degree = None
+            linenum = 2
             for row in reader:
                 cID = row['cID (classes ID)']
                 if cID != '':
@@ -51,23 +52,19 @@ def classesFileValidator(filename):
                         print(f'Error at line {linenum}. There is no degree with ID = {degreeID}.')
                         print('Stopping...')           
                         return False
+                    else:
+                        if degree is None:
+                            degree = degreeID
+                        else:
+                            if degreeID != degree:
+                                print(f'Error at line {linenum}. All classes must be part of degree = {degreeID}.')
+                                print('Stopping...')           
+                                return False
                 else:
                     print(f'Error at line {linenum}. Degree ID cannot be null.')
                     print('Stopping...')
                     return False
-                cNumber = row['cNumber (class number)']
-                if cNumber != '':
-                    cNumber = int(cNumber)
-                    if Classes.query.filter(Classes.cNumber==cNumber).filter(Classes.dpID==dpID).filter(Classes.degreeID==degreeID).first() or (cNumber, dpID, degreeID) in knownCNumbers:
-                        print(f'Error at line {linenum}. Cnumber {cNumber} already exists within department ID = {dpID} and Degree = {degreeID}.')
-                        print('Stopping...')
-                        return False
-                    else:
-                        knownCNumbers.append((cNumber, dpID, degreeID))
-                else:
-                    print(f'Error at line {linenum}. Class Number cannot be null.')
-                    print('Stopping...')
-                    return False
+                
                 name = row['name']
                 if name == '':
                     print(f'Error at line {linenum}. Class name cannot be null.')
@@ -89,10 +86,39 @@ def classesFileValidator(filename):
                         print(f'Error at line {linenum}. prereqid {prereqid} either does not exist in database or does not exist in a previous entry.')
                         print('Stopping...')
                         return False
+                coreqs = list(int(cid) for cid in row['coreqs (class IDs comma-space separated)'].split(", ") if cid != '')
+                for coreqid in coreqs:
+                    if not Classes.query.filter(Classes.cID==coreqid).first() and not coreqid in knownCID:
+                        print(f'Error at line {linenum}. coreqid {coreqid} either does not exist in database or does not exist in a previous entry.')
+                        print('Stopping...')
+                        return False
+                linkID = row['linkedTo (Only in second class)']
+                if linkID != '':
+                    linkID = int(linkID)
+                    if not linkID in knownCID:
+                        print(f'Error at line {linenum}. linkID {linkID} does not link to a previous entry.')
+                        print('Stopping...')
+                        return False
+                cNumber = row['cNumber (class number)']
+                if cNumber != '':
+                    cNumber = int(cNumber)
+                    if Classes.query.filter(Classes.cNumber==cNumber).filter(Classes.dpID==dpID).first() or (cNumber, dpID) in knownCNumbers:
+                        if Classes.query.filter(Classes.cID==linkID).first() or linkID in knownCID:
+                            pass
+                        else:
+                            print(f'Error at line {linenum}. Cnumber {cNumber} already exists within department ID = {dpID}.')
+                            print('Stopping...')
+                            return False
+                    else:
+                        knownCNumbers.append((cNumber, dpID))
+                else:
+                    print(f'Error at line {linenum}. Class Number cannot be null.')
+                    print('Stopping...')
+                    return False
                 priority = row['priority']
                 if priority != '':
                     priority = int(priority)                
-                    if Classes.query.filter(Classes.degreeID==degreeID).filter(Classes.priority==priority).first() or (priority, degreeID) in knownPriorities:
+                    if priority in knownPriorities:
                         print(f'Error at line {linenum}. There is already a class with priority {priority} in the degree with ID = {degreeID}')
                         print('Stopping...')
                         return False
@@ -110,22 +136,28 @@ def classesFileValidator(filename):
     print("File validated!")
     return True
 
-def classesFileLoader(filename):
+def degreeClassesListFileLoader(filename):
     #create new entries in database
     with open(filename, newline='') as csvfile:
         print('Beginning file load into database...')
         reader = csv.DictReader(csvfile)
         csvfile.seek(0)
+        parentDegree = None
         for row in reader:
+            if parentDegree is None:
+                degreeID = int(row['degreeID (degree ID)'])
+                parentDegree = Degree.query.filter(Degree.degreeID==degreeID).first()
             cID = int(row['cID (classes ID)'])
             dpID = int(row['dpID (department ID)'])
-            degreeID = int(row['degreeID (degree ID)'])
             cNumber = int(row['cNumber (class number)'])
             name = row['name']
             desc = row['description']
-            prereqs = list(int(cid) for cid in row['prereqs (class IDs comma-space separated)'].split(", "))
+            prereqs = list(int(cid) for cid in row['prereqs (class IDs comma-space separated)'].split(", ") if cid != '')
+            coreqs = list(int(cid) for cid in row['coreqs (class IDs comma-space separated)'].split(", ") if cid != '')
             priority = int(row['priority'])
             
+            linkID = int(row['linkedTo (Only in second class)']) if row['linkedTo (Only in second class)'] != '' else None
+
             entry = Classes(
                 cID=cID, 
                 dpID=dpID, 
@@ -139,7 +171,14 @@ def classesFileLoader(filename):
                 for cid in prereqs:
                     prereqClass = Classes.query.filter(Classes.cID==cid).first()
                     entry.prereqs.append(prereqClass)
-            db.session.add(entry)
-            db.session.commit()
+            if len(coreqs) > 0:
+                for cid in coreqs:
+                    prereqClass = Classes.query.filter(Classes.cID==cid).first()
+                    entry.coreqs.append(prereqClass)
+            
+            parentDegree.addClass(entry, priority)
+            if linkID:
+                linkIDClass = Classes.query.filter(Classes.cID==linkID).first()
+                linkIDClass.addLinkedClass(entry)
             print(f'Loaded {entry}.')
     print('Finished')

@@ -85,6 +85,7 @@ class Student(BaseTable, UserMixin):
         #updateGPA based off classes taken grades/credit hrs
         pass
 
+
     def __repr__(self):
         return f"Student('{self.fname + ' ' + self.lname}', id={self.sID})"
 
@@ -102,7 +103,6 @@ class Faculty(BaseTable):
 class Classes(BaseTable):
     cID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     dpID = db.Column(db.Integer, db.ForeignKey('department.dpID'))
-    degreeID = db.Column(db.Integer, db.ForeignKey('degree.degreeID'))
     cNumber = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(60), nullable=False)
     sections = db.relationship('Section', backref='sectFor', lazy=True)
@@ -122,7 +122,6 @@ class Classes(BaseTable):
                             uselist=False,
                             backref=db.backref('linkedTo', uselist=False), lazy=True)
     #studentsTaken = db.relationship('asc_student_classes_taken', back_populates='classTaken', lazy=True)
-
     def getShortName(self):
         return f"{self.department.code}{self.cNumber}"
 
@@ -130,15 +129,24 @@ class Classes(BaseTable):
         return bool(self.linkedClass) or bool(self.linkedTo)
     
     def getLinkedClass(self):
-        if hasLinkedClass(self):
+        if self.hasLinkedClass():
             return self.linkedClass if self.linkedClass else self.linkedTo
         return None
 
+    def addLinkedClass(self, cl):
+        if not self.hasLinkedClass():
+            self.linkedClass = cl
+            db.session.add(self)
+            db.session.commit()
+            return True
+        return False
+
     def __repr__(self):
-        return f"Classes(cID={self.cID} depCode={self.shortName} name='{self.name}')"
+        return f"Classes(cID={self.cID} shortName={self.getShortName()} name='{self.name}')"
 
 class Section(BaseTable):
-    crn = db.Column(db.Integer, primary_key=True, autoincrement=True)  
+    crn = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sec = db.Column(db.Integer)  
     cID = db.Column(db.Integer, db.ForeignKey('classes.cID'), nullable=False)
     iID = db.Column(db.Integer, db.ForeignKey('faculty.fID'))
     mon = db.Column(db.Boolean, nullable=False, default=False)
@@ -152,7 +160,7 @@ class Section(BaseTable):
     dateEnd = db.Column(db.Date, nullable=False, default=datetime.now().date())
     capacity = db.Column(db.Integer, nullable=False, default=30)
     numCurEnrolled = db.Column(db.Integer, nullable=False, default=0)
-
+    __table_args__ = (db.UniqueConstraint('sec', 'cID', name='UniqueSectionClassNumber'),)
     def getDayString(self):
         days = ''
         days += 'M' if self.mon else ''
