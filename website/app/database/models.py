@@ -39,16 +39,18 @@ class asc_student_classes_taken(BaseTable):
     grade = db.Column(db.String(1), nullable=False, default='F')
 
     def __repr__(self):
-        return f"ClassTaken({self.classTaken.getShortName()} passed={self.passed} grade={self.grade})"
+        return f"ClassTaken(class={self.classTaken.getShortName()} passed={self.passed} grade={self.grade})"
 
 class asc_degree_classes(BaseTable):
     degreeID = db.Column(db.Integer, db.ForeignKey('degree.degreeID'), primary_key=True)
     cID = db.Column(db.Integer, db.ForeignKey('classes.cID'), primary_key=True)
-    priority = db.Column(db.Integer, nullable=False, default=0, autoincrement=True)
+    degree = db.relationship('Degree', back_populates='dClasses')
+    dClass = db.relationship('Classes', backref='degree')
+    priority = db.Column(db.Integer, nullable=False)
     __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
 
     def __repr__(self):
-        return f"DegreeClass(degreeID={self.degreeID} cID={self.cID} priority={self.priority})"
+        return f"DegreeClass(degree={self.degree} class={self.dClass.getShortName()} cID={self.cID} priority={self.priority})"
 
 
 
@@ -133,7 +135,7 @@ class Classes(BaseTable):
         return None
 
     def __repr__(self):
-        return f"Classes(cID={self.cID} depCode={self.department.code} cNumber={self.cNumber} name='{self.name}')"
+        return f"Classes(cID={self.cID} depCode={self.shortName} name='{self.name}')"
 
 class Section(BaseTable):
     crn = db.Column(db.Integer, primary_key=True, autoincrement=True)  
@@ -196,7 +198,12 @@ class Degree(BaseTable):
     totalHours = db.Column(db.Integer, nullable=False, default=0)
     description = db.Column(db.String(1000), nullable=False, default='')
     students = db.relationship('Student', backref='enrolledDegree', lazy=True)
-    dClasses = db.relationship('Classes', backref='degree', lazy=True)
+    dClasses = db.relationship('asc_degree_classes', back_populates='degree', lazy=True)
+
+    def addClass(self, cl, priority):
+        adc = asc_degree_classes(degree=self, dClass=cl, priority=priority)
+        db.session.add(adc)
+        db.session.commit()
 
     def __repr__(self):
         return f"Degree(degreeID={self.degreeID} name='{self.name}')"
