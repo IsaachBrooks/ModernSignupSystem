@@ -2,7 +2,7 @@ import csv
 import sys
 from app import db
 from app.database.models import Classes, Department, Degree
-
+from app.Scripts.validator import inputNotNull
 
 #file validation
 def degreeClassesListFileValidator(filename):
@@ -155,17 +155,19 @@ def degreeClassesListFileLoader(filename):
             prereqs = list(int(cid) for cid in row['prereqs (class IDs comma-space separated)'].split(", ") if cid != '')
             coreqs = list(int(cid) for cid in row['coreqs (class IDs comma-space separated)'].split(", ") if cid != '')
             priority = int(row['priority'])
+            elective = bool(row['elective'])
+            lab = bool(row['lab'])
             
             linkID = int(row['linkedTo (Only in second class)']) if row['linkedTo (Only in second class)'] != '' else None
 
             entry = Classes(
                 cID=cID, 
                 dpID=dpID, 
-                #degreeID=degreeID, 
                 cNumber=cNumber,
                 name=name, 
-                description=desc, 
-                #priority=priority
+                description=desc,
+                elective=elective,
+                lab=lab
             )
             if len(prereqs) > 0:
                 for cid in prereqs:

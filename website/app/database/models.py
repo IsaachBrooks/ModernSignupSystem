@@ -120,7 +120,8 @@ class Classes(BaseTable):
                             secondaryjoin="classes.c.cID==classes_linked.c.linkedToID",
                             uselist=False,
                             backref=db.backref('linkedTo', uselist=False), lazy=True)
-
+    elective = db.Column(db.Boolean, nullable=False, default=False)
+    lab = db.Column(db.Boolean, nullable=False, default=False)
     def getShortName(self):
         return f"{self.department.code}{self.cNumber}"
 
