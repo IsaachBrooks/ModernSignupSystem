@@ -52,7 +52,7 @@ def sectionFileValidator(filename):
             print(f'Beginning validation...')
             reader = csv.DictReader(csvfile)
             csvfile.seek(0)
-            linenum = 1
+            linenum = 2
             for row in reader:
                 cID = row['cID (classes ID)']
                 if cID != '':
@@ -63,6 +63,13 @@ def sectionFileValidator(filename):
                         return False
                 else:
                     print(f'Error at line {linenum}. Class ID cannot be null.')
+                    print('Stopping...')
+                    return False
+                sec = row['sec']
+                if sec != '':
+                    pass
+                else:
+                    print(f'Error at line {linenum}. Section Number cannot be null.')
                     print('Stopping...')
                     return False
                 iID = row['iID (instructor ID)']
@@ -164,6 +171,7 @@ def sectionFileLoader(filename):
         csvfile.seek(0)
         for row in reader:
             cID = int(row['cID (classes ID)'])
+            sec = int(row['sec'])
             iID = int(row['iID (instructor ID)'])
             mon = bool(row['mon'])
             tue = bool(row['tue'])
@@ -177,7 +185,8 @@ def sectionFileLoader(filename):
             capacity = int(row['capacity'])
             
             entry = Section(
-                cID=cID, 
+                cID=cID,
+                sec=sec, 
                 iID=iID,
                 mon = mon,
                 tue = tue,
@@ -193,4 +202,4 @@ def sectionFileLoader(filename):
             db.session.add(entry)
             db.session.commit()
             print(f'Loaded {entry}.')
-    print('Finished')
+    print('Finished loading section data.')

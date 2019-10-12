@@ -16,9 +16,9 @@ def degreeFileValidator(filename):
             reader = csv.DictReader(csvfile)
             csvfile.seek(0)
             knowndegreeID = []
-            linenum = 1
+            linenum = 2
             for row in reader:
-                degreeID = row['degreeID (degree ID)']
+                degreeID = row['degreeID']
                 if degreeID != '':
                     degreeID = int(degreeID)
                     if Degree.query.filter(Degree.degreeID==degreeID).first() or degreeID in knowndegreeID:
@@ -85,7 +85,7 @@ def degreeFileLoader(filename):
         reader = csv.DictReader(csvfile)
         csvfile.seek(0)
         for row in reader:
-            degreeID = int(row['degreeID (degree ID)'])
+            degreeID = int(row['degreeID'])
             dpID = int(row['dpID (department ID)'])
             name = row['name']
             totalHours= int(row['totalHours'])
@@ -101,4 +101,4 @@ def degreeFileLoader(filename):
             db.session.add(entry)
             db.session.commit()
             print(f'Loaded {entry}.')
-    print('Finished')
+    print('Finished loading degree data')

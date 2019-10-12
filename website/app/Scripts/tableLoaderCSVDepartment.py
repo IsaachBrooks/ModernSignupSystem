@@ -17,7 +17,7 @@ def departmentFileValidator(filename):
             csvfile.seek(0)
             knownDpID = []
             knownCode = []
-            linenum = 1
+            linenum = 2
             for row in reader:
                 dpID = row['dpID (department ID)']
                 if dpID != '':
@@ -42,7 +42,7 @@ def departmentFileValidator(filename):
                 code = row['code']
                 if code != '':
                     if not re.match('^[a-zA-Z]{2,4}$', code):
-                        print(f'Error at line {linenum}. Capacity can only contain between 2 and 4 alphabet characters.')
+                        print(f'Error at line {linenum}. Code can only contain between 2 and 4 alphabet characters.')
                         print('Stopping...')
                         return False
                     if Department.query.filter(Department.code==code).first() or code in knownCode:
@@ -83,4 +83,4 @@ def departmentFileLoader(filename):
             db.session.add(entry)
             db.session.commit()
             print(f'Loaded {entry}.')
-    print('Finished')
+    print('Finished loading department data')

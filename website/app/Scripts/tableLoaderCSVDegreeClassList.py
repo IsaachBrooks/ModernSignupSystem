@@ -157,6 +157,7 @@ def degreeClassesListFileLoader(filename):
             priority = int(row['priority'])
             elective = bool(row['elective'])
             lab = bool(row['lab'])
+            credHrs = int(row['creditHours'])
             
             linkID = int(row['linkedTo (Only in second class)']) if row['linkedTo (Only in second class)'] != '' else None
 
@@ -167,6 +168,7 @@ def degreeClassesListFileLoader(filename):
                 name=name, 
                 description=desc,
                 elective=elective,
+                creditHours = credHrs,
                 lab=lab
             )
             if len(prereqs) > 0:
@@ -183,4 +185,4 @@ def degreeClassesListFileLoader(filename):
                 linkIDClass = Classes.query.filter(Classes.cID==linkID).first()
                 linkIDClass.addLinkedClass(entry)
             print(f'Loaded {entry}.')
-    print('Finished')
+    print('Finished loading class list data')

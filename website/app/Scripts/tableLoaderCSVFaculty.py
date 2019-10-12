@@ -18,7 +18,7 @@ def facultyFileValidator(filename):
             knownFID = []
             knownCNumbers = []
             knownPriorities = []
-            linenum = 1
+            linenum = 2
             for row in reader:
                 fID = row['fID (faculty ID)']
                 if fID != '':
@@ -95,4 +95,4 @@ def facultyFileLoader(filename):
             db.session.add(entry)
             db.session.commit()
             print(f'Loaded {entry}.')
-    print('Finished')
+    print('Finished loading faculty data')
