@@ -18,4 +18,4 @@ loginManager = LoginManager(app)
 loginManager.login_view = 'login'
 loginManager.login_message_category = 'info'
 
-from app.routes import routes
+from app.routes import routes, api

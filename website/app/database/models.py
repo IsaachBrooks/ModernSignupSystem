@@ -205,7 +205,7 @@ class Classes(BaseTable):
             'cNumber' : self.cNumber,
             'name' : self.name,
             'degree' : [item.serializeForClasses() for item in self.degree],
-            'sections' : serializeRelation(self.sections),
+           #'sections' : serializeRelation(self.sections),
             'description' : self.description,
             'creditHours' : self.creditHours,
             'prereqs' : serializeRelation(self.prereqs),

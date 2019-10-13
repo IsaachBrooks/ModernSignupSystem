@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, jsonify
 from app import app, db, bc
 from app.database.models import Student
 from app.forms.forms import RegistrationForm, LoginForm
@@ -48,3 +48,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
+@app.route("/testing", methods=['GET', 'POST'])
+def testing():
+    return render_template('testing.html', title='Testing page')
