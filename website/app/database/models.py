@@ -7,9 +7,15 @@ from flask_login import UserMixin
 def loadUser(user_id):
     return Student.query.get(int(user_id))
 
+def serializeRelation(relation):
+        return [item.serialize() for item in relation]
+
+
 class BaseTable(db.Model):
     __abstract__ = True
     
+    
+
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
@@ -34,10 +40,17 @@ class asc_student_classes_taken(BaseTable):
     cID = db.Column(db.Integer, db.ForeignKey('classes.cID'), primary_key=True)
     sID = db.Column(db.Integer, db.ForeignKey('student.sID'), primary_key=True)
     student = db.relationship('Student', back_populates='classesTaken')
-    classTaken = db.relationship('Classes')#, back_populates='studentsTaken')
+    classTaken = db.relationship('Classes')
     passed = db.Column(db.Boolean, nullable=False, default=False)
     grade = db.Column(db.String(1), nullable=False, default='F')
 
+    def serialize(self):
+        return {
+            'classTaken' : self.classTaken.serialize(),
+            'passed' : self.passed,
+            'grade' : self.grade,
+        }
+    
     def __repr__(self):
         return f"ClassTaken(class={self.classTaken.getShortName()} passed={self.passed} grade={self.grade})"
 
@@ -48,6 +61,18 @@ class asc_degree_classes(BaseTable):
     dClass = db.relationship('Classes', backref='degree')
     priority = db.Column(db.Integer, nullable=False)
     __table_args__ = (db.UniqueConstraint('priority', 'degreeID', name='UniquePriorityInDegree'),)
+
+    def serializeForClasses(self):
+        return {
+            'degree' : self.degree.degreeID,
+            'priority' : self.priority
+        }
+    
+    def serializeForDegree(self):
+        return {
+            'dClass' : self.dClass.serialize(),
+            'priority' : self.priority
+        }
 
     def __repr__(self):
         return f"DegreeClass(degree={self.degree} class={self.dClass.getShortName()} cID={self.cID} priority={self.priority})"
@@ -84,6 +109,20 @@ class Student(BaseTable, UserMixin):
         #updateGPA based off classes taken grades/credit hrs
         pass
 
+    def serialize(self):
+        return {
+            'sID' : self.sID,
+            'fname' : self.fname,
+            'mname' : self.mname,
+            'lname' : self.lname,
+            'username' : self.username,
+            'email' : self.email,
+            'degreeID' : self.degreeID,
+            'gpa' : self.gpa,
+            'classesTaken' : serializeRelation(self.classesTaken),
+            'classesEnrolled' : serializeRelation(self.classesEnrolled)
+        }
+    
 
     def __repr__(self):
         return f"Student('{self.fname + ' ' + self.lname}', id={self.sID})"
@@ -96,6 +135,23 @@ class Faculty(BaseTable):
     dpID = db.Column(db.Integer, db.ForeignKey('department.dpID'))
     sections = db.relationship('Section', backref='instructor', lazy=True)
 
+    def serialize(self):
+        return {
+            'fID' : self.fID,
+            'fname' : self.fname,
+            'mname' : self.mname,
+            'lname' : self.lname,
+            'dpID' : self.dpID
+        }
+
+    def serializeInstructor(self):
+        return {
+            'fID' : self.fID,
+            'fname' : self.fname,
+            'mname' : self.mname,
+            'lname' : self.lname,
+            'dpID' : self.dpID
+        }    
     def __repr__(self):
         return f"Faculty('{self.fname + ' ' + self.lname}', id={self.fID})"
 
@@ -122,6 +178,7 @@ class Classes(BaseTable):
                             backref=db.backref('linkedTo', uselist=False), lazy=True)
     elective = db.Column(db.Boolean, nullable=False, default=False)
     lab = db.Column(db.Boolean, nullable=False, default=False)
+
     def getShortName(self):
         return f"{self.department.code}{self.cNumber}"
 
@@ -140,6 +197,24 @@ class Classes(BaseTable):
             db.session.commit()
             return True
         return False
+
+    def serialize(self):
+        return {
+            'cID' : self.cID,
+            'dpID' : self.dpID,
+            'cNumber' : self.cNumber,
+            'name' : self.name,
+            'degree' : [item.serializeForClasses() for item in self.degree],
+            'sections' : serializeRelation(self.sections),
+            'description' : self.description,
+            'creditHours' : self.creditHours,
+            'prereqs' : serializeRelation(self.prereqs),
+            'coreqs' : serializeRelation(self.coreqs),
+            'linkedClass' : self.linkedClass.cID if self.linkedClass 
+                            else self.linkedTo.cID if self.linkedTo else None,
+            'elective' : self.elective,
+            'lab' : self.lab
+        }
 
     def __repr__(self):
         return f"Classes(cID={self.cID} shortName={self.getShortName()} name='{self.name}')"
@@ -197,6 +272,26 @@ class Section(BaseTable):
         #check self.capacity > self.numCurEnrolled
         pass
 
+    def serialize(self):
+        return {
+            'crn' : self.crn,
+            'sec' : self.sec,
+            'cID' : self.cID,
+            'iID' : self.iID,
+            'instructor' : self.instructor.serializeInstructor(),
+            'mon' : self.mon,
+            'tue' : self.tue,
+            'wed' : self.wed,
+            'thu' : self.thu,
+            'fri' : self.fri,
+            'tStart' : self.tStart.strftime('%H:%M:%S'),
+            'tEnd' : self.tEnd.strftime('%H:%M:%S'),
+            'dateStart' : self.dateStart.strftime('%Y-%m-%d'),
+            'dateEnd' : self.dateEnd.strftime('%Y-%m-%d'),
+            'capacity' : self.capacity,
+            'numCurEnrolled' : self.numCurEnrolled
+        }
+
     def __repr__(self):
         return f"Section(crn={self.crn} sectFor={self.sectFor.department.code + str(self.sectFor.cNumber)} days={self.getDayString()} time={self.tStart} - {self.tEnd})"
 
@@ -214,6 +309,17 @@ class Degree(BaseTable):
         db.session.add(adc)
         db.session.commit()
 
+    def serialize(self):
+        return {
+            'degreeID' : self.degreeID,
+            'dpID' : self.dpID,
+            'name' : self.name,
+            'totalHours' : self.totalHours,
+            'description' : self.description,
+            'students' : serializeRelation(self.students),
+            'dClasses' : [item.serializeForDegree() for item in self.dClasses]            
+        }
+
     def __repr__(self):
         return f"Degree(degreeID={self.degreeID} name='{self.name}')"
 
@@ -224,6 +330,16 @@ class Department(BaseTable):
     classesMember = db.relationship('Classes', backref='department', lazy=True)
     degreeMember = db.relationship('Degree', backref='department', lazy=True)
     facultyMember = db.relationship('Faculty', backref='department', lazy=True)
+
+    def serialize(self):
+        return {
+            'dpID' : self.dpID,
+            'name' : self.name,
+            'code' : self.code,
+            'classesMember' : serializeRelation(self.classesMember),
+            'degreeMember' : serializeRelation(self.degreeMember),
+            'facultyMember' : serializeRelation(self.facultyMember),
+        }
 
     def __repr__(self):
         return f"Department(dpID={self.dpID} name='{self.name}' code={self.code})"
