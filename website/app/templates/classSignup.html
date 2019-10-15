@@ -2,10 +2,28 @@
 
 {% block content %}
 <content class="signup-holder">
-    <div class="signdiv signup-main">MainSection</div>
+    <div class="signdiv signup-main">
+        <div class="day-holder" id="mon-holder">
+            <div class="day-header">Monday</div>
+        </div>
+        <div class="day-holder" id="tue-holder">
+            <div class="day-header">Tuesday</div>
+        </div>
+        <div class="day-holder" id="wed-holder">
+            <div class="day-header">Wednesday</div>
+        </div>
+        <div class="day-holder" id="thu-holder">
+            <div class="day-header">Thursday</div>
+        </div>
+        <div class="day-holder" id="fri-holder">
+            <div class="day-header">Friday</div>
+        </div>
+    </div>
     <div class="signdiv signup-cur mr-4 ml-4">CurClasses</div>
     <div class="signdiv signup-sel mr-4 ml-4">SelectedClasses</div>
     <div class="signdiv signup-opt mt-2 mb-4">Options</div>
     <div class="signdiv signup-btn mt-4 mb-2">Buttons</div>
 </content>
+
+<script src="{{ url_for('static', filename='js/drawTimes.js') }}"></script>
 {% endblock content %}

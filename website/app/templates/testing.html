@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+$.ajax({
+    url : '/api/getDegreeDataFull',
+    type : 'GET',
+    dataType : 'json',
+    success : function(data, status){
+    document.write(JSON.stringify(data))
+    alert("ok");
+    },
+    error : function(result, status, error){
+    alert("error");
+    },
+    complete : function(result, status){
+    alert("complete");
+    } 
+});
+
+</script-->
+
+<script src="{{ url_for('static', filename='js/databaseAccess.js') }}"></script>
+
+{% endblock content %}

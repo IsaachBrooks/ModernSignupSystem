@@ -14,8 +14,6 @@ def serializeRelation(relation):
 class BaseTable(db.Model):
     __abstract__ = True
     
-    
-
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
@@ -247,7 +245,7 @@ class Section(BaseTable):
         return days
 
     def getDaysArray(self):
-        return [mon, tue, wed, thu, fri]
+        return [self.mon, self.tue,self. wed, self.thu, self.fri]
 
     def overlapsWith(self, sect):
         if self.overlapsDaysWith(sect):
@@ -271,7 +269,7 @@ class Section(BaseTable):
         #Check student credit hours
         #check self.capacity > self.numCurEnrolled
         pass
-
+ 
     def serialize(self):
         return {
             'crn' : self.crn,
@@ -316,7 +314,7 @@ class Degree(BaseTable):
             'name' : self.name,
             'totalHours' : self.totalHours,
             'description' : self.description,
-            'students' : serializeRelation(self.students),
+           #'students' : serializeRelation(self.students),
             'dClasses' : [item.serializeForDegree() for item in self.dClasses]            
         }
 

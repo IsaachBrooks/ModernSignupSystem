@@ -15,11 +15,15 @@ content.signup-holder {
 }
 
 .signup-main {
-    background-color: #dddddd;
+    background-color: white;
     grid-area: main;
     min-height: 400px;
     height: 60vh;
     min-width: 800px;
+    display: grid;
+    grid-template-areas:
+    "mon tue wed thu fri";
+    overflow: auto;
 }
 
 .signup-cur {
@@ -52,3 +56,83 @@ content.signup-holder {
     min-width: 200px;
     height: 100px;
 }
+
+.day-holder {
+    background-color: lightgray;
+    width: auto;
+    height: auto;
+    border: 2px solid black;
+}
+.day-header {
+    text-align: center;
+    position: sticky;
+    width: auto;
+    height: 2em; 
+    border-bottom: 1px black solid;   
+}
+
+#mon-holder {
+    grid-area: mon;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+#tue-holder {
+    grid-area: tue;
+    margin-right: 1em;
+}
+#wed-holder {
+    grid-area: wed;
+    margin-right: 1em;
+}
+#thu-holder {
+    grid-area: thu;
+    margin-right: 1em;
+}
+#fri-holder {
+    grid-area: fri;
+    margin-right: 1em;
+}
+
+.time-slot-9am {
+    position: relative;
+    top: 10px;
+    background-color: rgba(1, 255, 1, 0.5);
+}
+.time-slot-10am {
+    position: relative;
+    top: 10px;
+    background-color: rgba(128, 0, 128, 0.5);
+}
+.time-slot-11am {
+    position: relative;
+    top: 10px;
+    background-color: orange;
+}
+.time-slot-12pm {
+    position: relative;
+    top: 10px;
+    background-color: pink;
+}
+.time-slot-1pm {
+    position: relative;
+    top: 10px;
+    background-color: red;
+}
+.time-slot-2pm {
+    position: relative;
+    top: 10px;
+    background-color: blue;
+}
+.time-slot-3pm {
+    position: relative;
+    top: 10px;
+    background-color: yellow;
+}
+
+.mon-obj {
+    border: 1px black solid;
+    width: auto;
+    height: 75px;
+}
+
+
