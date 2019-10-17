@@ -4,19 +4,19 @@
 <content class="signup-holder">
     <div class="signdiv signup-main">
         <div class="day-holder" id="mon-holder">
-            <div class="day-header">Monday</div>
+            <div class="day-header" id="mon-header">Monday</div>
         </div>
         <div class="day-holder" id="tue-holder">
-            <div class="day-header">Tuesday</div>
+            <div class="day-header" id="tue-header">Tuesday</div>
         </div>
         <div class="day-holder" id="wed-holder">
-            <div class="day-header">Wednesday</div>
+            <div class="day-header" id="wed-header">Wednesday</div>
         </div>
         <div class="day-holder" id="thu-holder">
-            <div class="day-header">Thursday</div>
+            <div class="day-header" id="thu-header">Thursday</div>
         </div>
         <div class="day-holder" id="fri-holder">
-            <div class="day-header">Friday</div>
+            <div class="day-header" id="fri-header">Friday</div>
         </div>
     </div>
     <div class="signdiv signup-cur mr-4 ml-4">CurClasses</div>
@@ -25,5 +25,7 @@
     <div class="signdiv signup-btn mt-4 mb-2">Buttons</div>
 </content>
 
-<script src="{{ url_for('static', filename='js/drawTimes.js') }}"></script>
+<script src="{{ url_for('static', filename='js/databaseAccess.js') }}" type="module"></script>
+<script src="{{ url_for('static', filename='js/drawTimes.js') }}" type="module"></script>
+<script src="{{ url_for('static', filename='js/signupPage.js') }}" type="module"></script>
 {% endblock content %}

@@ -55,8 +55,23 @@ def getSectionTimesDaysFull():
         time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
 
     return jsonify(fullTimes)
-
+@app.route("/api/getSectionTimesDays", methods=['GET'])
+def getSectionTimesDays():
+    sect = Section.query.first()
+    time = [sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri]
     
+    section = {
+    'tStart': time[0].hour * 100 + time[0].minute,
+    'tEnd': time[1].hour * 100 + time[0].minute,
+    'days': [time[2], time[3], time[4], time[5], time[6]],
+    'count': 1,
+    'cID': sect.cID
+    }
+
+
+    return jsonify(section)
+
+
 """
 @app.route("/api/get", methods=['GET'])
 def get():

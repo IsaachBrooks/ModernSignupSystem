@@ -59,8 +59,9 @@ content.signup-holder {
 
 .day-holder {
     background-color: lightgray;
+    position: relative;
     width: auto;
-    height: auto;
+    height: 100%;
     border: 2px solid black;
 }
 .day-header {
@@ -93,41 +94,18 @@ content.signup-holder {
     margin-right: 1em;
 }
 
-.time-slot-9am {
-    position: relative;
-    top: 10px;
-    background-color: rgba(1, 255, 1, 0.5);
+.time-slot-holder {
+    text-align: center;
+    /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
 }
-.time-slot-10am {
-    position: relative;
-    top: 10px;
-    background-color: rgba(128, 0, 128, 0.5);
-}
-.time-slot-11am {
-    position: relative;
-    top: 10px;
-    background-color: orange;
-}
-.time-slot-12pm {
-    position: relative;
-    top: 10px;
-    background-color: pink;
-}
-.time-slot-1pm {
-    position: relative;
-    top: 10px;
-    background-color: red;
-}
-.time-slot-2pm {
-    position: relative;
-    top: 10px;
-    background-color: blue;
-}
-.time-slot-3pm {
-    position: relative;
-    top: 10px;
-    background-color: yellow;
-}
+
 
 .mon-obj {
     border: 1px black solid;
