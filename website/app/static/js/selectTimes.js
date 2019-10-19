@@ -1,20 +1,22 @@
-import { getSectionsInformation, getClassInformation } from "./databaseAccess.js";
+import { getSectionsInfo, getClassInfoMinimal } from "./databaseAccess.js";
 
 
 export default drawSelected;
 
-const selectHolder = $('#selected-list-holder');
+const selectListHolder = $('#selected-list-holder');
 export function drawSelected(selectedCRNs) {
-    selectHolder.empty();
-    const sections = getSectionsInformation(selectedCRNs).then((data) => {
+    selectListHolder.empty();
+    const sections = getSectionsInfo(selectedCRNs).then((data) => {
         data.forEach((elem) => {
-            const curClass = getClassInformation(elem.cID).then((classData) => {
+            const curClass = getClassInfoMinimal(elem.cID).then((classData) => {
                 let crn = elem.crn;
-                let className = classData.name;
-                let credHrs = classData.creditHours;
-                let instructor = `${elem.instructor.fname} ${elem.instructor.mname} ${elem.instructor.lname}`;
+                let cName = classData.name;
+                let cCodeNum = classData.deptCode + classData.cNumber.toString();
                 let sec = elem.sec;
-                selectHolder.append(`<li class="selected-list-elem">${crn}, ${sec}, ${credHrs}hrs, ${className}, ${instructor} </li>`);
+                let sectLi = document.createElement('li');
+                sectLi.className = 'selected-list-elem';
+                sectLi.innerHTML = `${sec} ${cCodeNum} ${cName}`;
+                selectListHolder.append(sectLi);
             });
         });
     });

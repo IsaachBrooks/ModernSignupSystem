@@ -95,18 +95,28 @@ content.signup-holder {
 }
 
 #selected-holder {
-    overflow: auto;
+    overflow-x: scroll;
 }
 
 #selected-list-holder {
-    overflow-x: auto;
-    list-style: none;
+    list-style-type: none;
+    float: left;
 }
 
 .selected-list-elem {
+    padding: .25em;
     margin: 1px;
-    border: 1px black solid;
+    border: 1px solid black;
     box-shadow: 2px 3px black;
+    max-width: 30em;
+}
+
+.selected-list-elem:hover {
+    border: 1px solid white;
+}
+
+.selected-list-elem:active {
+    background-color: #8b8b8b
 }
 
 .time-slot-holder {

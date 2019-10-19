@@ -24,8 +24,8 @@ export async function getSectionTimesDay() {
     }
 }
 
-export async function getSectionsInformation(sectionList) {
-    const url = `/api/getSectionsInformation/[${sectionList}]`;
+export async function getSectionsInfo(sectionList) {
+    const url = `/api/getSectionsInfo/[${sectionList}]`;
     try {
         const response = await fetch(url);
         if (response.ok) {
@@ -36,8 +36,20 @@ export async function getSectionsInformation(sectionList) {
     }
 }
 
-export async function getClassInformation(cID) {
-    const url = `/api/getClassInformation/${cID}`
+export async function getClassInfo(cID) {
+    const url = `/api/getClassInfo/${cID}`
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getClassInfoMinimal(cID) {
+    const url = `/api/getClassInfoMinimal/${cID}`
     try {
         const response = await fetch(url);
         if (response.ok) {

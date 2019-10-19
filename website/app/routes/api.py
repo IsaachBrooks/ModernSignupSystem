@@ -58,7 +58,6 @@ def getSectionTimesDaysFull():
 
     return jsonify(fullTimes)
 
-
 @app.route("/api/getSectionTimesDays", methods=['GET'])
 def getSectionTimesDays():
     sect = Section.query.first()
@@ -71,13 +70,10 @@ def getSectionTimesDays():
     'count': 1,
     'cID': sect.cID
     }
-
-
     return jsonify(section)
 
-
-@app.route("/api/getSectionsInformation/[<string:sCRNs>]", methods=['GET'])
-def getSectionsInformation(sCRNs):
+@app.route("/api/getSectionsInfo/[<string:sCRNs>]", methods=['GET'])
+def getSectionsInfo(sCRNs):
     pass
     sects = [int(crn) for crn in sCRNs.split(',')]
     sectionList = []
@@ -85,16 +81,23 @@ def getSectionsInformation(sCRNs):
         sectionList.append(Section.query.filter(Section.crn == sect).first().serialize())
     return jsonify(sectionList)
 
-@app.route("/api/getClassInformation/<int:cID>", methods=['GET'])
-def getClassInformation(cID):
+@app.route("/api/getClassInfo/<int:cID>", methods=['GET'])
+def getClassInfo(cID):
     singleClass = Classes.query.filter(Classes.cID == cID).first()
     return jsonify(singleClass.serialize())
 
-"""
-@app.route("/api/name", methods=['GET'])
-def name():
-    pass
+@app.route("/api/getClassInfoMinimal/<int:cID>", methods=['GET'])
+def getClassInfoMinimal(cID):
+    singleClass = Classes.query.filter(Classes.cID == cID).first()
+    ret = {
+        'name' : singleClass.name,
+        'cNumber' : singleClass.cNumber,
+        'deptCode' : singleClass.department.code
+    }
+    return jsonify(ret)
 
+
+"""
 @app.route("/api/name", methods=['GET'])
 def name():
     pass

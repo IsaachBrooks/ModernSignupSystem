@@ -38,9 +38,9 @@ export function drawTimesFull(times) {
         let count = data.count;
         let classes = data.cID;
         let rgb = [
-            Math.floor((tStart * 3179) % 255),//Math.random() * 128), 
-            Math.floor((tStart * 9185) % 255),//Math.random() * 128), 
-            Math.floor((tStart * 4781) % 255),//Math.random() * 128)
+            Math.floor((tStart * 393181 * crns.reduce((a,b) => a+b) - 128) % 255), 
+            Math.floor((tStart * 3187 * crns.reduce((a,b) => a+b) - 128) % 255), 
+            Math.floor((tStart * 477 * crns.reduce((a,b) => a+b) - 128) % 255),
         ];
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
