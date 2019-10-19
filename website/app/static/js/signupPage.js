@@ -1,3 +1,4 @@
+import drawSelected from './selectTimes.js';
 $(document).ready(function () {
 
     let lastTimeSlotHolderIndex;
@@ -5,6 +6,10 @@ $(document).ready(function () {
     let lastClicked;
 
     $(".day-holder").on({
+        click: function() {
+            let crnSel = $(this)[0].getAttribute('data-crn');
+            drawSelected(crnSel);
+        },
         mousedown: function() {
             lastClicked = $(this)
             lastTimeSlotHolderBGC = lastClicked.css('background-color');
@@ -16,7 +21,7 @@ $(document).ready(function () {
             lastClicked = null;
         },
         mouseenter: function () {
-            let crnSel = $(this)[0].getAttribute('data-crn')
+            let crnSel = $(this)[0].getAttribute('data-crn');
             let fullSect = $(`[data-crn="${crnSel}"]`);
             for (let i = 0; i < fullSect.length; i++) {
                 lastTimeSlotHolderIndex = fullSect[i].style.zIndex;
@@ -25,11 +30,11 @@ $(document).ready(function () {
             }
         },
         mouseleave: function() {
-            let crnSel = $(this)[0].getAttribute('data-crn')
+            let crnSel = $(this)[0].getAttribute('data-crn');
             let fullSect = $(`[data-crn="${crnSel}"]`);
             for (let i = 0; i < fullSect.length; i++) {
                 fullSect[i].style.zIndex = lastTimeSlotHolderIndex;
-                fullSect[i].style.border = 'unset';
+                fullSect[i].style.border = '1px black solid';
             }
             lastTimeSlotHolderIndex = null;
         }

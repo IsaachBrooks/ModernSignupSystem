@@ -24,8 +24,20 @@ export async function getSectionTimesDay() {
     }
 }
 
-async function getSectionsInformation(sectionList) {
-    const url = `/api/getSectionsInformation/sCRNs?=[${sectionList}]`;
+export async function getSectionsInformation(sectionList) {
+    const url = `/api/getSectionsInformation/[${sectionList}]`;
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getClassInformation(cID) {
+    const url = `/api/getClassInformation/${cID}`
     try {
         const response = await fetch(url);
         if (response.ok) {

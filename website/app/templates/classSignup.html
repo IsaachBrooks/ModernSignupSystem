@@ -19,13 +19,14 @@
             <div class="day-header" id="fri-header">Friday</div>
         </div>
     </div>
-    <div class="signdiv signup-cur mr-4 ml-4">CurClasses</div>
-    <div class="signdiv signup-sel mr-4 ml-4">SelectedClasses</div>
-    <div class="signdiv signup-opt mt-2 mb-4">Options</div>
-    <div class="signdiv signup-btn mt-4 mb-2">Buttons</div>
+    <div id="selected-holder" class="signdiv signup-sel mr-4 ml-4"><ul id="selected-list-holder"></ul></div>
+    <div id="current-holder" class="signdiv signup-cur mr-4 ml-4">CurClasses</div>
+    <div id="option-holder" class="signdiv signup-opt mt-2 mb-4">Options</div>
+    <div id="button-holder" class="signdiv signup-btn mt-4 mb-2">Buttons</div>
 </content>
 
 <script src="{{ url_for('static', filename='js/databaseAccess.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/drawTimes.js') }}" type="module"></script>
+<script src="{{ url_for('static', filename='js/selectTimes.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/signupPage.js') }}" type="module"></script>
 {% endblock content %}

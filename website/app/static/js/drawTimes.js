@@ -23,13 +23,13 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
     let b = rgb[2];
     let bgColor = "rgba(" + r + "," + g + "," + b + ", 1)";
     newTime.style.backgroundColor = bgColor;
-    newTime.innerHTML = `<p>${day} ${time[0]} - ${time[1]}<br>${count} classes<br>${classes}</p>`
+    newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} classes<br>${classes}</p>`
     //newTime.className = `time-slot-${time} ${day}-obj`;
     let dayHolder = document.getElementById(`${day}-holder`);
     dayHolder.appendChild(newTime); 
 }
 
-function drawTimesFull(times) {
+export function drawTimesFull(times) {
     times.forEach( (data) => {
         let crns = data.crn;
         let tStart = data.tStart;
@@ -51,6 +51,7 @@ function drawTimesFull(times) {
 }
 
 function getSectionLength(tStart, tEnd) {
+    //TODO:
 }
 
 

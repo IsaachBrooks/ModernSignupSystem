@@ -94,11 +94,30 @@ content.signup-holder {
     margin-right: 1em;
 }
 
+#selected-holder {
+    overflow: auto;
+}
+
+#selected-list-holder {
+    overflow-x: auto;
+    list-style: none;
+}
+
+.selected-list-elem {
+    margin: 1px;
+    border: 1px black solid;
+    box-shadow: 2px 3px black;
+}
+
 .time-slot-holder {
     text-align: center;
     width: 100%;
     float: left;
     position: absolute;
+    border-radius: 5px;
+    border: 1px black solid;
+    color: white;
+    text-shadow: 1px 0 black;
     /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
