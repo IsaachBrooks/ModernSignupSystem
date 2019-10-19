@@ -49,6 +49,9 @@
                 {{ form.submit(class="login-btn") }}
             </div>
         </form>
+        
     </div>
-
+    <a id="register-link" href="{{ url_for('hiddenRegister') }}">
+        <div class="login-btn" id="register-holder">Register</div>
+    </a>
 {% endblock content %}
