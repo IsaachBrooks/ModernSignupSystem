@@ -96,6 +96,9 @@ content.signup-holder {
 
 .time-slot-holder {
     text-align: center;
+    width: 100%;
+    float: left;
+    position: absolute;
     /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */

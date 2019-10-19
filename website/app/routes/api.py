@@ -42,6 +42,7 @@ def getSectionTimesDaysFull():
         d['days'] = [time[2], time[3], time[4], time[5], time[6]]
         d['count'] = 0
         d['cID'] = []
+        d['crn'] = []
         fullTimes.append(d)
     
     for time in fullTimes:
@@ -50,11 +51,14 @@ def getSectionTimesDaysFull():
                 time['count'] += 1
                 if sect.cID not in time['cID']:
                     time['cID'].append(sect.cID)
+                    time['crn'].append(sect.crn)
     for time in fullTimes:
         time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
         time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
 
     return jsonify(fullTimes)
+
+
 @app.route("/api/getSectionTimesDays", methods=['GET'])
 def getSectionTimesDays():
     sect = Section.query.first()

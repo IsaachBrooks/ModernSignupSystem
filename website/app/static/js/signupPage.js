@@ -16,13 +16,21 @@ $(document).ready(function () {
             lastClicked = null;
         },
         mouseenter: function () {
-            lastTimeSlotHolderIndex = $(this).css('z-index');
-            $(this).css('z-index', '9999');
-            $(this).css('border', '1px solid white');
+            let crnSel = $(this)[0].getAttribute('data-crn')
+            let fullSect = $(`[data-crn="${crnSel}"]`);
+            for (let i = 0; i < fullSect.length; i++) {
+                lastTimeSlotHolderIndex = fullSect[i].style.zIndex;
+                fullSect[i].style.zIndex = 9999;
+                fullSect[i].style.border = '1px solid white';
+            }
         },
         mouseleave: function() {
-            $(this).css('z-index', `${lastTimeSlotHolderIndex}`);
-            $(this).css('border', 'unset')
+            let crnSel = $(this)[0].getAttribute('data-crn')
+            let fullSect = $(`[data-crn="${crnSel}"]`);
+            for (let i = 0; i < fullSect.length; i++) {
+                fullSect[i].style.zIndex = lastTimeSlotHolderIndex;
+                fullSect[i].style.border = 'unset';
+            }
             lastTimeSlotHolderIndex = null;
         }
         
