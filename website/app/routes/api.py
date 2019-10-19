@@ -76,11 +76,16 @@ def getSectionTimesDays():
     return jsonify(section)
 
 
-"""
-@app.route("/api/get", methods=['GET'])
-def get():
+@app.route("/api/get", methods=['POST'])
+def getSectionsInformation(sectionsString):
     pass
+    sects = [int(crn) for crn in sectionsString.split(',')]
+    sectionList = []
+    for sect in sects:
+        sectionList.append(Section.query.filter(Section.crn == sect).first().serialize())
+    return jsonify(sectionList)
 
+"""
 @app.route("/api/name", methods=['GET'])
 def name():
     pass
