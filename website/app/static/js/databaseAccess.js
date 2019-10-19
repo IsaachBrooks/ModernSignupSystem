@@ -23,3 +23,15 @@ export async function getSectionTimesDay() {
         console.log(error);
     }
 }
+
+async function getSectionsInformation(sectionList) {
+    const url = `/api/getSectionsInformation/sCRNs?=[${sectionList}]`;
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

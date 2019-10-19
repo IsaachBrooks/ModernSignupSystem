@@ -76,10 +76,10 @@ def getSectionTimesDays():
     return jsonify(section)
 
 
-@app.route("/api/get", methods=['POST'])
-def getSectionsInformation(sectionsString):
+@app.route("/api/getSectionsInformation/sCRNs?=<string:sCRNs>", methods=['GET'])
+def getSectionsInformation(sCRNs):
     pass
-    sects = [int(crn) for crn in sectionsString.split(',')]
+    sects = [int(crn) for crn in sCRNs.split(',')]
     sectionList = []
     for sect in sects:
         sectionList.append(Section.query.filter(Section.crn == sect).first().serialize())
