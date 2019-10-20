@@ -21,7 +21,7 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
     let r = rgb[0];
     let g = rgb[1];
     let b = rgb[2];
-    let bgColor = "rgba(" + r + "," + g + "," + b + ", 1)";
+    let bgColor = "rgba(" + r + "," + g + "," + b + ", 0.65)";
     newTime.style.backgroundColor = bgColor;
     newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} classes<br>${classes}</p>`
     //newTime.className = `time-slot-${time} ${day}-obj`;
