@@ -11,38 +11,17 @@ function drawGrid() {
     ctx.scale(2, 2);
     ctx.font = "12px Arial";
     ctx.beginPath()
-    for (let y = 40; y <= 2400; y+=85) {
+    for (let y = 40; y <= 2800; y+=85) {
         ctx.moveTo(0, y);
         ctx.lineTo(width * 2, y);
-        if (hr > 13)
-            ctx.fillText(`${hr.toString().padStart(0,2)}:00PM`, 2, y-3);
+        if (hr > 12)
+            ctx.fillText(`${(hr-12).toString()}:00PM`, 2, y-3);
         else if (hr == 12) 
             ctx.fillText("12:00PM", 2, y-3);
         else 
-            ctx.fillText(`${hr.toString().padStart(0,2)}:00AM`, 2, y-3);
+            ctx.fillText(`${hr.toString()}:00AM`, 2, y-3);
         hr++;
     }
-    /*
-    //Far left Monday line
-    ctx.moveTo(60, 0);
-    ctx.lineTo(60, 2400);
-
-    //Monday Tuesday seperator
-    ctx.moveTo(214.4, 0);
-    ctx.lineTo(214.4, 2400);
-
-    //Tuesday Wednesday seperator
-    ctx.moveTo(368.5, 0);
-    ctx.lineTo(368.5, 2400);
-
-    //Wednesday Thursday seperator
-    ctx.moveTo(540, 0);
-    ctx.lineTo(540, 2400);
-
-    //Thursday Friday seperator
-    ctx.moveTo(697.3, 0);
-    ctx.lineTo(697.3, 2400);
-    */
 
     ctx.stroke();
 

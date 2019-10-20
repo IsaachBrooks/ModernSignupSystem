@@ -61,7 +61,7 @@ content.signup-holder {
 .day-holder {
     position: relative;
     width: auto;
-    height: 100%;
+    height: 1230px;
 }
 
 .day-header {
@@ -77,21 +77,26 @@ content.signup-holder {
 #mon-holder {
     grid-area: mon;
     margin-left: 5em;
+    border-left: 2px solid black;
 }
 #tue-holder {
     grid-area: tue;
+    border-left: 2px solid black;
     
 }
 #wed-holder {
     grid-area: wed;
+    border-left: 2px solid black;
     
 }
 #thu-holder {
     grid-area: thu;
+    border-left: 2px solid black;
     
 }
 #fri-holder {
     grid-area: fri;
+    border-left: 2px solid black;
 }
 
 #selected-holder {
