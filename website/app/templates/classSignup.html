@@ -2,7 +2,7 @@
 
 {% block content %}
 <content class="signup-holder">
-    <div class="signdiv signup-main">
+    <div id="signup-main" class="signdiv signup-main">
         <div class="day-holder" id="mon-holder">
             <div class="day-header" id="mon-header">Monday</div>
         </div>
@@ -25,6 +25,7 @@
     <div id="button-holder" class="signdiv signup-btn mt-4 mb-2">Buttons</div>
 </content>
 
+<script src="{{ url_for('static', filename='js/drawTimeGrid.js') }}"></script>
 <script src="{{ url_for('static', filename='js/databaseAccess.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/drawTimes.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/selectTimes.js') }}" type="module"></script>

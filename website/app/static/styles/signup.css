@@ -16,6 +16,7 @@ content.signup-holder {
 
 .signup-main {
     background-color: white;
+    position: relative;
     grid-area: main;
     min-height: 400px;
     height: 60vh;
@@ -58,14 +59,15 @@ content.signup-holder {
 }
 
 .day-holder {
-    background-color: lightgray;
     position: relative;
     width: auto;
     height: 100%;
-    border: 2px solid black;
 }
+
 .day-header {
+    background-color: lightgray;
     text-align: center;
+    font-weight: bold;
     position: sticky;
     width: auto;
     height: 2em; 
@@ -74,28 +76,26 @@ content.signup-holder {
 
 #mon-holder {
     grid-area: mon;
-    margin-left: 1em;
-    margin-right: 1em;
+    margin-left: 5em;
 }
 #tue-holder {
     grid-area: tue;
-    margin-right: 1em;
+    
 }
 #wed-holder {
     grid-area: wed;
-    margin-right: 1em;
+    
 }
 #thu-holder {
     grid-area: thu;
-    margin-right: 1em;
+    
 }
 #fri-holder {
     grid-area: fri;
-    margin-right: 1em;
 }
 
 #selected-holder {
-    overflow-x: scroll;
+    overflow: auto;
 }
 
 #selected-list-holder {
@@ -138,11 +138,17 @@ content.signup-holder {
                                   supported by Chrome, Opera and Firefox */
 }
 
-
 .mon-obj {
     border: 1px black solid;
     width: auto;
     height: 75px;
 }
 
+#signup-grid-canvas {
+    float:left;
+    width: 100%;
+    height: 1200px;
+    z-index: 0;
+    position:absolute;
+}
 
