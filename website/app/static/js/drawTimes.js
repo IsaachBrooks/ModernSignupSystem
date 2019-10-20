@@ -1,11 +1,12 @@
 import { getSectionTimesDaysFull, getSectionTimesDay } from './databaseAccess.js';
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
-
+const allTimes = {};
 function newTimeSlot(day, time, count, rgb, classes, crns) {
     let dayElement = document.getElementById(`${day}-header`);
     let dayRect = dayElement.getBoundingClientRect();
     let newTime = document.createElement('div');
+    let dayHolder = document.getElementById(`${day}-holder`);
 
     let tStartHr = Math.floor((time[0] - 800) / 100);
     let tStartMin = (time[0] % 100) / 60;
@@ -21,12 +22,32 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
     let r = rgb[0];
     let g = rgb[1];
     let b = rgb[2];
-    let bgColor = "rgba(" + r + "," + g + "," + b + ", 0.65)";
+    let bgColor = "rgba(" + r + "," + g + "," + b + ", 1)";
     newTime.style.backgroundColor = bgColor;
     newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} classes<br>${classes}</p>`
-    //newTime.className = `time-slot-${time} ${day}-obj`;
-    let dayHolder = document.getElementById(`${day}-holder`);
-    dayHolder.appendChild(newTime); 
+
+
+    //Deals with multiple times within the same slot.
+    if (!allTimes[`${day}-${time[0]}`]) {
+        allTimes[`${day}-${time[0]}`] = [];
+    } else {
+        let existing = allTimes[`${day}-${time[0]}`];
+        let numSects = existing.length + 1;
+        let width = Math.floor(100/numSects);
+        newTime.style.width = `${width}%`
+        let widthOffset;
+        let count = 0;
+        existing.forEach((ex) => {
+            ex.style.width = `${width}%`;
+            if (!widthOffset) widthOffset = ex.clientWidth;
+            ex.style.left = `${widthOffset * count++}px`;
+        })
+        newTime.style.left = `${widthOffset * count}px`;
+        console.log(newTime.style.left);
+    }
+    allTimes[`${day}-${time[0]}`].push(newTime);
+
+    dayHolder.appendChild(newTime);
 }
 
 export function drawTimesFull(times) {
@@ -58,6 +79,7 @@ function getSectionLength(tStart, tEnd) {
 const sections = getSectionTimesDaysFull().then((data) => {
 
     drawTimesFull(data);
+    console.log(allTimes);
 
 });
 

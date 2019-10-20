@@ -24,17 +24,25 @@ $(document).ready(function () {
             let crnSel = $(this)[0].getAttribute('data-crn');
             let fullSect = $(`[data-crn="${crnSel}"]`);
             for (let i = 0; i < fullSect.length; i++) {
-                lastTimeSlotHolderIndex = fullSect[i].style.zIndex;
-                fullSect[i].style.zIndex = 9999;
-                fullSect[i].style.border = '1px solid white';
+                let cur = fullSect[i];
+                lastTimeSlotHolderIndex = cur.style.zIndex;
+                cur.style.zIndex = 9999;
+                cur.style.border = '1px solid white';
+                cur.setAttribute('data-orig-width', cur.style.width);
+                cur.style.width = '100%'
+                cur.setAttribute('data-orig-offset-left', cur.style.left);
+                cur.style.left = '0px';
             }
         },
         mouseleave: function() {
             let crnSel = $(this)[0].getAttribute('data-crn');
             let fullSect = $(`[data-crn="${crnSel}"]`);
             for (let i = 0; i < fullSect.length; i++) {
-                fullSect[i].style.zIndex = lastTimeSlotHolderIndex;
-                fullSect[i].style.border = '1px black solid';
+                let cur = fullSect[i];
+                cur.style.zIndex = lastTimeSlotHolderIndex;
+                cur.style.border = '1px black solid';
+                cur.style.width = cur.getAttribute('data-orig-width');
+                cur.style.left = cur.getAttribute('data-orig-offset-left');
             }
             lastTimeSlotHolderIndex = null;
         }
@@ -43,7 +51,6 @@ $(document).ready(function () {
 
 
     const sectionInfo = $('.section-info-main');
-    console.log(sectionInfo);
 
     $("#selected-holder").on({
         click: function() {
@@ -52,6 +59,12 @@ $(document).ready(function () {
     }, "div.selected-list-elem");
 
     $("#section-info-close").on({
+        click: function() {
+            sectionInfo.css('visibility', 'hidden');
+        }
+    });
+
+    $("#section-info-signup").on({
         click: function() {
             sectionInfo.css('visibility', 'hidden');
         }
