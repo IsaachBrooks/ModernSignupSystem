@@ -41,4 +41,19 @@ $(document).ready(function () {
         
     }, 'div.time-slot-holder');
 
+
+    const sectionInfo = $('.section-info-main');
+    console.log(sectionInfo);
+
+    $("#selected-holder").on({
+        click: function() {
+            sectionInfo.css('visibility', 'unset');
+        }
+    }, "div.selected-list-elem");
+
+    $("#section-info-close").on({
+        click: function() {
+            sectionInfo.css('visibility', 'hidden');
+        }
+    });
 })

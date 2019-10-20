@@ -8,10 +8,15 @@ content.signup-holder {
     "cur main main main sel"
     "cur main main main sel"
     ". btn btn btn .";
+    
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1920px;
 }
 
 .signdiv {
     border: 3px black solid;
+    border-radius: 5px;
 }
 
 .signup-main {
@@ -100,20 +105,33 @@ content.signup-holder {
 }
 
 #selected-holder {
-    overflow: auto;
+    position: relative;
+    overflow-x: scroll;
+    white-space: nowrap;
+    
+    
 }
 
 #selected-list-holder {
     list-style-type: none;
-    float: left;
 }
 
 .selected-list-elem {
     padding: .25em;
-    margin: 1px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
     border: 1px solid black;
     box-shadow: 2px 3px black;
-    max-width: 30em;
+    /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
 }
 
 .selected-list-elem:hover {
@@ -143,12 +161,6 @@ content.signup-holder {
                                   supported by Chrome, Opera and Firefox */
 }
 
-.mon-obj {
-    border: 1px black solid;
-    width: auto;
-    height: 75px;
-}
-
 #signup-grid-canvas {
     float:left;
     width: 100%;
@@ -157,3 +169,83 @@ content.signup-holder {
     position:absolute;
 }
 
+.section-info-main {
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    grid-area: main;
+    min-height: 400px;
+    height: 60vh;
+    min-width: 800px;
+    z-index: 9999;
+    visibility: unset;
+}
+
+.section-info-content {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+    "head head head "
+    "time days date"
+    "extra extra instructor" 
+    "desc desc desc";
+    grid-template-rows: 3em 2em 2em auto;
+}
+
+.section-info {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+.si-header {
+    grid-area: head;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.75em;
+}
+
+.si-time {
+    grid-area: time;
+    
+    
+}
+
+.si-days {
+    grid-area: days;
+    
+    
+}
+
+.si-date {
+    grid-area: date;
+    
+    
+}
+
+.si-instructor {
+    grid-area: instructor;
+    
+    
+}
+.si-extra {
+    grid-area: extra;
+    
+    
+}
+
+.si-description {
+    grid-area: desc;
+    
+}
+
+#section-info-close {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+#section-info-signup {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
