@@ -51,6 +51,7 @@ def getSectionTimesDaysFull():
                 time['count'] += 1
                 if sect.cID not in time['cID']:
                     time['cID'].append(sect.cID)
+                if sect.crn not in time['crn']:
                     time['crn'].append(sect.crn)
     for time in fullTimes:
         time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
@@ -74,7 +75,6 @@ def getSectionTimesDays():
 
 @app.route("/api/getSectionsInfo/[<string:sCRNs>]", methods=['GET'])
 def getSectionsInfo(sCRNs):
-    pass
     sects = [int(crn) for crn in sCRNs.split(',')]
     sectionList = []
     for sect in sects:
@@ -97,11 +97,12 @@ def getClassInfoMinimal(cID):
     return jsonify(ret)
 
 
-"""
-@app.route("/api/name", methods=['GET'])
-def name():
-    pass
+@app.route("/api/getSectionInfo/<string:sCRN>", methods=['GET'])
+def getSectionInfo(sCRN):
+    return jsonify(Section.query.filter(Section.crn == sCRN).first().serialize())
+    
 
+"""
 @app.route("/api/name", methods=['GET'])
 def name():
     pass

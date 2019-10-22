@@ -10,7 +10,7 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
 
     let tStartHr = Math.floor((time[0] - 800) / 100);
     let tStartMin = (time[0] % 100) / 60;
-    let tStart = tStartHr + tStartMin
+    let tStart = tStartHr + tStartMin;
     newTime.className = 'time-slot-holder';
     newTime.style.height = '75px';
     newTime.style.zIndex = `${time[0]}`;
@@ -24,7 +24,7 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
     let b = rgb[2];
     let bgColor = "rgba(" + r + "," + g + "," + b + ", 1)";
     newTime.style.backgroundColor = bgColor;
-    newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} classes<br>${classes}</p>`
+    newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} Classes</p>`
 
 
     //Deals with multiple times within the same slot.
@@ -34,20 +34,30 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
         let existing = allTimes[`${day}-${time[0]}`];
         let numSects = existing.length + 1;
         let width = Math.floor(100/numSects);
-        newTime.style.width = `${width}%`
+        newTime.style.width = `${width}%`;
         let widthOffset;
         let count = 0;
         existing.forEach((ex) => {
             ex.style.width = `${width}%`;
-            if (!widthOffset) widthOffset = ex.clientWidth;
+            if (!widthOffset) widthOffset = ex.clientWidth+2;
             ex.style.left = `${widthOffset * count++}px`;
         })
         newTime.style.left = `${widthOffset * count}px`;
-        console.log(newTime.style.left);
     }
     allTimes[`${day}-${time[0]}`].push(newTime);
 
     dayHolder.appendChild(newTime);
+}
+
+//unused
+function getSectionLength(tStart, tEnd) {
+    let tStartHr = Math.floor(tStart / 100);
+    let tStartMin = tStart % 100;
+    let tEndHr = Math.floor(tEnd / 100);
+    let tEndMin = tEnd % 100;
+    let d1 = new Date(0, 0, 0, tStartHr, tStartMin, 0);
+    let d2 = new Date(0, 0, 0, tEndHr, tEndMin, 0);
+    return ((d2 - d1)/1000)/60
 }
 
 export function drawTimesFull(times) {
@@ -71,15 +81,12 @@ export function drawTimesFull(times) {
     });
 }
 
-function getSectionLength(tStart, tEnd) {
-    //TODO:
-}
+
 
 
 const sections = getSectionTimesDaysFull().then((data) => {
 
     drawTimesFull(data);
-    console.log(allTimes);
 
 });
 

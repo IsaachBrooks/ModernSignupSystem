@@ -36,6 +36,18 @@ export async function getSectionsInfo(sectionList) {
     }
 }
 
+export async function getSectionInfo(crn) {
+    const url = `/api/getSectionInfo/${crn}`;
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export async function getClassInfo(cID) {
     const url = `/api/getClassInfo/${cID}`
     try {

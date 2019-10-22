@@ -25,7 +25,8 @@ content.signup-holder {
     grid-area: main;
     min-height: 400px;
     height: 60vh;
-    min-width: 800px;
+    --main-width: 70vw;
+    width: var(--main-width);
     display: grid;
     grid-template-areas:
     "mon tue wed thu fri";
@@ -36,14 +37,16 @@ content.signup-holder {
     background-color: rgb(141, 182, 141);
     grid-area: cur;
     min-height: 400px;
-    min-width: 100px;
+    min-width: 12vw;
 }
 
 .signup-sel {
     background-color: rgb(167, 112, 112);
     grid-area: sel;
     min-height: 400px;
-    min-width: 100px;
+    min-width: 13vw;
+    position: relative;
+    overflow: auto;
 
 }
 
@@ -51,7 +54,7 @@ content.signup-holder {
     background-color: gray;
     grid-area: opt;
     overflow: auto;
-    min-width: 200px;
+    width: var(--main-width);
     height: 100px;
 }
 
@@ -59,7 +62,7 @@ content.signup-holder {
     background-color: gray;
     grid-area: btn;
     overflow: auto;
-    min-width: 200px;
+    width: var(--main-width);
     height: 100px;
 }
 
@@ -73,43 +76,35 @@ content.signup-holder {
     background-color: lightgray;
     text-align: center;
     font-weight: bold;
+    font-size: 1.6em;
     position: sticky;
     width: auto;
-    height: 2em; 
-    border-bottom: 1px black solid;   
+    border-bottom: 2px black solid;   
 }
 
 #mon-holder {
     grid-area: mon;
     margin-left: 5em;
-    border-left: 2px solid black;
+    border-left: .25em solid black;
 }
 #tue-holder {
     grid-area: tue;
-    border-left: 2px solid black;
+    border-left: .25em solid black;
     
 }
 #wed-holder {
     grid-area: wed;
-    border-left: 2px solid black;
+    border-left: .25em solid black;
     
 }
 #thu-holder {
     grid-area: thu;
-    border-left: 2px solid black;
+    border-left: .25em solid black;
     
 }
 #fri-holder {
     grid-area: fri;
-    border-left: 2px solid black;
-}
-
-#selected-holder {
-    position: relative;
-    overflow-x: scroll;
-    white-space: nowrap;
-    
-    
+    border-left: .25em solid black;
 }
 
 #selected-list-holder {
@@ -124,6 +119,7 @@ content.signup-holder {
     margin-bottom: 2px;
     border: 1px solid black;
     box-shadow: 2px 3px black;
+    position: relative;
     /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */

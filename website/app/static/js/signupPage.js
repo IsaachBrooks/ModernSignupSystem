@@ -1,4 +1,4 @@
-import drawSelected from './selectTimes.js';
+import { drawSelected, updateSectionInfo } from './selectTimes.js';
 $(document).ready(function () {
 
     let lastTimeSlotHolderIndex;
@@ -54,6 +54,12 @@ $(document).ready(function () {
 
     $("#selected-holder").on({
         click: function() {
+            updateSectionInfo(
+                $(this).data('crn'),
+                $(this).data('dcode'),
+                $(this).data('cnumber'),
+                $(this).data('cname')
+            );
             sectionInfo.css('visibility', 'unset');
         }
     }, "div.selected-list-elem");

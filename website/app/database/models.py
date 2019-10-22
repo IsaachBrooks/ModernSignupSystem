@@ -282,6 +282,7 @@ class Section(BaseTable):
             'wed' : self.wed,
             'thu' : self.thu,
             'fri' : self.fri,
+            'days': self.getDayString(),
             'tStart' : self.tStart.strftime('%H:%M:%S'),
             'tEnd' : self.tEnd.strftime('%H:%M:%S'),
             'dateStart' : self.dateStart.strftime('%Y-%m-%d'),
