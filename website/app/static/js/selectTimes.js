@@ -66,6 +66,7 @@ export function updateSectionInfo(crn, cID) {
             let dateEnd = sectData.dateEnd;
             let capacity = sectData.capacity;
             let numCur = sectData.numCurEnrolled;
+
             siHeader.html(`<span id="header-info">${crn} - Section ${sec} - ${cName} - ${dCode + cNumber.toString()}</span>`);
             siTime.html(`<span id="times-info">Times: ${tStart} - ${tEnd}</span>`);
             siDays.html(`<span id="days-info">Days: ${days}</span>`);
