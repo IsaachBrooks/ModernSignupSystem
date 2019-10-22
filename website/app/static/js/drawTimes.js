@@ -1,5 +1,7 @@
 import { getSectionTimesDaysFull, getSectionTimesDay } from './databaseAccess.js';
 
+export default drawTimesFull;
+
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
 const allTimes = {};
 
@@ -44,9 +46,9 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
         existing.forEach((ex) => {
             ex.style.width = `${width}%`;
             if (!widthOffset) widthOffset = ex.clientWidth+2;
-            ex.style.left = `${widthOffset * count++}px`;
+            ex.style.left = `${width * count++}%`;
         })
-        newTime.style.left = `${widthOffset * count}px`;
+        newTime.style.left = `${width * count}%`;
     }
     allTimes[`${day}-${time[0]}`].push(newTime);
 
@@ -54,7 +56,7 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
 }
 
 //unused
-function getSectionLength(tStart, tEnd) {
+export function getSectionLength(tStart, tEnd) {
     let tStartHr = Math.floor(tStart / 100);
     let tStartMin = tStart % 100;
     let tEndHr = Math.floor(tEnd / 100);

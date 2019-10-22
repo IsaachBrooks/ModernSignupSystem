@@ -56,9 +56,7 @@ $(document).ready(function () {
         click: function() {
             updateSectionInfo(
                 $(this).data('crn'),
-                $(this).data('dcode'),
-                $(this).data('cnumber'),
-                $(this).data('cname')
+                $(this).data('cid')
             );
             sectionInfo.css('visibility', 'unset');
         }

@@ -84,7 +84,8 @@ def getSectionsInfo(sCRNs):
 @app.route("/api/getClassInfo/<int:cID>", methods=['GET'])
 def getClassInfo(cID):
     singleClass = Classes.query.filter(Classes.cID == cID).first()
-    return jsonify(singleClass.serialize())
+    if singleClass:
+        return jsonify(singleClass.serialize())
 
 @app.route("/api/getClassInfoMinimal/<int:cID>", methods=['GET'])
 def getClassInfoMinimal(cID):

@@ -200,6 +200,7 @@ class Classes(BaseTable):
         return {
             'cID' : self.cID,
             'dpID' : self.dpID,
+            'dCode': self.department.code,
             'cNumber' : self.cNumber,
             'name' : self.name,
             'degree' : [item.serializeForClasses() for item in self.degree],
