@@ -10,7 +10,7 @@ app = Flask(__name__, template_folder=template_dir)
 #app.config.from_object(Config)
 app.config['SECRET_KEY'] = 'jidhfisdlfidsf9d900ds90s0kk32009109dll299s9dd9s0a0l2pl3vmbnmv09'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1/testdb?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://SignUpApp:Master0fpuppets!@exallus.duckdns.org/testdb?charset=utf8mb4'
 
 db = SQLAlchemy(app)
 bc = Bcrypt(app)

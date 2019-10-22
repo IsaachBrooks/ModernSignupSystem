@@ -2,6 +2,9 @@ import { getSectionTimesDaysFull, getSectionTimesDay } from './databaseAccess.js
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
 const allTimes = {};
+
+let scaleFactor = 1.5;
+
 function newTimeSlot(day, time, count, rgb, classes, crns) {
     let dayElement = document.getElementById(`${day}-header`);
     let dayRect = dayElement.getBoundingClientRect();
@@ -11,10 +14,11 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
     let tStartHr = Math.floor((time[0] - 800) / 100);
     let tStartMin = (time[0] % 100) / 60;
     let tStart = tStartHr + tStartMin;
+    let len = getSectionLength(time[0], time[1]);
     newTime.className = 'time-slot-holder';
-    newTime.style.height = '75px';
+    newTime.style.height = `${1.5 * len}px`;
     newTime.style.zIndex = `${time[0]}`;
-    newTime.style.top = `${tStart * 85 + 40}px`;
+    newTime.style.top = `${tStart * (1.5 * 60) + 40}px`;
     let crnConcat = crns.reduce((accumulator, currentValue) => {
         return accumulator.toString() +',' + currentValue.toString();
     })

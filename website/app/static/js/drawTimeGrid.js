@@ -11,7 +11,7 @@ function drawGrid() {
     ctx.scale(2, 2);
     ctx.font = "12px Arial";
     ctx.beginPath()
-    for (let y = 40; y <= 2800; y+=85) {
+    for (let y = 40; y <= 2800; y+= 90) { // y+= 90 because of pixel scaling factor of 1.5x   90 = 60 * 1.5
         ctx.moveTo(0, y);
         ctx.lineTo(width * 2, y);
         if (hr > 12)
@@ -27,7 +27,7 @@ function drawGrid() {
 
     ctx.beginPath();
     ctx.setLineDash([5]);
-    for (let y = 85; y <= 2400; y+=85) {
+    for (let y = 85; y <= 2400; y+= 90) { // y+= 90 because of pixel scaling factor of 1.5x   90 = 60 * 1.5
         ctx.moveTo(30, y);
         ctx.lineTo(width * 2, y);
     }

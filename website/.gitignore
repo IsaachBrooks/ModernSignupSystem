@@ -1,5 +1,6 @@
 # Project exclude paths
 env/
+.venv/
 config.py
 *.txt
 .vscode
