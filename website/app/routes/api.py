@@ -103,11 +103,25 @@ def getSectionInfo(sCRN):
     return jsonify(Section.query.filter(Section.crn == sCRN).first().serialize())
     
 
-"""
-@app.route("/api/name", methods=['GET'])
+@app.route("/api/enrollStudent", methods=['POST'])
 def name():
-    pass
+    json = request.get_json()
+    crn = json['crn']
+    reply = ''
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    section = Section.query.filter(Section.crn == crn).first()
+    if (section not in student.classesEnrolled):
+        student.classesEnrolled.append(section)
+        section.numCurEnrolled += 1
+        db.session.commit()
+        print(student.classesEnrolled)
+        reply = 'Successfully enrolled in section!'
+    else:
+        print(student.classesEnrolled)        
+        reply = 'Could not enroll student in section.' 
+    return jsonify(reply)
 
+"""
 @app.route("/api/name", methods=['GET'])
 def name():
     pass

@@ -1,4 +1,5 @@
 import { drawSelected, updateSectionInfo } from './selectTimes.js';
+import { enrollStudent } from './databaseAccess.js';
 $(document).ready(function () {
 
     let lastTimeSlotHolderIndex;
@@ -70,7 +71,11 @@ $(document).ready(function () {
 
     $("#section-info-signup").on({
         click: function() {
-            sectionInfo.css('visibility', 'hidden');
+            let crn = $('#sec-info-content').data('crn');
+            let response = enrollStudent(crn);
+            response.then((data) => {
+                console.log(data);
+            });
         }
     });
 })

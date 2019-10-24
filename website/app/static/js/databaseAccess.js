@@ -49,7 +49,7 @@ export async function getSectionInfo(crn) {
 }
 
 export async function getClassInfo(cID) {
-    const url = `/api/getClassInfo/${cID}`
+    const url = `/api/getClassInfo/${cID}`;
     try {
         const response = await fetch(url);
         if (response.ok) {
@@ -61,7 +61,7 @@ export async function getClassInfo(cID) {
 }
 
 export async function getClassInfoMinimal(cID) {
-    const url = `/api/getClassInfoMinimal/${cID}`
+    const url = `/api/getClassInfoMinimal/${cID}`;
     try {
         const response = await fetch(url);
         if (response.ok) {
@@ -70,4 +70,27 @@ export async function getClassInfoMinimal(cID) {
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function enrollStudent(crn) {
+    const url = '/api/enrollStudent';
+    let data = {'crn': crn};
+    console.log(crn)
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            cache: 'no-cache',
+            credentials: 'include',
+            headers: {
+                "content-type": "application/json"
+            }
+        });
+        if (response.ok) {
+            console.log(crn);
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    
 }
