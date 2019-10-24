@@ -104,7 +104,7 @@ def getSectionInfo(sCRN):
     
 
 @app.route("/api/enrollStudent", methods=['POST'])
-def name():
+def enrollStudent():
     json = request.get_json()
     crn = json['crn']
     reply = ''
@@ -121,11 +121,14 @@ def name():
         reply = 'Could not enroll student in section.' 
     return jsonify(reply)
 
-"""
-@app.route("/api/name", methods=['GET'])
-def name():
-    pass
+@app.route("/api/getCurStudentSections", methods=['GET'])
+def getCurStudentSections():
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    sections = student.classesEnrolled
+    ret = [sect.serialize() for sect in sections]
+    return jsonify(ret)
 
+"""
     @app.route("/api/name", methods=['GET'])
 def name():
     pass

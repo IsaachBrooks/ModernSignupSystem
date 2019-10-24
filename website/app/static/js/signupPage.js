@@ -1,5 +1,7 @@
 import { drawSelected, updateSectionInfo } from './selectTimes.js';
+import { showCurrentEnrolled } from './drawCurrent.js'
 import { enrollStudent } from './databaseAccess.js';
+
 $(document).ready(function () {
 
     let lastTimeSlotHolderIndex;
@@ -78,4 +80,7 @@ $(document).ready(function () {
             });
         }
     });
+
+    showCurrentEnrolled();
+
 })

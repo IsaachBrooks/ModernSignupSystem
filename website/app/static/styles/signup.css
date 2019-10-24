@@ -108,11 +108,17 @@ content.signup-holder {
     border-left: .25em solid black;
 }
 
-#selected-list-holder {
-    list-style-type: none;
+.list-header {
+    background-color: lightgray;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    position: sticky;
+    width: auto;
+    border-bottom: 2px black solid; 
 }
 
-.selected-list-elem {
+.list-elem {
     padding: .25em;
     margin-left: 0;
     margin-right: 0;
@@ -131,11 +137,11 @@ content.signup-holder {
                                   supported by Chrome, Opera and Firefox */
 }
 
-.selected-list-elem:hover {
+.list-elem:hover {
     border: 1px solid white;
 }
 
-.selected-list-elem:active {
+.list-elem:active {
     background-color: #8b8b8b
 }
 
@@ -174,7 +180,7 @@ content.signup-holder {
     height: 60vh;
     min-width: 800px;
     z-index: 9999;
-    visibility: hidden;
+    visibility: unset;
     border-radius: 10px;
 
 }
@@ -257,8 +263,7 @@ content.signup-holder {
     bottom: 0;
     right: 0;
 }
-
-#section-info-signup {
+#section-info-selection {
     position: absolute;
     bottom: 0;
     left: 0;

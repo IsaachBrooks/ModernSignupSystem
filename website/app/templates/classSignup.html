@@ -12,8 +12,11 @@
             <div class="section-info si-chrs"></div>
             <div class="section-info si-instructor"></div>
             <div class="section-info si-description"></div>
-            <button id="section-info-close" class="btn-lg btn-danger mb-2 mr-2">Close</button>
-            <button id="section-info-signup" class="btn-lg btn-success mb-2 ml-2">Sign Up</button>
+            <button id="section-info-close" class="btn btn-danger mb-2 mr-2">Close</button>
+            <div id="section-info-selection" class="btn-group" role="group">
+                <button id="section-info-signup" class="btn btn-secondary btn-success mb-2 ml-2">Register</button>
+                <button id="section-info-remove" class="btn btn-secondary btn-dark mb-2 disabled">Unregister</button>
+            </div>
         </div>
     </div>
     <div id="signup-main" class="signdiv signup-main">
@@ -33,8 +36,14 @@
             <div class="day-header" id="fri-header">Friday</div>
         </div>
     </div>
-    <div id="selected-holder" class="signdiv signup-sel mr-4 ml-4"><!--ul id="selected-list-holder"></ul--></div>
-    <div id="current-holder" class="signdiv signup-cur mr-4 ml-4">CurClasses</div>
+    <div id="selected-holder" class="signdiv signup-sel mr-4 ml-4">
+        <div class="list-header" id="selected-header">Selected</div>
+        <div id="selected-list-holder"></div>
+    </div>
+    <div id="current-holder" class="signdiv signup-cur mr-4 ml-4">
+        <div class="list-header" id="current-header">Current</div>
+        <div id="current-list-holder"></div>
+    </div>
     <div id="option-holder" class="signdiv signup-opt mt-2 mb-4">Options</div>
     <div id="button-holder" class="signdiv signup-btn mt-4 mb-2">Buttons</div>
 </content>
@@ -42,6 +51,7 @@
 <script src="{{ url_for('static', filename='js/drawTimeGrid.js') }}"></script>
 <script src="{{ url_for('static', filename='js/databaseAccess.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/drawTimes.js') }}" type="module"></script>
+<script src="{{ url_for('static', filename='js/drawCurrent.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/selectTimes.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/signupPage.js') }}" type="module"></script>
 {% endblock content %}

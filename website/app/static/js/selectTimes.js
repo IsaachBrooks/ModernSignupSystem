@@ -2,20 +2,8 @@ import { getSectionsInfo, getClassInfoMinimal, getSectionInfo, getClassInfo } fr
 
 export default drawSelected;
 
-const selectListHolder = $('#selected-holder');
-
-const siHeader = $('.si-header');
-const siTime = $('.si-time');
-const siDays = $('.si-days');
-const siDate = $('.si-date');
-const siChrs = $('.si-chrs');
-const siExtra = $('.si-extra');
-const siInstructor = $('.si-instructor');
-const siDesc = $('.si-description');
-
-
-
 export function drawSelected(selectedCRNs) {
+    const selectListHolder = $('#selected-holder');
     if (selectListHolder.css('visibility') === 'hidden') {
         selectListHolder.css('visibility', 'unset');
     }
@@ -30,7 +18,7 @@ export function drawSelected(selectedCRNs) {
                 let cCodeNum =  dCode + cNumber;
                 let sec = elem.sec;
                 let sectLi = document.createElement('div');
-                sectLi.className = 'selected-list-elem';
+                sectLi.className = 'selected-list-elem list-elem';
                 sectLi.innerHTML = `${sec} ${cCodeNum} ${cName}`;
                 sectLi.setAttribute('data-crn', crn);
                 sectLi.setAttribute('data-cid', elem.cID);
@@ -41,6 +29,14 @@ export function drawSelected(selectedCRNs) {
 }
 
 export function updateSectionInfo(crn, cID) {
+    const siHeader = $('.si-header');
+    const siTime = $('.si-time');
+    const siDays = $('.si-days');
+    const siDate = $('.si-date');
+    const siChrs = $('.si-chrs');
+    const siExtra = $('.si-extra');
+    const siInstructor = $('.si-instructor');
+    const siDesc = $('.si-description');
     const sectionInfoHolder = $('#section-info-holder');
     const section = getSectionInfo(crn).then((sectData) => {
         const cl = getClassInfo(cID).then((classData) => {

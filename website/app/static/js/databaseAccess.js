@@ -92,5 +92,16 @@ export async function enrollStudent(crn) {
     } catch (error) {
         console.log(error)
     }
-    
+}
+
+export async function getCurStudentSections() {
+    const url = '/api/getCurStudentSections';
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
