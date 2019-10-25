@@ -1,5 +1,5 @@
 from app import db, bc
-from app.database.models import Student
+from app.database.student import Student
 
 def registerStudent(form):
     hashed_password = bc.generate_password_hash(form.password.data).decode('utf-8')

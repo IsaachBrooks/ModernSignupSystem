@@ -101,7 +101,5 @@ $(document).ready(function () {
             });
         }
     });
-
     showCurrentEnrolled();
-
 })

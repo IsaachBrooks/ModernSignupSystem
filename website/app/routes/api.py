@@ -1,6 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from app import app, db, bc
-from app.database.models import Section, Student, Classes, Degree
+from app.database.student import Student
+from app.database.degree import Degree
+from app.database.classes import Classes
+from app.database.section import Section 
 from flask_login import current_user
 
 
