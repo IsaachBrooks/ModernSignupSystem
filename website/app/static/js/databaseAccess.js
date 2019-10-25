@@ -75,7 +75,6 @@ export async function getClassInfoMinimal(cID) {
 export async function enrollStudent(crn) {
     const url = '/api/enrollStudent';
     let data = {'crn': crn};
-    console.log(crn)
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -87,7 +86,28 @@ export async function enrollStudent(crn) {
             }
         });
         if (response.ok) {
-            console.log(crn);
+            return response.json();
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function removeEnrolledClass(crn) {
+    const url = '/api/removeEnrolledClass';
+    let data = {'crn': crn};
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            cache: 'no-cache',
+            credentials: 'include',
+            headers: {
+                "content-type": "application/json"
+            }
+        });
+        if (response.ok) {
+            return response.json();
         }
     } catch (error) {
         console.log(error)
@@ -103,5 +123,17 @@ export async function getCurStudentSections() {
         }
     } catch (error) {
         console.log(error);
+    }
+}
+
+export async function isCurStudentRegisteredFor(crn) {
+    const url = `/api/isCurStudentRegisteredFor/${crn}`
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error)
     }
 }

@@ -1,6 +1,6 @@
 import { drawSelected, updateSectionInfo } from './selectTimes.js';
 import { showCurrentEnrolled } from './drawCurrent.js'
-import { enrollStudent } from './databaseAccess.js';
+import { enrollStudent, removeEnrolledClass } from './databaseAccess.js';
 
 $(document).ready(function () {
 
@@ -65,18 +65,39 @@ $(document).ready(function () {
         }
     }, "div.selected-list-elem");
 
+    $("#current-holder").on({
+        click: function() {
+            updateSectionInfo(
+                $(this).data('crn'),
+                $(this).data('cid')
+            );
+            sectionInfo.css('visibility', 'unset');
+        }
+    }, "div.current-list-elem");
+
     $("#section-info-close").on({
         click: function() {
             sectionInfo.css('visibility', 'hidden');
         }
     });
 
-    $("#section-info-signup").on({
+    $("#section-info-register").on({
         click: function() {
             let crn = $('#sec-info-content').data('crn');
-            let response = enrollStudent(crn);
-            response.then((data) => {
-                console.log(data);
+            let response = enrollStudent(crn).then((data) => {
+                alert(data.reply);
+                showCurrentEnrolled();
+                updateSectionInfo();
+            });
+        }
+    });
+    $("#section-info-unregister").on({
+        click: function() {
+            let crn = $('#sec-info-content').data('crn');
+            let response = removeEnrolledClass(crn).then((data) => {
+                alert(data.reply);
+                showCurrentEnrolled();
+                updateSectionInfo();
             });
         }
     });

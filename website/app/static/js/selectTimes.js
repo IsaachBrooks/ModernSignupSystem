@@ -1,11 +1,12 @@
-import { getSectionsInfo, getClassInfoMinimal, getSectionInfo, getClassInfo } from "./databaseAccess.js";
+import { getSectionsInfo, getClassInfoMinimal, getSectionInfo, getClassInfo, isCurStudentRegisteredFor } from "./databaseAccess.js";
 
 export default drawSelected;
 
 export function drawSelected(selectedCRNs) {
-    const selectListHolder = $('#selected-holder');
-    if (selectListHolder.css('visibility') === 'hidden') {
-        selectListHolder.css('visibility', 'unset');
+    const selectHolder = $('#selected-holder');
+    const selectListHolder =  $('#selected-list-holder');
+    if (selectHolder.css('visibility') === 'hidden') {
+        selectHolder.css('visibility', 'unset');
     }
     selectListHolder.empty();
     const sections = getSectionsInfo(selectedCRNs).then((data) => {
@@ -28,7 +29,8 @@ export function drawSelected(selectedCRNs) {
     });
 }
 
-export function updateSectionInfo(crn, cID) {
+export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID = $("#sec-info-content").data('cid')) {
+    console.log(crn, cID);
     const siHeader = $('.si-header');
     const siTime = $('.si-time');
     const siDays = $('.si-days');
@@ -37,11 +39,10 @@ export function updateSectionInfo(crn, cID) {
     const siExtra = $('.si-extra');
     const siInstructor = $('.si-instructor');
     const siDesc = $('.si-description');
-    const sectionInfoHolder = $('#section-info-holder');
     const section = getSectionInfo(crn).then((sectData) => {
         const cl = getClassInfo(cID).then((classData) => {
-
             $('#sec-info-content').data('crn', crn);
+            $('#sec-info-content').data('cid', cID);
             //class data
             let cName = classData.name;
             let dCode = classData.dCode;
@@ -93,5 +94,18 @@ export function updateSectionInfo(crn, cID) {
             extraString += '</span>';
             siExtra.html(extraString);
         });
+    });
+    //If student is registered for section already, change view of unregister button
+    const enrolled = isCurStudentRegisteredFor(crn).then((data) => {
+        const unregister = $('#section-info-unregister');
+        if (data.result) {
+            unregister.addClass('btn-danger');
+            unregister.removeClass('btn-dark');
+            unregister.attr('disabled', false);
+        } else {
+            unregister.removeClass('btn-danger');
+            unregister.addClass('btn-dark');
+            unregister.attr('disabled', true);
+        }
     });
 }

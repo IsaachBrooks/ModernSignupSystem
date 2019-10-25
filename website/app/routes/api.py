@@ -114,12 +114,10 @@ def enrollStudent():
         student.classesEnrolled.append(section)
         section.numCurEnrolled += 1
         db.session.commit()
-        print(student.classesEnrolled)
         reply = 'Successfully enrolled in section!'
-    else:
-        print(student.classesEnrolled)        
+    else:        
         reply = 'Could not enroll student in section.' 
-    return jsonify(reply)
+    return jsonify({'reply': reply})
 
 @app.route("/api/getCurStudentSections", methods=['GET'])
 def getCurStudentSections():
@@ -128,8 +126,55 @@ def getCurStudentSections():
     ret = [sect.serialize() for sect in sections]
     return jsonify(ret)
 
+
+@app.route("/api/removeEnrolledClass", methods=['POST'])
+def removeEnrolledClass():
+    json = request.get_json()
+    crn = json['crn']
+    print(crn)
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    section = Section.query.filter(Section.crn == crn).first()
+    reply = ''
+    if section in student.classesEnrolled:
+        student.classesEnrolled.remove(section)
+        print(student.classesEnrolled)
+        section.numCurEnrolled -= 1
+        db.session.commit()
+        reply = 'Successfully unregister for section!'
+    else:
+        reply = 'Could not unregister for section.'
+    return jsonify({'reply': reply})
+    
+@app.route("/api/isCurStudentRegisteredFor/<int:crn>", methods=['GET'])
+def isCurStudentRegisteredFor(crn):
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    sections = student.classesEnrolled
+    if sections:
+        crns = [sect.crn for sect in sections]
+        if crn in crns:
+            return jsonify(result=True)
+    return jsonify(result=False)
+
 """
-    @app.route("/api/name", methods=['GET'])
-def name():
-    pass
+@app.route("/api/, methods=[])
+def api():
+    return jsonify(result)
+
+@app.route("/api/, methods=[])
+def api():
+    return jsonify(result)
+
+@app.route("/api/, methods=[])
+def api():
+    return jsonify(result)
+
+@app.route("/api/, methods=[])
+def api():
+    return jsonify(result)
+
+@app.route("/api/, methods=[])
+def api():
+    return jsonify(result)
+
 """
+

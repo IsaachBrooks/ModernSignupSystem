@@ -8,7 +8,6 @@ export function showCurrentEnrolled() {
     const currentListHolder = $('#current-list-holder');
     currentListHolder.empty();
     const sections = getCurStudentSections().then((data) => {
-        console.log(data);
         if (data) {
             if (currentHolder.css('visibility') === 'hidden') {
                 currentHolder.css('visibility', 'unset');
