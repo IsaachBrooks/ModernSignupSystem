@@ -1,0 +1,96 @@
+.section-info-main {
+    background-color: rgba(0, 0, 0, 0.541);
+    position: relative;
+    grid-area: main;
+    min-height: 400px;
+    height: 60vh;
+    min-width: 800px;
+    z-index: 9999;
+    visibility: hidden;
+    border-radius: 10px;
+
+}
+
+.section-info-content {
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    height: 75%;
+    width: 75%;
+    margin: auto;
+    margin-top: auto;
+    border-radius: 10px;
+    padding: .5em;
+    display: grid;
+    grid-template-areas:
+    "head head head "
+    "time days date"
+    "extra chrs instructor" 
+    "extra desc desc";
+    grid-template-rows: 3em 2em 2em auto;
+    grid-template-columns: 25% 15% 60%;
+    --corner-radius: 10px;
+}
+
+.section-info {
+    border: 1px solid black;
+    padding: .25em;
+}
+
+.si-header {
+    grid-area: head;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.75em;
+    border-top-left-radius: var(--corner-radius);
+    border-top-right-radius: var(--corner-radius);
+
+}
+
+.si-time {
+    grid-area: time;
+    
+}
+
+.si-days {
+    grid-area: days;
+    
+}
+
+.si-date {
+    grid-area: date;
+    text-align: right;
+    
+}
+
+.si-chrs {
+    grid-area: chrs;
+
+}
+
+.si-instructor {
+    grid-area: instructor;
+    
+    
+}
+.si-extra {
+    grid-area: extra;
+    border-bottom-left-radius: var(--corner-radius);    
+    
+}
+
+.si-description {
+    grid-area: desc;
+    border-bottom-right-radius: var(--corner-radius);
+    
+}
+
+#section-info-close {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+#section-info-selection {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

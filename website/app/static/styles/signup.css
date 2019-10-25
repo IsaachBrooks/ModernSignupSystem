@@ -91,58 +91,18 @@ content.signup-holder {
 #tue-holder {
     grid-area: tue;
     border-left: .25em solid black;
-    
 }
 #wed-holder {
     grid-area: wed;
     border-left: .25em solid black;
-    
 }
 #thu-holder {
     grid-area: thu;
     border-left: .25em solid black;
-    
 }
 #fri-holder {
     grid-area: fri;
     border-left: .25em solid black;
-}
-
-.list-header {
-    background-color: lightgray;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2em;
-    position: sticky;
-    width: auto;
-    border-bottom: 2px black solid; 
-}
-
-.list-elem {
-    padding: .25em;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    border: 1px solid black;
-    box-shadow: 2px 3px black;
-    position: relative;
-    /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Opera and Firefox */
-}
-
-.list-elem:hover {
-    border: 1px solid white;
-}
-
-.list-elem:active {
-    background-color: #8b8b8b
 }
 
 .time-slot-holder {
@@ -170,101 +130,4 @@ content.signup-holder {
     height: 1200px;
     z-index: 0;
     position:absolute;
-}
-
-.section-info-main {
-    background-color: rgba(0, 0, 0, 0.541);
-    position: relative;
-    grid-area: main;
-    min-height: 400px;
-    height: 60vh;
-    min-width: 800px;
-    z-index: 9999;
-    visibility: unset;
-    border-radius: 10px;
-
-}
-
-.section-info-content {
-    background-color: rgb(255, 255, 255);
-    position: relative;
-    height: 75%;
-    width: 75%;
-    margin: auto;
-    margin-top: auto;
-    border-radius: 10px;
-    padding: .5em;
-    display: grid;
-    grid-template-areas:
-    "head head head "
-    "time days date"
-    "extra chrs instructor" 
-    "extra desc desc";
-    grid-template-rows: 3em 2em 2em auto;
-    grid-template-columns: 25% 15% 60%;
-    --corner-radius: 10px;
-}
-
-.section-info {
-    border: 1px solid black;
-    padding: .25em;
-}
-
-.si-header {
-    grid-area: head;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.75em;
-    border-top-left-radius: var(--corner-radius);
-    border-top-right-radius: var(--corner-radius);
-
-}
-
-.si-time {
-    grid-area: time;
-    
-}
-
-.si-days {
-    grid-area: days;
-    
-}
-
-.si-date {
-    grid-area: date;
-    text-align: right;
-    
-}
-
-.si-chrs {
-    grid-area: chrs;
-
-}
-
-.si-instructor {
-    grid-area: instructor;
-    
-    
-}
-.si-extra {
-    grid-area: extra;
-    border-bottom-left-radius: var(--corner-radius);    
-    
-}
-
-.si-description {
-    grid-area: desc;
-    border-bottom-right-radius: var(--corner-radius);
-    
-}
-
-#section-info-close {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-#section-info-selection {
-    position: absolute;
-    bottom: 0;
-    left: 0;
 }
