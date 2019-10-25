@@ -102,9 +102,24 @@ def getClassInfoMinimal(cID):
 def getSectionInfo(sCRN):
     return jsonify(Section.query.filter(Section.crn == sCRN).first().serialize())
     
+@app.route("/api/getCurStudentSections", methods=['GET'])
+def getCurStudentSections():
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    sections = student.classesEnrolled
+    ret = [sect.serialize() for sect in sections]
+    return jsonify(ret)
+
 
 @app.route("/api/enrollStudent", methods=['POST'])
 def enrollStudent():
+    #Need to add lots of error checking
+    #Section at capacity
+    #Prereqs not met
+    #Overlapping schedule
+    #prompt to register for lab section, maybe do this in javascript?
+    #already registered for same class in another section
+    #maybe some warnings about not needed certain classes
+    #if a section is full, suggest another
     json = request.get_json()
     crn = json['crn']
     reply = ''
@@ -115,20 +130,14 @@ def enrollStudent():
         section.numCurEnrolled += 1
         db.session.commit()
         reply = 'Successfully enrolled in section!'
-    else:        
+    else:
         reply = 'Could not enroll student in section.' 
     return jsonify({'reply': reply})
 
-@app.route("/api/getCurStudentSections", methods=['GET'])
-def getCurStudentSections():
-    student = Student.query.filter(Student.sID == current_user.get_id()).first()
-    sections = student.classesEnrolled
-    ret = [sect.serialize() for sect in sections]
-    return jsonify(ret)
-
-
 @app.route("/api/removeEnrolledClass", methods=['POST'])
 def removeEnrolledClass():
+    #Need to add lots of error checking
+    #Check for linked sections, and remove those as well
     json = request.get_json()
     crn = json['crn']
     print(crn)
