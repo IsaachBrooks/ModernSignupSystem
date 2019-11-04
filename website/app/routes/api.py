@@ -3,7 +3,8 @@ from app import app, db, bc
 from app.database.student import Student
 from app.database.degree import Degree
 from app.database.classes import Classes
-from app.database.section import Section 
+from app.database.section import Section
+from app.Scripts.validator import verifyCanEnroll 
 from flask_login import current_user
 
 
@@ -128,14 +129,10 @@ def enrollStudent():
     reply = ''
     student = Student.query.filter(Student.sID == current_user.get_id()).first()
     section = Section.query.filter(Section.crn == crn).first()
-    if (section not in student.classesEnrolled):
-        student.classesEnrolled.append(section)
-        section.numCurEnrolled += 1
-        db.session.commit()
-        reply = 'Successfully enrolled in section!'
-    else:
-        reply = 'Could not enroll student in section.' 
-    return jsonify({'reply': reply})
+    reply, success = verifyCanEnroll(student, section)
+    if success: 
+        student.enroll(section)
+    return jsonify({'reply': reply, 'success': success})
 
 @app.route("/api/removeEnrolledClass", methods=['POST'])
 def removeEnrolledClass():

@@ -1,5 +1,5 @@
 from app import db, loginManager
-from app.database.models import BaseTable, student_cur_enroll
+from app.database.models import BaseTable, student_cur_enroll, serializeRelation
 from flask_login import UserMixin
 
 
@@ -51,6 +51,10 @@ class Student(BaseTable, UserMixin):
             'classesEnrolled' : serializeRelation(self.classesEnrolled)
         }
     
+    def enroll(self, section):
+        self.classesEnrolled.append(section)
+        section.numCurEnrolled += 1
+        db.session.commit()
 
     def __repr__(self):
         return f"Student('{self.fname + ' ' + self.lname}', id={self.sID})"
