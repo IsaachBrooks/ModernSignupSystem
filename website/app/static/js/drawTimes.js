@@ -45,7 +45,7 @@ function newTimeSlot(day, time, count, rgb, classes, crns, slot) {
         } else {
             let existing = allTimes[`${day}-${time[0]}`];
             let numSects = existing.length + 1;
-            let width = Math.floor(100/numSects);
+            let width = (100/numSects);
             newTime.style.width = `${width}%`;
             let widthOffset;
             let count = 0;
