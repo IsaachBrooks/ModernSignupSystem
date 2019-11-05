@@ -1,4 +1,4 @@
-import { getSectionTimesDaysFull, getSectionTimesDay, getStudentSectionsDraw } from './databaseAccess.js';
+import { getSectionTimesDaysFull, getStudentSectionsDraw } from './databaseAccess.js';
 
 export default drawTimesFull;
 
