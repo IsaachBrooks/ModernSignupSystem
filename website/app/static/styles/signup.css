@@ -29,7 +29,9 @@ content.signup-holder {
     width: var(--main-width);
     display: grid;
     grid-template-areas:
-    "mon tue wed thu fri";
+    ". mon tue wed thu fri";
+    grid-template-columns: 5em 1fr 1fr 1fr 1fr 1fr;
+    
     overflow: auto;
 }
 
@@ -87,7 +89,6 @@ content.signup-holder {
 
 .mon-holder {
     grid-area: mon;
-    margin-left: 5em;
     border-left: .25em solid black;
 }
 .tue-holder {
