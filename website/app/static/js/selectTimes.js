@@ -9,6 +9,7 @@ export function drawSelected(selectedCRNs) {
         selectHolder.css('visibility', 'unset');
     }
     selectListHolder.empty();
+    console.log(selectedCRNs);
     const sections = getSectionsInfo(selectedCRNs).then((data) => {
         data.forEach((elem) => {
             const curClass = getClassInfoMinimal(elem.cID).then((classData) => {

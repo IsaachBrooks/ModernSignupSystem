@@ -164,15 +164,38 @@ def isCurStudentRegisteredFor(crn):
             return jsonify(result=True)
     return jsonify(result=False)
 
+@app.route("/api/getStudentSectionListFull", methods=['GET'])
+def getStudentSectionListFull():
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    sections = student.classesEnrolled
+    return jsonify([sect.serialize() for sect in sections])
+
+@app.route("/api/getStudentSectionsDraw", methods=['GET'])
+def getStudentSectionsDraw():
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    sects = student.classesEnrolled
+
+    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri, sect.cID, sect.crn) for sect in sects]
+    times = set(times)
+    fullTimes = []
+
+    for time in times:
+        d = {}
+        d['tStart'] = time[0]
+        d['tEnd'] = time[1]
+        d['days'] = [time[2], time[3], time[4], time[5], time[6]]
+        d['count'] = 1
+        d['cID'] = [time[7]]
+        d['crn'] = [time[8]]
+        fullTimes.append(d)
+    
+    for time in fullTimes:
+        time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
+        time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
+
+    return jsonify(fullTimes)
+
 """
-@app.route("/api/, methods=[])
-def api():
-    return jsonify(result)
-
-@app.route("/api/, methods=[])
-def api():
-    return jsonify(result)
-
 @app.route("/api/, methods=[])
 def api():
     return jsonify(result)

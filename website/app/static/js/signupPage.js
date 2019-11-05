@@ -1,6 +1,7 @@
 import { drawSelected, updateSectionInfo } from './selectTimes.js';
 import { showCurrentEnrolled } from './drawCurrent.js'
 import { enrollStudent, removeEnrolledClass } from './databaseAccess.js';
+import { updateCurTimes } from './drawTimes.js';
 
 $(document).ready(function () {
 
@@ -25,7 +26,8 @@ $(document).ready(function () {
         },
         mouseenter: function () {
             let crnSel = $(this)[0].getAttribute('data-crn');
-            let fullSect = $(`[data-crn="${crnSel}"]`);
+            let cName = $(this)[0].className.replace(' ', '.');
+            let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
             for (let i = 0; i < fullSect.length; i++) {
                 let cur = fullSect[i];
                 lastTimeSlotHolderIndex = cur.style.zIndex;
@@ -39,7 +41,8 @@ $(document).ready(function () {
         },
         mouseleave: function() {
             let crnSel = $(this)[0].getAttribute('data-crn');
-            let fullSect = $(`[data-crn="${crnSel}"]`);
+            let cName = $(this)[0].className.replace(' ', '.');
+            let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
             for (let i = 0; i < fullSect.length; i++) {
                 let cur = fullSect[i];
                 cur.style.zIndex = lastTimeSlotHolderIndex;
@@ -75,6 +78,13 @@ $(document).ready(function () {
         }
     }, "div.current-list-elem");
 
+    $("#switch-view").on({
+        click: function() {
+            let vis = $("#curClasses-main").css('visibility');
+            $("#curClasses-main").css('visibility', $("#signup-main").css('visibility'));
+            $("#signup-main").css('visibility', vis);
+        }
+    })
     $("#section-info-close").on({
         click: function() {
             sectionInfo.css('visibility', 'hidden');
@@ -88,6 +98,7 @@ $(document).ready(function () {
                 alert(data.reply);
                 showCurrentEnrolled();
                 updateSectionInfo();
+                updateCurTimes();
             });
         }
     });
@@ -98,6 +109,7 @@ $(document).ready(function () {
                 alert(data.reply);
                 showCurrentEnrolled();
                 updateSectionInfo();
+                updateCurTimes();
             });
         }
     });

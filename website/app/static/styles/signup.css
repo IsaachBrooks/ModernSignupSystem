@@ -53,6 +53,7 @@ content.signup-holder {
 
 .signup-opt {
     background-color: gray;
+    position: relative;
     grid-area: opt;
     overflow: auto;
     width: var(--main-width);
@@ -60,6 +61,7 @@ content.signup-holder {
 }
 
 .signup-btn {
+    position: relative;
     background-color: gray;
     grid-area: btn;
     overflow: auto;
@@ -83,24 +85,24 @@ content.signup-holder {
     border-bottom: 2px black solid;   
 }
 
-#mon-holder {
+.mon-holder {
     grid-area: mon;
     margin-left: 5em;
     border-left: .25em solid black;
 }
-#tue-holder {
+.tue-holder {
     grid-area: tue;
     border-left: .25em solid black;
 }
-#wed-holder {
+.wed-holder {
     grid-area: wed;
     border-left: .25em solid black;
 }
-#thu-holder {
+.thu-holder {
     grid-area: thu;
     border-left: .25em solid black;
 }
-#fri-holder {
+.fri-holder {
     grid-area: fri;
     border-left: .25em solid black;
 }

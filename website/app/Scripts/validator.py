@@ -45,19 +45,30 @@ def verifyCanEnroll(student, section):
     #check student is not enrolled in section
     if (section in studentEnrolled):
         return 'You are already enrolled in this section', False
+
+    #check student is not enrolled in another section of same class
+    #if they are, prompt if they want to switch if they can take this section
+    cID = section.cID
+    curCIDs = [sect.cID for sect in studentEnrolled]
+    if cID in curCIDs:
+        return 'You are already enrolled for the class in another section', False
+
     #check student meets prereqs
     prereqs = sectClass.prereqs
     for prereq in prereqs:
         if prereq not in studentTaken:
             return f'You have not taken pre-requisite class {prereq.getShortName()}', False
+
     #check student schedule does not overlap
     for eSect in studentEnrolled:
         if verifyDayTimeNoOverlap(eSect, section):
             return f'This section overlaps with your existing section for {eSect.sectFor.getShortName()}', False
+
     #check for lab sections and prompt response on webpage
     #if sectClass.linkedClass or sectClass.linkedTo:
     #   print('evil')
     #  return 'Couldn\'t Enroll', False
+
     #check section at capacity and prompt response if section is full
     if section.capacity == section.numCurEnrolled:
         #prompt for additional sections here

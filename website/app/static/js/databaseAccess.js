@@ -12,6 +12,30 @@ export async function getSectionTimesDaysFull() {
     }
 }
 
+export async function getStudentSectionListFull() {
+    const url = '/api/getStudentSectionListFull';
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getStudentSectionsDraw() {
+    const url = '/api/getStudentSectionsDraw';
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export async function getSectionTimesDay() {
     const url = '/api/getSectionTimesDays';
     try {

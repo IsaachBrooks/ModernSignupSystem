@@ -1,29 +1,34 @@
-import { getSectionTimesDaysFull, getSectionTimesDay } from './databaseAccess.js';
+import { getSectionTimesDaysFull, getSectionTimesDay, getStudentSectionsDraw } from './databaseAccess.js';
 
 export default drawTimesFull;
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
-const allTimes = {};
+let allTimes = {};
 
 let scaleFactor = 1.5;
 
-function newTimeSlot(day, time, count, rgb, classes, crns) {
-    let dayElement = document.getElementById(`${day}-header`);
+function newTimeSlot(day, time, count, rgb, classes, crns, slot) {
+    let dayElement = document.getElementById(`${slot}-${day}-header`);
+    let dayHolder = document.getElementById(`${slot}-${day}-holder`);
     let dayRect = dayElement.getBoundingClientRect();
     let newTime = document.createElement('div');
-    let dayHolder = document.getElementById(`${day}-holder`);
 
     let tStartHr = Math.floor((time[0] - 800) / 100);
     let tStartMin = (time[0] % 100) / 60;
     let tStart = tStartHr + tStartMin;
     let len = getSectionLength(time[0], time[1]);
-    newTime.className = 'time-slot-holder';
+    newTime.className = `time-slot-holder ${slot}-slot`;
     newTime.style.height = `${1.5 * len}px`;
     newTime.style.zIndex = `${time[0]}`;
     newTime.style.top = `${tStart * (1.5 * 60) + 40}px`;
-    let crnConcat = crns.reduce((accumulator, currentValue) => {
-        return accumulator.toString() +',' + currentValue.toString();
-    })
+    let crnConcat;
+    if (typeof crns == typeof []) {
+        crnConcat = crns.reduce((accumulator, currentValue) => {
+            return accumulator.toString() +',' + currentValue.toString();
+        })
+    } else {
+        crnConcat = crns.toString();
+    }
     newTime.setAttribute('data-crn', crnConcat);
     let r = rgb[0];
     let g = rgb[1];
@@ -33,29 +38,29 @@ function newTimeSlot(day, time, count, rgb, classes, crns) {
     newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} Classes</p>`
 
 
-    //Deals with multiple times within the same slot.
-    if (!allTimes[`${day}-${time[0]}`]) {
-        allTimes[`${day}-${time[0]}`] = [];
-    } else {
-        let existing = allTimes[`${day}-${time[0]}`];
-        let numSects = existing.length + 1;
-        let width = Math.floor(100/numSects);
-        newTime.style.width = `${width}%`;
-        let widthOffset;
-        let count = 0;
-        existing.forEach((ex) => {
-            ex.style.width = `${width}%`;
-            if (!widthOffset) widthOffset = ex.clientWidth+2;
-            ex.style.left = `${width * count++}%`;
-        })
-        newTime.style.left = `${width * count}%`;
+    //Deals with multiple times within the same slot only in full list.
+    if (slot === 'full') {
+        if (!allTimes[`${day}-${time[0]}`]) {
+            allTimes[`${day}-${time[0]}`] = [];
+        } else {
+            let existing = allTimes[`${day}-${time[0]}`];
+            let numSects = existing.length + 1;
+            let width = Math.floor(100/numSects);
+            newTime.style.width = `${width}%`;
+            let widthOffset;
+            let count = 0;
+            existing.forEach((ex) => {
+                ex.style.width = `${width}%`;
+                if (!widthOffset) widthOffset = ex.clientWidth+2;
+                ex.style.left = `${width * count++}%`;
+            })
+            newTime.style.left = `${width * count}%`;
+        }
+        allTimes[`${day}-${time[0]}`].push(newTime);
     }
-    allTimes[`${day}-${time[0]}`].push(newTime);
-
     dayHolder.appendChild(newTime);
 }
 
-//unused
 export function getSectionLength(tStart, tEnd) {
     let tStartHr = Math.floor(tStart / 100);
     let tStartMin = tStart % 100;
@@ -81,18 +86,55 @@ export function drawTimesFull(times) {
         ];
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
-                newTimeSlot(weekdays[i], time, count, rgb, classes, crns);
+                newTimeSlot(weekdays[i], time, count, rgb, classes, crns, 'full');
             }
         }
     });
 }
 
+export function drawCurTimes(times) {
+    times.forEach( (data) => {
+        let crn = data.crn;
+        let tStart = data.tStart;
+        let tEnd = data.tEnd;
+        let time = [tStart, tEnd];
+        let count = data.count;
+        let classes = data.cID;
+        let rgb = [
+            Math.floor((tStart * 393181 * crn - 128) % 255), 
+            Math.floor((tStart * 3187 * crn - 128) % 255), 
+            Math.floor((tStart * 477 * crn - 128) % 255),
+        ];
+        for (let i = 0; i < 5; i++) {
+            if (data.days[i]) {
+                newTimeSlot(weekdays[i], time, count, rgb, classes, crn, 'cur');
+            }
+        }
+    });
+}
 
+function emptyTimes(slot) {
+    weekdays.forEach(day => {
+        let dayElement = $(`#${slot}-${day}-header`);
+        let dayHolder = $(`#${slot}-${day}-holder`);
+        dayHolder.empty();
+        dayHolder.append(dayElement);
 
+    })
+}
 
-const sections = getSectionTimesDaysFull().then((data) => {
+export function updateCurTimes() {
+    const curSections = getStudentSectionsDraw().then((data) => {
+        emptyTimes('cur');
+        drawCurTimes(data);
+        
+    });
+}
 
+const allSections = getSectionTimesDaysFull().then((data) => {
+    allTimes = {};
     drawTimesFull(data);
-
+    
 });
 
+updateCurTimes();

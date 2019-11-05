@@ -1,0 +1,13 @@
+.option-ele {
+    position: relative;
+    font-size: 5em;
+    margin-left: 0.1em;
+}
+
+.option-ele:hover {
+    background-color: rgba(58, 58, 58, 0.3);
+}
+
+.option-ele:active {
+    color: rgb(139, 139, 139);
+}

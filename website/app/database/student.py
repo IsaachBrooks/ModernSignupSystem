@@ -56,5 +56,13 @@ class Student(BaseTable, UserMixin):
         section.numCurEnrolled += 1
         db.session.commit()
 
+    def completeCurrent(self):
+        for sect in self.classesEnrolled:
+            cla = sect.sectFor
+            self.classesTaken.append(cla)
+            sect.numCurEnrolled -= 1
+            self.classesEnrolled.remove(sect)
+        db.session.commit()
+
     def __repr__(self):
         return f"Student('{self.fname + ' ' + self.lname}', id={self.sID})"
