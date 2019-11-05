@@ -17,10 +17,24 @@ $(document).ready(function () {
         mousedown: function() {
             lastClicked = $(this)
             lastTimeSlotHolderBGC = lastClicked.css('background-color');
-            lastClicked.css('background-color', '#fc0');
+            //lastClicked.css('background-color', '#fc0');
+            let crnSel = $(this)[0].getAttribute('data-crn');
+            let cName = $(this)[0].className.replace(' ', '.');
+            let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
+            for (let i = 0; i < fullSect.length; i++) {
+                fullSect.css('background-color', '#fc0');
+            }
         },
         "mouseup mouseleave": function() {
-            lastClicked.css('background-color', lastTimeSlotHolderBGC);
+            if (lastClicked != null) {
+                //lastClicked.css('background-color', lastTimeSlotHolderBGC);
+                let crnSel = $(this)[0].getAttribute('data-crn');
+                let cName = $(this)[0].className.replace(' ', '.');
+                let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
+                for (let i = 0; i < fullSect.length; i++) {
+                    fullSect.css('background-color', lastTimeSlotHolderBGC);
+                }
+            }
             lastTimeSlotHolderBGC = null;
             lastClicked = null;
         },
