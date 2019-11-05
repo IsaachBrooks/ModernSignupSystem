@@ -19,7 +19,7 @@ $(document).ready(function () {
             lastTimeSlotHolderBGC = lastClicked.css('background-color');
             lastClicked.css('background-color', '#fc0');
         },
-        mouseup: function() {
+        "mouseup mouseleave": function() {
             lastClicked.css('background-color', lastTimeSlotHolderBGC);
             lastTimeSlotHolderBGC = null;
             lastClicked = null;

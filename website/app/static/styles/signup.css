@@ -128,6 +128,9 @@ content.signup-holder {
                                   supported by Chrome, Opera and Firefox */
 }
 
+.time-slot-holder:active {
+    back
+}
 #signup-grid-canvas {
     float:left;
     width: 100%;
