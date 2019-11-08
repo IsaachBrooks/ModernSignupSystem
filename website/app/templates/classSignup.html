@@ -63,6 +63,7 @@
     </div>
     <div id="option-holder" class="signdiv signup-opt mt-2 mb-4">
         <a id="switch-view"><i class="fa fa-refresh option-ele"></i></a>
+        <select id="degree-selector"></select>
     </div>
     <div id="button-holder" class="signdiv signup-btn mt-4 mb-2">Buttons</div>
 </content>
@@ -72,5 +73,6 @@
 <script src="{{ url_for('static', filename='js/drawTimes.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/drawCurrent.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/selectTimes.js') }}" type="module"></script>
+<script src="{{ url_for('static', filename='js/options.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='js/signupPage.js') }}" type="module"></script>
 {% endblock content %}

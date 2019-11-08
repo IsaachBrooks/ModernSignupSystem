@@ -161,3 +161,15 @@ export async function isCurStudentRegisteredFor(crn) {
         console.log(error)
     }
 }
+
+export async function getDepartmentNamesIDs() {
+    const url = '/api/getDepartmentNamesIDs';
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}

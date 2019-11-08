@@ -4,6 +4,7 @@ from app.database.student import Student
 from app.database.degree import Degree
 from app.database.classes import Classes
 from app.database.section import Section
+from app.database.department import Department
 from app.Scripts.validator import verifyCanEnroll 
 from flask_login import current_user
 
@@ -195,11 +196,15 @@ def getStudentSectionsDraw():
 
     return jsonify(fullTimes)
 
-"""
-@app.route("/api/, methods=[])
-def api():
-    return jsonify(result)
+@app.route("/api/getDepartmentNamesIDs", methods=['GET'])
+def getDepartmentNamesIDs():
+    deps = Department.query.all()
+    ret = []
+    for dep in deps:
+        ret.append({'name': dep.name, 'dpID': dep.dpID})
+    return jsonify(ret)
 
+"""
 @app.route("/api/, methods=[])
 def api():
     return jsonify(result)
