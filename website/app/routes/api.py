@@ -205,11 +205,38 @@ def getDepartmentNamesIDs():
     return jsonify(ret)
 
 """
-@app.route("/api/, methods=[])
-def api():
-    return jsonify(result)
+@app.route("/api/getSectionsByDepartment/<int:dpID>", methods=['GET'])
+def getSectionsByDepartment():
+    sects = Section.query.all()
+    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri) for sect in sects]
+    times = set(times)
+    fullTimes = []
 
-@app.route("/api/, methods=[])
+    for time in times:
+        d = {}
+        d['tStart'] = time[0]
+        d['tEnd'] = time[1]
+        d['days'] = [time[2], time[3], time[4], time[5], time[6]]
+        d['count'] = 0
+        d['cID'] = []
+        d['crn'] = []
+        fullTimes.append(d)
+    
+    for time in fullTimes:
+        for sect in sects:
+            if (sect.tStart == time['tStart'] and sect.tEnd == time['tEnd'] and sect.getDaysArray() == time['days']):
+                time['count'] += 1
+                if sect.cID not in time['cID']:
+                    time['cID'].append(sect.cID)
+                if sect.crn not in time['crn']:
+                    time['crn'].append(sect.crn)
+    for time in fullTimes:
+        time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
+        time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
+
+    return jsonify(fullTimes)
+
+@app.route("/api/", methods=[])
 def api():
     return jsonify(result)
 
