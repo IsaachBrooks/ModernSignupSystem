@@ -131,10 +131,10 @@ export function updateCurTimes() {
     });
 }
 
-const allSections = getSectionTimesDaysFull().then((data) => {
+export function updateAllTimes(data) {
     allTimes = {};
+    emptyTimes('full');
     drawTimesFull(data);
-    
-});
+}
 
 updateCurTimes();

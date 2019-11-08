@@ -204,10 +204,18 @@ def getDepartmentNamesIDs():
         ret.append({'name': dep.name, 'dpID': dep.dpID})
     return jsonify(ret)
 
-"""
+
 @app.route("/api/getSectionsByDepartment/<int:dpID>", methods=['GET'])
-def getSectionsByDepartment():
-    sects = Section.query.all()
+def getSectionsByDepartment(dpID):
+    deptClassList = Department.query.filter(Department.dpID == dpID).first().classesMember
+    allSects = [Section.query.filter(Section.sectFor == c).all() for c in deptClassList]
+    sects = []
+    for sublist in allSects:
+        if type(sublist) == list:
+            for s in sublist:
+                sects.append(s)
+        else:
+            sects.append(sublist)
     times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri) for sect in sects]
     times = set(times)
     fullTimes = []
@@ -236,6 +244,7 @@ def getSectionsByDepartment():
 
     return jsonify(fullTimes)
 
+"""
 @app.route("/api/", methods=[])
 def api():
     return jsonify(result)

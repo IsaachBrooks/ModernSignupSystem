@@ -128,9 +128,5 @@ $(document).ready(function () {
         }
     });
 
-    $("#degree-selector").onchange = () => {
-        console.log('i changed');
-    };
-
     showCurrentEnrolled();
 })

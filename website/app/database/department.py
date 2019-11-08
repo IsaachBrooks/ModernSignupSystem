@@ -1,5 +1,5 @@
 from app import db
-from app.database.models import BaseTable
+from app.database.models import BaseTable, serializeRelation
 
 class Department(BaseTable):
     dpID = db.Column(db.Integer, primary_key=True, autoincrement=True)
