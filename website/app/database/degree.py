@@ -1,5 +1,5 @@
 from app import db
-from app.database.models import BaseTable
+from app.database.models import BaseTable,asc_degree_classes
 from app.database.classes import Classes
 
 class Degree(BaseTable):

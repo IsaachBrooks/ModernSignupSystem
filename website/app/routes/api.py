@@ -33,9 +33,7 @@ def getDegreeDataFull():
     degrees_serial = [item.serialize() for item in degrees]
     return jsonify(degrees_serial)
 
-@app.route("/api/getSectionTimesDaysFull", methods=['GET'])
-def getSectionTimesDaysFull():
-    sects = Section.query.all()
+def processSections(sects):
     times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri) for sect in sects]
     times = set(times)
     fullTimes = []
@@ -48,6 +46,7 @@ def getSectionTimesDaysFull():
         d['count'] = 0
         d['cID'] = []
         d['crn'] = []
+        d['cNumbers'] = []
         fullTimes.append(d)
     
     for time in fullTimes:
@@ -58,10 +57,20 @@ def getSectionTimesDaysFull():
                     time['cID'].append(sect.cID)
                 if sect.crn not in time['crn']:
                     time['crn'].append(sect.crn)
+                if sect.sectFor.cNumber not in d['cNumbers']:
+                   time['cNumbers'].append(sect.sectFor.cNumber)
     for time in fullTimes:
         time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
         time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
 
+    return fullTimes
+
+@app.route("/api/getSectionTimesDaysFull", methods=['GET'])
+def getSectionTimesDaysFull():
+    sects = Section.query.all()
+    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri, sect.cID, sect.crn) for sect in sects]
+    times = set(times)
+    fullTimes = processSections(sects)
     return jsonify(fullTimes)
 
 @app.route("/api/getSectionTimesDays", methods=['GET'])
@@ -176,7 +185,7 @@ def getStudentSectionsDraw():
     student = Student.query.filter(Student.sID == current_user.get_id()).first()
     sects = student.classesEnrolled
 
-    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri, sect.cID, sect.crn) for sect in sects]
+    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri, sect.cID, sect.crn, sect.sectFor.cNumber, sect.sectFor.getShortName()) for sect in sects]
     times = set(times)
     fullTimes = []
 
@@ -188,6 +197,8 @@ def getStudentSectionsDraw():
         d['count'] = 1
         d['cID'] = [time[7]]
         d['crn'] = [time[8]]
+        d['cNumbers'] = [time[9]]
+        d['cShort'] = [time[10]]
         fullTimes.append(d)
     
     for time in fullTimes:
@@ -216,32 +227,7 @@ def getSectionsByDepartment(dpID):
                 sects.append(s)
         else:
             sects.append(sublist)
-    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri) for sect in sects]
-    times = set(times)
-    fullTimes = []
-
-    for time in times:
-        d = {}
-        d['tStart'] = time[0]
-        d['tEnd'] = time[1]
-        d['days'] = [time[2], time[3], time[4], time[5], time[6]]
-        d['count'] = 0
-        d['cID'] = []
-        d['crn'] = []
-        fullTimes.append(d)
-    
-    for time in fullTimes:
-        for sect in sects:
-            if (sect.tStart == time['tStart'] and sect.tEnd == time['tEnd'] and sect.getDaysArray() == time['days']):
-                time['count'] += 1
-                if sect.cID not in time['cID']:
-                    time['cID'].append(sect.cID)
-                if sect.crn not in time['crn']:
-                    time['crn'].append(sect.crn)
-    for time in fullTimes:
-        time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
-        time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
-
+    fullTimes = processSections(sects)
     return jsonify(fullTimes)
 
 """

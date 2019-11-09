@@ -7,7 +7,7 @@ let allTimes = {};
 
 let scaleFactor = 1.5;
 
-function newTimeSlot(day, time, count, rgb, classes, crns, slot) {
+function newTimeSlot(day, time, count, rgb, classes, crns, cNums, slot) {
     let dayElement = document.getElementById(`${slot}-${day}-header`);
     let dayHolder = document.getElementById(`${slot}-${day}-holder`);
     let dayRect = dayElement.getBoundingClientRect();
@@ -35,8 +35,10 @@ function newTimeSlot(day, time, count, rgb, classes, crns, slot) {
     let b = rgb[2];
     let bgColor = "rgba(" + r + "," + g + "," + b + ", 1)";
     newTime.style.backgroundColor = bgColor;
-    newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} Classes</p>`
-
+    //newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} Classes</p>`
+    newTime.innerHTML = `
+            <p class='time-slot-classes'>${cNums}</p>
+            <p class='time-slot-time'>${timeConvert(time[0])} - ${timeConvert(time[1])}<p>`
 
     //Deals with multiple times within the same slot only in full list.
     if (slot === 'full') {
@@ -79,14 +81,15 @@ export function drawTimesFull(times) {
         let time = [tStart, tEnd];
         let count = data.count;
         let classes = data.cID;
+        let cNums = data.cNumbers
         let rgb = [
-            Math.floor((tStart * 393181 * crns.reduce((a,b) => a+b) - 128) % 255), 
-            Math.floor((tStart * 3187 * crns.reduce((a,b) => a+b) - 128) % 255), 
-            Math.floor((tStart * 477 * crns.reduce((a,b) => a+b) - 128) % 255),
+            Math.floor((tStart * 393181 * classes.reduce((a,b) => a+b) - 128) % 255), 
+            Math.floor((tStart * 3187 * classes.reduce((a,b) => a+b) - 128) % 255), 
+            Math.floor((tStart * 477 * classes.reduce((a,b) => a+b) - 128) % 255),
         ];
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
-                newTimeSlot(weekdays[i], time, count, rgb, classes, crns, 'full');
+                newTimeSlot(weekdays[i], time, count, rgb, classes, crns, cNums, 'full');
             }
         }
     });
@@ -100,17 +103,32 @@ export function drawCurTimes(times) {
         let time = [tStart, tEnd];
         let count = data.count;
         let classes = data.cID;
+        let cNums = data.cNumbers
+        let cShort = data.cShort
         let rgb = [
-            Math.floor((tStart * 393181 * crn - 128) % 255), 
-            Math.floor((tStart * 3187 * crn - 128) % 255), 
-            Math.floor((tStart * 477 * crn - 128) % 255),
+            Math.floor((tStart * 393181 * +cNums - 128) % 255), 
+            Math.floor((tStart * 3187 * +cNums - 128) % 255), 
+            Math.floor((tStart * 477 * +cNums - 128) % 255),
         ];
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
-                newTimeSlot(weekdays[i], time, count, rgb, classes, crn, 'cur');
+                newTimeSlot(weekdays[i], time, count, rgb, classes, crn, cShort, 'cur');
             }
         }
     });
+}
+
+function timeConvert(time) {
+    let hr = Math.floor(time / 100);
+    let min = time % 100;
+    let post = 'AM'
+    if (hr >= 12) {
+        post = 'PM'
+    }
+    if (hr > 12) {
+        hr -= 12;
+    }
+    return `${hr.toString()}:${min.toString().padStart(2, '0')}${post}`
 }
 
 function emptyTimes(slot) {

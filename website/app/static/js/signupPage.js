@@ -51,6 +51,7 @@ $(document).ready(function () {
                 cur.style.width = '100%'
                 cur.setAttribute('data-orig-offset-left', cur.style.left);
                 cur.style.left = '0px';
+                //cur.children[2].style.visibility = 'visible';
             }
         },
         mouseleave: function() {
@@ -63,6 +64,7 @@ $(document).ready(function () {
                 cur.style.border = '1px black solid';
                 cur.style.width = cur.getAttribute('data-orig-width');
                 cur.style.left = cur.getAttribute('data-orig-offset-left');
+                //cur.children[2].style.visibility = 'hidden';
             }
             lastTimeSlotHolderIndex = null;
         }

@@ -40,7 +40,7 @@
     grid-area: head;
     text-align: center;
     font-weight: bold;
-    font-size: 1.75em;
+    font-size: 1.2vw;
     border-top-left-radius: var(--corner-radius);
     border-top-right-radius: var(--corner-radius);
 

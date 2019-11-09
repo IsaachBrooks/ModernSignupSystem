@@ -9,7 +9,6 @@ export function drawSelected(selectedCRNs) {
         selectHolder.css('visibility', 'unset');
     }
     selectListHolder.empty();
-    console.log(selectedCRNs);
     const sections = getSectionsInfo(selectedCRNs).then((data) => {
         data.forEach((elem) => {
             const curClass = getClassInfoMinimal(elem.cID).then((classData) => {
@@ -31,7 +30,6 @@ export function drawSelected(selectedCRNs) {
 }
 
 export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID = $("#sec-info-content").data('cid')) {
-    console.log(crn, cID);
     const siHeader = $('.si-header');
     const siTime = $('.si-time');
     const siDays = $('.si-days');

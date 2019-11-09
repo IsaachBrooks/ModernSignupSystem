@@ -27,7 +27,10 @@ class Classes(BaseTable):
     lab = db.Column(db.Boolean, nullable=False, default=False)
 
     def getShortName(self):
-        return f"{self.department.code}{self.cNumber}"
+        shortName = f"{self.department.code}{self.cNumber}"
+        if (self.lab):
+            shortName += ' LAB' 
+        return shortName
 
     def hasLinkedClass(self):
         return bool(self.linkedClass) or bool(self.linkedTo)
