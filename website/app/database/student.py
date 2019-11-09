@@ -49,7 +49,10 @@ class Student(BaseTable, UserMixin):
         return [s.classTaken for s in self.classesTaken]
 
     def hasTaken(self, cla):
-        return cla in self.getClassesTaken()
+        if not cla.lab:
+            return cla in self.getClassesTaken()
+        else:
+            return cla.linkedTo in self.getClassesTaken()
 
     def passed(self, classTaken):
         if classTaken in self.getClassesTaken():
@@ -66,6 +69,8 @@ class Student(BaseTable, UserMixin):
     def completeCurrent(self):
         for sect in self.classesEnrolled:
             cla = sect.sectFor
+            if cla.lab:
+                continue
             completedClass = asc_student_classes_taken()
             completedClass.classTaken = cla
             completedClass.grade = 'A'
