@@ -230,6 +230,32 @@ def getSectionsByDepartment(dpID):
     fullTimes = processSections(sects)
     return jsonify(fullTimes)
 
+
+
+@app.route("/api/searchForSections", methods=['POST'])
+def searchForSections():
+    json = request.get_json()
+    query = json['query']
+
+    # match query to section CRN or instructor
+    sects = Section.query.filter(Section.crn.like(query)).all()
+
+    # match query to classes cNumber or name
+    if not sects:
+        classes = Classes.query.filter((Classes.name.like(f'%{query}%') | Classes.cNumber.like(query))).all()
+
+        if classes:
+            sects = []
+            for c in classes:
+                for sect in c.sections:
+                    sects.append(sect)
+
+    if sects:
+        sections = processSections(sects)
+        return jsonify(sections)
+    else: 
+        return jsonify([])
+
 """
 @app.route("/api/", methods=[])
 def api():

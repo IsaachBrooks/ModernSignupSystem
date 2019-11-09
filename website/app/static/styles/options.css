@@ -1,13 +1,43 @@
-.option-ele {
+#option-holder {
     position: relative;
-    font-size: 5em;
-    margin-left: 0.1em;
+    grid-template-areas: "L R";
+    display: grid;
 }
 
-.option-ele:hover {
+#opt-left {
+    position: relative;
+    grid-area: L;
+}
+
+#opt-right {
+    position: relative;
+    grid-area: R;
+}
+
+.opt-section {
+    position: relative;
+    padding: .1em;
+    margin: .1em;
+}
+
+.option-ele {
+    position: relative;
+    margin-left: 0.1em;
+    float: left;
+}
+
+#switch-view {
+    font-size: 3em;
+}
+#switch-view:hover {
     color: rgb(226, 226, 226)
 }
 
-.option-ele:active {
+#switch-view:active {
     color: rgb(139, 139, 139);
+}
+
+#opt-search {
+    position: absolute;
+    right: 0;
 }

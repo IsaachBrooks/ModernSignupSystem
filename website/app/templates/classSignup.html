@@ -62,12 +62,24 @@
         <div id="current-list-holder"></div>
     </div>
     <div id="option-holder" class="signdiv signup-opt mt-2 mb-4">
-        <a id="switch-view"><i class="fa fa-refresh option-ele"></i></a>
-        <select id="subject-selector">
-            <option value='' selected> Pick a subject</option>
-        </select>
+        <section id="opt-left" class="opt-section">
+            <div id="view-switcher" class="option-ele">
+                <a id="switch-view"><i class="fa fa-refresh"></i></a>
+            </div>
+            <div id="subject-switcher" class="option-ele"> 
+                <select id="subject-selector">
+                    <option value='' selected> Pick a subject</option>
+                </select>
+            </div>
+        </section>
+        <section id="opt-right" class="opt-section">
+            <div id="opt-search" class="option-ele">
+                <input id="opt-search-input" type="text" placeholder="Search.." name="search">
+                <button id="opt-search-btn" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </section>
     </div>
-    <div id="button-holder" class="signdiv signup-btn mt-4 mb-2">Buttons</div>
+    <!--div id="button-holder" class="signdiv signup-btn mt-4 mb-2">Buttons</div-->
 </content>
 
 <script src="{{ url_for('static', filename='js/drawTimeGrid.js') }}"></script>

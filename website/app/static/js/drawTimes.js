@@ -145,7 +145,6 @@ export function updateCurTimes() {
     const curSections = getStudentSectionsDraw().then((data) => {
         emptyTimes('cur');
         drawCurTimes(data);
-        
     });
 }
 

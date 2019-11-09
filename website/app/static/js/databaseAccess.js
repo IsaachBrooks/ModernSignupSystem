@@ -107,7 +107,29 @@ export async function getDepartmentNamesIDs() {
     const url = '/api/getDepartmentNamesIDs';
     return baseGetRequest(url);
 }
+
 export function getSectionsByDepartment(dpID) {
     const url = `/api/getSectionsByDepartment/${dpID}`;
     return baseGetRequest(url);
+}
+
+export async function searchForSections(query) {
+    const url = '/api/searchForSections';
+    let data = {'query': query};
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            cache: 'no-cache',
+            credentials: 'include',
+            headers: {
+                "content-type": "application/json"
+            }
+        });
+        if (response.ok) {
+            return response.json();
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
