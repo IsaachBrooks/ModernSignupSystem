@@ -263,12 +263,16 @@ def completeCurSections():
     result = {'success': student.completeCurrent()}
     return jsonify(result)
 
-"""
-@app.route("/api/", methods=[''])
-def api():
-    result = {}
+
+@app.route("/api/getStudentCompleted", methods=['GET'])
+def getStudentCompleted():
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    studentTaken = student.classesTaken
+
+    result = [s.serialize() for s in studentTaken]
     return jsonify(result)
 
+"""
 @app.route("/api/", methods=[''])
 def api():
     result = {}

@@ -39,10 +39,9 @@ def verifyDayTimeNoOverlap(existing, new):
 
 def verifyCanEnroll(student, section):
     studentEnrolled = student.classesEnrolled
-    studentTaken = student.classesTaken
-    studentTaken = [s.classTaken for s in studentTaken]
-
-    sectClass = section.sectFor
+    studentTaken = student.getClassesTaken()
+    cID = section.cID
+    sectClass = Classes.query.filter(Classes.cID == cID).first()
 
     #check student is not enrolled in section
     if (section in studentEnrolled):
@@ -50,7 +49,7 @@ def verifyCanEnroll(student, section):
 
     #check student is not enrolled in another section of same class
     #if they are, prompt if they want to switch if they can take this section
-    cID = section.cID
+    
     curCIDs = [sect.cID for sect in studentEnrolled]
     if cID in curCIDs:
         return 'You are already enrolled for the class in another section', False
@@ -61,9 +60,9 @@ def verifyCanEnroll(student, section):
         if prereq not in studentTaken:
             return f'You have not taken pre-requisite class {prereq.getShortName()}', False
     
-    cla = Classes.query.filter(Classes.cID == cID).first()
-    if cla in studentTaken:
-        return f'You have already taken {cla.getShortName()}', False
+    #check student has already taken class
+    if student.hasTaken(sectClass) and student.passed(sectClass):
+        return f'You have already taken and passed {sectClass.getShortName()}', False
     
     #check student schedule does not overlap
     for eSect in studentEnrolled:

@@ -154,3 +154,8 @@ export async function completeCurSections() {
         console.log(error);
     }
 }
+
+export async function getStudentCompleted() {
+    const url = 'api/getStudentCompleted';
+    return baseGetRequest(url);
+}

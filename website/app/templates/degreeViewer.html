@@ -2,6 +2,18 @@
 
 {% block content %}
 
-<h1>Degree View Page</h1>
+<h1>Progression View Page</h1>
 
+<table id="classes-taken" class="table bg-steel mx-auto" style="width: 75vw;">
+    <thead>
+        <th scope="col"><abbr title="subject">Subj</abbr></th>
+        <th scope="col">Code</th>
+        <th scope="col">Name</th>
+        <th scope="col"><abbr title="Credit Hours">CrdHrs</abbr></th>
+        <th scope="col">Passed</th>
+        <th scope="col">Grade</th>
+    </thead>
+</table>
+
+<script src="{{ url_for('static', filename='js/progressPage.js') }}" type="module"></script>
 {% endblock content %}

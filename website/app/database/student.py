@@ -26,12 +26,6 @@ class Student(BaseTable, UserMixin):
     def signUpFor(self, sect):
         return sect.enroll(self)
 
-    def completeClass(self, cl):
-        #TODO:
-        #Remove section of class from currently enrolled
-        #add class to classesTaken
-        pass
-
     def updateGPA(self):
         #TODO:
         #updateGPA based off classes taken grades/credit hrs
@@ -51,6 +45,19 @@ class Student(BaseTable, UserMixin):
             'classesEnrolled' : serializeRelation(self.classesEnrolled)
         }
     
+    def getClassesTaken(self):
+        return [s.classTaken for s in self.classesTaken]
+
+    def hasTaken(self, cla):
+        return cla in self.getClassesTaken()
+
+    def passed(self, classTaken):
+        if classTaken in self.getClassesTaken():
+            entry = [e for e in self.classesTaken if e.classTaken == classTaken][0]
+            return entry.passed
+        else:
+            return False
+
     def enroll(self, section):
         self.classesEnrolled.append(section)
         section.numCurEnrolled += 1
@@ -64,9 +71,10 @@ class Student(BaseTable, UserMixin):
             completedClass.grade = 'A'
             completedClass.passed = True
             self.classesTaken.append(completedClass)
+
         for sect in self.classesEnrolled:   
             sect.numCurEnrolled -= 1
-            self.classesEnrolled.remove(sect)
+        self.classesEnrolled.clear()
         db.session.commit()
 
     def __repr__(self):
