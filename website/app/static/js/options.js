@@ -1,6 +1,8 @@
 import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections } from "./databaseAccess.js";
 import { updateAllTimes } from "./drawTimes.js";
 
+export default switchView;
+
 function setupSubjectSelector() {
     const dSel = document.getElementById('subject-selector');
     let response = getDepartmentNamesIDs();
@@ -45,6 +47,12 @@ function setupSearchBar() {
             }
         }
     });
+}
+
+export function switchView() {
+    let vis = $("#curClasses-main").css('visibility');
+    $("#curClasses-main").css('visibility', $("#signup-main").css('visibility'));
+    $("#signup-main").css('visibility', vis);
 }
 
 setupSubjectSelector();

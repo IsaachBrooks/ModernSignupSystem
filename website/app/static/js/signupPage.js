@@ -1,7 +1,8 @@
 import { drawSelected, updateSectionInfo } from './selectTimes.js';
 import { showCurrentEnrolled } from './drawCurrent.js'
-import { enrollStudent, removeEnrolledClass } from './databaseAccess.js';
+import { enrollStudent, removeEnrolledClass, completeCurSections } from './databaseAccess.js';
 import { updateCurTimes } from './drawTimes.js';
+import switchView from './options.js';
 
 $(document).ready(function () {
 
@@ -94,13 +95,18 @@ $(document).ready(function () {
         }
     }, "div.current-list-elem");
 
+    /*
+    *   Switch view between current classes and full view
+    */
     $("#switch-view").on({
         click: function() {
-            let vis = $("#curClasses-main").css('visibility');
-            $("#curClasses-main").css('visibility', $("#signup-main").css('visibility'));
-            $("#signup-main").css('visibility', vis);
+            switchView();
         }
     })
+
+    /*
+    *   Section info buttons
+    */
     $("#section-info-close").on({
         click: function() {
             sectionInfo.css('visibility', 'hidden');
@@ -118,6 +124,7 @@ $(document).ready(function () {
             });
         }
     });
+
     $("#section-info-unregister").on({
         click: function() {
             let crn = $('#sec-info-content').data('crn');
@@ -129,6 +136,15 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('#complete-classes').on({
+        click: function() {
+            let response = completeCurSections().then(() => {
+                showCurrentEnrolled();
+                updateCurTimes();
+            });
+        }
+    })
 
     showCurrentEnrolled();
 })

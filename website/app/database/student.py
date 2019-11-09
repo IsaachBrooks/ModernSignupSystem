@@ -1,5 +1,5 @@
 from app import db, loginManager
-from app.database.models import BaseTable, student_cur_enroll, serializeRelation
+from app.database.models import BaseTable, student_cur_enroll, serializeRelation, asc_student_classes_taken
 from flask_login import UserMixin
 
 
@@ -59,7 +59,12 @@ class Student(BaseTable, UserMixin):
     def completeCurrent(self):
         for sect in self.classesEnrolled:
             cla = sect.sectFor
-            self.classesTaken.append(cla)
+            completedClass = asc_student_classes_taken()
+            completedClass.classTaken = cla
+            completedClass.grade = 'A'
+            completedClass.passed = True
+            self.classesTaken.append(completedClass)
+        for sect in self.classesEnrolled:   
             sect.numCurEnrolled -= 1
             self.classesEnrolled.remove(sect)
         db.session.commit()

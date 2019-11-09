@@ -256,10 +256,32 @@ def searchForSections():
     else: 
         return jsonify([])
 
-"""
-@app.route("/api/", methods=[])
-def api():
+
+@app.route("/api/completeCurSections", methods=['POST'])
+def completeCurSections():
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    result = {'success': student.completeCurrent()}
     return jsonify(result)
 
+"""
+@app.route("/api/", methods=[''])
+def api():
+    result = {}
+    return jsonify(result)
+
+@app.route("/api/", methods=[''])
+def api():
+    result = {}
+    return jsonify(result)
+
+@app.route("/api/", methods=[''])
+def api():
+    result = {}
+    return jsonify(result)
+
+@app.route("/api/", methods=[''])
+def api():
+    result = {}
+    return jsonify(result)
 """
 

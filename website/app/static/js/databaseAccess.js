@@ -133,3 +133,24 @@ export async function searchForSections(query) {
         console.log(error)
     }
 }
+
+export async function completeCurSections() {
+    const url = '/api/completeCurSections';
+    let data = {};
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            cache: 'no-cache',
+            credentials: 'include',
+            headers: {
+                "content-type": "application/json"
+            }
+        });
+        if (response.ok) {
+            return response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
