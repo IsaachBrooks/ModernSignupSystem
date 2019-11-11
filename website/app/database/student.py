@@ -96,7 +96,6 @@ class Student(BaseTable, UserMixin):
             completedClass.grade = 'A'
             completedClass.passed = True
             self.classesTaken.append(completedClass)
-
         for sect in self.classesEnrolled:   
             sect.numCurEnrolled -= 1
         self.classesEnrolled.clear()
