@@ -16,4 +16,4 @@ db.init_app(app)
 bc.init_app(app)
 loginManager.init_app(app)
 
-from app.routes import routes, api
+from app.routes import routes, api, api_classes, api_sections, api_student
