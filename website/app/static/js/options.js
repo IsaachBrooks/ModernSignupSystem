@@ -1,7 +1,9 @@
-import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections } from "./databaseAccess.js";
+import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections, showLoading } from "./databaseAccess.js";
 import { updateAllTimes } from "./drawTimes.js";
 
 export default switchView;
+
+
 
 function setupSubjectSelector() {
     const dSel = document.getElementById('subject-selector');
@@ -18,6 +20,7 @@ function setupSubjectSelector() {
     });
     dSel.onchange = () => {
         if (dSel.value) {
+            showLoading();
             response = getSectionsByDepartment(dSel.value)
             response.then(data => {
                 updateAllTimes(data);
@@ -31,6 +34,7 @@ function setupSearchBar() {
     $('#opt-search-btn').on({
         click: function() {
             if (sBar.val()) {
+                showLoading();
                 searchForSections(sBar.val()).then((data) => {
                     updateAllTimes(data);
                 });
@@ -41,6 +45,7 @@ function setupSearchBar() {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
             if (sBar.val()) {
+                showLoading();
                 searchForSections(sBar.val()).then((data) => {
                     updateAllTimes(data);
                 });

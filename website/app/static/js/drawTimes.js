@@ -1,4 +1,5 @@
-import { getSectionTimesDaysFull, getStudentSectionsDraw } from './databaseAccess.js';
+import { getStudentSectionsDraw, hideLoading, showLoading } from './databaseAccess.js';
+import { hideSectionInfo } from './selectTimes.js';
 
 export default drawTimesFull;
 
@@ -142,9 +143,10 @@ function emptyTimes(slot) {
 }
 
 export function updateCurTimes() {
-    const curSections = getStudentSectionsDraw().then((data) => {
+    getStudentSectionsDraw().then((data) => {
         emptyTimes('cur');
         drawCurTimes(data);
+        hideSectionInfo();
     });
 }
 
@@ -152,6 +154,8 @@ export function updateAllTimes(data) {
     allTimes = {};
     emptyTimes('full');
     drawTimesFull(data);
+    hideLoading();
+    hideSectionInfo();
 }
 
 updateCurTimes();

@@ -159,3 +159,13 @@ export async function getStudentCompleted() {
     const url = 'api/getStudentCompleted';
     return baseGetRequest(url);
 }
+
+export function showLoading() {
+    let loader = $('#loading-indicator');
+    loader.css('visibility', 'visible');
+}
+
+export function hideLoading() {
+    let loader = $('#loading-indicator');
+    loader.css('visibility', 'hidden');
+}

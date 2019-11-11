@@ -7,13 +7,13 @@ export function showCurrentEnrolled() {
     const currentHolder = $('#current-holder');
     const currentListHolder = $('#current-list-holder');
     currentListHolder.empty();
-    const sections = getCurStudentSections().then((data) => {
+    getCurStudentSections().then((data) => {
         if (data) {
             if (currentHolder.css('visibility') === 'hidden') {
                 currentHolder.css('visibility', 'unset');
             }
             data.forEach((elem) => {
-                const curClass = getClassInfoMinimal(elem.cID).then((classData) => {
+                getClassInfoMinimal(elem.cID).then((classData) => {
                     let crn = elem.crn;
                     let cName = classData.name;
                     let dCode = classData.deptCode;

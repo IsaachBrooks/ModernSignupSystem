@@ -2,6 +2,9 @@ import { getSectionsInfo, getClassInfoMinimal, getSectionInfo, getClassInfo, isC
 
 export default drawSelected;
 
+const sectionInfo = $('.section-info-main');
+
+
 export function drawSelected(selectedCRNs) {
     const selectHolder = $('#selected-holder');
     const selectListHolder =  $('#selected-list-holder');
@@ -107,4 +110,11 @@ export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID = 
             unregister.attr('disabled', true);
         }
     });
+}
+
+export function showSectionInfo() {
+    sectionInfo.css('visibility', 'visible');
+}
+export function hideSectionInfo() {
+    sectionInfo.css('visibility', 'hidden');   
 }

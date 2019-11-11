@@ -1,4 +1,4 @@
-import { drawSelected, updateSectionInfo } from './selectTimes.js';
+import { drawSelected, updateSectionInfo, showSectionInfo, hideSectionInfo } from './selectTimes.js';
 import { showCurrentEnrolled } from './drawCurrent.js'
 import { enrollStudent, removeEnrolledClass, completeCurSections } from './databaseAccess.js';
 import { updateCurTimes } from './drawTimes.js';
@@ -72,16 +72,13 @@ $(document).ready(function () {
         
     }, 'div.time-slot-holder');
 
-
-    const sectionInfo = $('.section-info-main');
-
     $("#selected-holder").on({
         click: function() {
             updateSectionInfo(
                 $(this).data('crn'),
                 $(this).data('cid')
             );
-            sectionInfo.css('visibility', 'unset');
+            showSectionInfo();
         }
     }, "div.selected-list-elem");
 
@@ -91,7 +88,7 @@ $(document).ready(function () {
                 $(this).data('crn'),
                 $(this).data('cid')
             );
-            sectionInfo.css('visibility', 'unset');
+            showSectionInfo();
         }
     }, "div.current-list-elem");
 
@@ -109,14 +106,14 @@ $(document).ready(function () {
     */
     $("#section-info-close").on({
         click: function() {
-            sectionInfo.css('visibility', 'hidden');
+            hideSectionInfo();
         }
     });
 
     $("#section-info-register").on({
         click: function() {
             let crn = $('#sec-info-content').data('crn');
-            let response = enrollStudent(crn).then((data) => {
+            enrollStudent(crn).then((data) => {
                 alert(data.reply);
                 showCurrentEnrolled();
                 updateSectionInfo();
@@ -128,7 +125,7 @@ $(document).ready(function () {
     $("#section-info-unregister").on({
         click: function() {
             let crn = $('#sec-info-content').data('crn');
-            let response = removeEnrolledClass(crn).then((data) => {
+            removeEnrolledClass(crn).then((data) => {
                 alert(data.reply);
                 showCurrentEnrolled();
                 updateSectionInfo();
@@ -139,7 +136,7 @@ $(document).ready(function () {
 
     $('#complete-classes').on({
         click: function() {
-            let response = completeCurSections().then(() => {
+            completeCurSections().then(() => {
                 showCurrentEnrolled();
                 updateCurTimes();
             });
@@ -147,4 +144,5 @@ $(document).ready(function () {
     })
 
     showCurrentEnrolled();
-})
+});
+

@@ -150,7 +150,6 @@ def removeEnrolledClass():
     #Check for linked sections, and remove those as well
     json = request.get_json()
     crn = json['crn']
-    print(crn)
     student = Student.query.filter(Student.sID == current_user.get_id()).first()
     section = Section.query.filter(Section.crn == crn).first()
     reply = ''
