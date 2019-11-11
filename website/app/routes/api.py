@@ -152,13 +152,7 @@ def removeEnrolledClass():
     crn = json['crn']
     student = Student.query.filter(Student.sID == current_user.get_id()).first()
     section = Section.query.filter(Section.crn == crn).first()
-    reply = ''
-    if section in student.classesEnrolled:
-        student.unenroll(section)
-        db.session.commit()
-        reply = 'Successfully unregister for section!'
-    else:
-        reply = 'Could not unregister for section.'
+    reply = student.unenroll(section)
     return jsonify({'reply': reply})
     
 @app.route("/api/isCurStudentRegisteredFor/<int:crn>", methods=['GET'])

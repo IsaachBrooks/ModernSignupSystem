@@ -66,21 +66,24 @@ class Student(BaseTable, UserMixin):
         self.classesEnrolled.append(section)
         section.numCurEnrolled += 1
         db.session.commit()
-        return 'Successfully enrolled student in section!'
 
     def unenroll(self, section):
-        self.classesEnrolled.remove(section)
-        if section.sectFor.hasLinkedClass():
-            lID = section.sectFor.getLinkedClass().cID
-            sects = Section.query.filter(Section.cID == lID)
-            link = [sec for sec in sects if sec in self.classesEnrolled]
-            if len(link) == 1:
-                link = link[0]
-            self.classesEnrolled.remove(link)
-            link.numCurEnrolled -= 1
-        section.numCurEnrolled -= 1
-        db.session.commit()
-        reply = 'Successfully unregistered student for section'
+        if section in self.classesEnrolled:
+            self.classesEnrolled.remove(section)
+            reply = 'Successfully unregistered student for section'
+            if section.sectFor.hasLinkedClass():
+                lID = section.sectFor.getLinkedClass().cID
+                sects = Section.query.filter(Section.cID == lID)
+                link = [sec for sec in sects if sec in self.classesEnrolled]
+                if len(link) == 1:
+                    link = link[0]
+                self.classesEnrolled.remove(link)
+                reply += ' and associated lab'
+                link.numCurEnrolled -= 1
+            section.numCurEnrolled -= 1
+            db.session.commit()     
+        else:
+            reply = 'Could not unregister for section'
         return reply
 
     def completeCurrent(self):
