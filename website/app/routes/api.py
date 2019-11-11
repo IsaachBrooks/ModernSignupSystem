@@ -154,9 +154,7 @@ def removeEnrolledClass():
     section = Section.query.filter(Section.crn == crn).first()
     reply = ''
     if section in student.classesEnrolled:
-        student.classesEnrolled.remove(section)
-        print(student.classesEnrolled)
-        section.numCurEnrolled -= 1
+        student.unenroll(section)
         db.session.commit()
         reply = 'Successfully unregister for section!'
     else:

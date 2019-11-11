@@ -1,5 +1,6 @@
 from app import db, loginManager
 from app.database.models import BaseTable, student_cur_enroll, serializeRelation, asc_student_classes_taken
+from app.database.section import Section
 from flask_login import UserMixin
 
 
@@ -65,6 +66,22 @@ class Student(BaseTable, UserMixin):
         self.classesEnrolled.append(section)
         section.numCurEnrolled += 1
         db.session.commit()
+        return 'Successfully enrolled student in section!'
+
+    def unenroll(self, section):
+        self.classesEnrolled.remove(section)
+        if section.sectFor.hasLinkedClass():
+            lID = section.sectFor.getLinkedClass().cID
+            sects = Section.query.filter(Section.cID == lID)
+            link = [sec for sec in sects if sec in self.classesEnrolled]
+            if len(link) == 1:
+                link = link[0]
+            self.classesEnrolled.remove(link)
+            link.numCurEnrolled -= 1
+        section.numCurEnrolled -= 1
+        db.session.commit()
+        reply = 'Successfully unregistered student for section'
+        return reply
 
     def completeCurrent(self):
         for sect in self.classesEnrolled:
