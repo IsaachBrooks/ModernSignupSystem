@@ -12,9 +12,9 @@ export function drawSelected(selectedCRNs) {
         selectHolder.css('visibility', 'unset');
     }
     selectListHolder.empty();
-    const sections = getSectionsInfo(selectedCRNs).then((data) => {
+    getSectionsInfo(selectedCRNs).then((data) => {
         data.forEach((elem) => {
-            const curClass = getClassInfoMinimal(elem.cID).then((classData) => {
+            getClassInfoMinimal(elem.cID).then((classData) => {
                 let crn = elem.crn;
                 let cName = classData.name;
                 let dCode = classData.deptCode;
@@ -41,8 +41,8 @@ export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID = 
     const siExtra = $('.si-extra');
     const siInstructor = $('.si-instructor');
     const siDesc = $('.si-description');
-    const section = getSectionInfo(crn).then((sectData) => {
-        const cl = getClassInfo(cID).then((classData) => {
+    getSectionInfo(crn).then((sectData) => {
+        getClassInfo(cID).then((classData) => {
             $('#sec-info-content').data('crn', crn);
             $('#sec-info-content').data('cid', cID);
             //class data
@@ -98,7 +98,7 @@ export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID = 
         });
     });
     //If student is registered for section already, change view of unregister button
-    const enrolled = isCurStudentRegisteredFor(crn).then((data) => {
+    isCurStudentRegisteredFor(crn).then((data) => {
         const unregister = $('#section-info-unregister');
         if (data.result) {
             unregister.addClass('btn-danger');
