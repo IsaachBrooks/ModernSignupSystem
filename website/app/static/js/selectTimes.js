@@ -4,7 +4,6 @@ export default drawSelected;
 
 const sectionInfo = $('.section-info-main');
 
-
 export function drawSelected(selectedCRNs) {
     const selectHolder = $('#selected-holder');
     const selectListHolder =  $('#selected-list-holder');

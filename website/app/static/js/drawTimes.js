@@ -107,9 +107,9 @@ export function drawCurTimes(times) {
         let cNums = data.cNumbers
         let cShort = data.cShort
         let rgb = [
-            Math.floor((tStart * 393181 * +cNums - 128) % 255), 
-            Math.floor((tStart * 3187 * +cNums - 128) % 255), 
-            Math.floor((tStart * 477 * +cNums - 128) % 255),
+            Math.floor((393181 * +cNums - 128) % 255), 
+            Math.floor((3187 * +cNums - 128) % 255), 
+            Math.floor((477 * +cNums - 128) % 255),
         ];
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {

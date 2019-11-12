@@ -3,8 +3,6 @@ import { updateAllTimes } from "./drawTimes.js";
 
 export default switchView;
 
-
-
 function setupSubjectSelector() {
     const dSel = document.getElementById('subject-selector');
     let response = getDepartmentNamesIDs();

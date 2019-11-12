@@ -1,9 +1,12 @@
+const signupMain = document.getElementById('signup-main');
+const curClassesMain = document.getElementById('curClasses-main');
+
 function drawGrid() {
     const width = screen.width;
     const gridCanvas = document.createElement('canvas');
     gridCanvas.id = 'signup-grid-canvas';
     gridCanvas.width = width;
-    gridCanvas.height = '2400';
+    gridCanvas.height = 2400;
     const ctx = gridCanvas.getContext("2d");
     ctx.strokeStyle = "black";
     let hr = 8;
@@ -35,8 +38,7 @@ function drawGrid() {
     ctx.beginPath();
     return gridCanvas
 }
-const signupMain = document.getElementById('signup-main');
-const curClassesMain = document.getElementById('curClasses-main');
+
 grid1 = drawGrid();
 grid2 = drawGrid();
 signupMain.append(grid1);
