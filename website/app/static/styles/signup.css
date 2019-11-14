@@ -56,14 +56,7 @@ content.signup-holder {
     visibility: hidden;
 }
 
-.signup-opt {
-    background-color: gray;
-    position: relative;
-    grid-area: opt;
-    overflow: auto;
-    width: var(--main-width);
-    height: 100px;
-}
+
 
 .signup-btn {
     position: relative;
@@ -122,13 +115,7 @@ content.signup-holder {
     color: white;
     text-shadow: 1px 0 black;
     /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Opera and Firefox */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
 }
 
 .time-slot-holder:active {

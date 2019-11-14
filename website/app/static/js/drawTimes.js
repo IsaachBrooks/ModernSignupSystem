@@ -1,6 +1,6 @@
 import { getStudentSectionsDraw, hideLoading, showLoading } from './databaseAccess.js';
 import { hideSectionInfo } from './selectTimes.js';
-
+import { showCanTake, showOverlaps }  from './options.js';
 export default drawTimesFull;
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
@@ -139,11 +139,12 @@ export function drawCurTimes(times) {
         let classes = data.cID;
         let cNums = data.cNumbers
         let cShort = data.cShort
-        let rgb = [
+        /*let rgb = [
             Math.floor((393181 * +cNums - 128) % 255), 
             Math.floor((3187 * +cNums - 128) % 255), 
             Math.floor((477 * +cNums - 128) % 255),
-        ];
+        ];*/
+        let rgb = pickColor(+cNums);
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
                 newTimeSlot(weekdays[i], time, count, rgb, classes, crn, cShort, 'cur');

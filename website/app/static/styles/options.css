@@ -1,5 +1,10 @@
-#option-holder {
+
+.signup-opt {
+    background-color: gray;
     position: relative;
+    grid-area: opt;
+    overflow: auto;
+    width: var(--main-width);
     grid-template-areas: "L R";
     display: grid;
 }
@@ -9,11 +14,20 @@
     grid-area: L;
 }
 
+.left-opt {
+    float: left;
+    margin-right: 10px;
+}
+
 #opt-right {
     position: relative;
     grid-area: R;
 }
 
+.right-opt {
+    float: right;
+    margin-left: 10px;
+}
 .opt-section {
     position: relative;
     padding: .1em;
@@ -27,7 +41,7 @@
 }
 
 #switch-view {
-    font-size: 1.5em;
+    font-size: 2em;
     font-family: Arial, Helvetica, sans-serif;
     border: 1px solid black;
 }
@@ -44,4 +58,8 @@
 #opt-search {
     position: absolute;
     right: 0;
+}
+
+#checked-opts {
+    display: block;
 }
