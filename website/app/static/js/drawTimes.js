@@ -36,7 +36,6 @@ let scaleFactor = 1.5;
 
 function pickColor(num) {
     let index = ((num * 17) * 93) % colors.length;
-    console.log(index);
     return colors[index];
 }
 

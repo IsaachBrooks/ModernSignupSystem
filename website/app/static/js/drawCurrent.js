@@ -12,7 +12,8 @@ export function showCurrentEnrolled() {
             if (currentHolder.css('visibility') === 'hidden') {
                 currentHolder.css('visibility', 'unset');
             }
-            data.forEach((elem) => {
+            data.sort((a,b) => {return (a.cID - b.cID);})
+            for (let elem of data) {
                 getClassInfoMinimal(elem.cID).then((classData) => {
                     let crn = elem.crn;
                     let cName = classData.name;
@@ -27,7 +28,7 @@ export function showCurrentEnrolled() {
                     sectLi.setAttribute('data-cid', elem.cID);
                     currentListHolder.append(sectLi);
                 });
-            });
+            }
         }
     });
 }
