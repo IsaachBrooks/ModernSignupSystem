@@ -4,9 +4,41 @@ import { hideSectionInfo } from './selectTimes.js';
 export default drawTimesFull;
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
+const colors = [
+    //VIVID
+    [179, 0, 0], 
+    [179, 107, 0],
+    [179, 176, 0],
+    [110, 179, 0],
+    [9, 179, 0],
+    [0, 179, 116],
+    [0, 134, 179],
+    [0, 69, 179],
+    [81, 0, 179],
+    [146, 0, 179],
+    [179, 0, 161],
+    //SOFT
+    [166, 68, 68],
+    [166, 119, 68],
+    [164, 166, 68],
+    [119, 166, 68],
+    [68, 166, 89],
+    [68, 166, 156],
+    [68, 128, 166],
+    [68, 79, 166],
+    [94, 68, 166],
+    [142, 68, 166],
+    [166, 68, 143]
+]
 let allTimes = {};
 
 let scaleFactor = 1.5;
+
+function pickColor(num) {
+    let index = ((num * 17) * 93) % colors.length;
+    console.log(index);
+    return colors[index];
+}
 
 function newTimeSlot(day, time, count, rgb, classes, crns, cNums, slot) {
     let dayElement = document.getElementById(`${slot}-${day}-header`);
@@ -83,11 +115,12 @@ export function drawTimesFull(times) {
         let count = data.count;
         let classes = data.cID;
         let cNums = data.cNumbers
-        let rgb = [
+        /*let rgb = [
             Math.floor((tStart * 393181 * classes.reduce((a,b) => a+b) - 128) % 255), 
             Math.floor((tStart * 3187 * classes.reduce((a,b) => a+b) - 128) % 255), 
             Math.floor((tStart * 477 * classes.reduce((a,b) => a+b) - 128) % 255),
-        ];
+        ];*/
+        let rgb = pickColor(classes.reduce((a,b) => a+b));
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
                 newTimeSlot(weekdays[i], time, count, rgb, classes, crns, cNums, 'full');

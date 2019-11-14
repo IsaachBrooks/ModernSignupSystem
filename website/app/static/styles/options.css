@@ -27,10 +27,14 @@
 }
 
 #switch-view {
-    font-size: 3em;
+    font-size: 1.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid black;
 }
+
 #switch-view:hover {
-    color: rgb(226, 226, 226)
+    color: rgb(226, 226, 226);
+    border-color: rgb(226, 226, 226);
 }
 
 #switch-view:active {

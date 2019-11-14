@@ -3,6 +3,8 @@ import { updateAllTimes } from "./drawTimes.js";
 
 export default switchView;
 
+const switchStr = [' Full View', ' Cur View'];
+
 function setupSubjectSelector() {
     const dSel = document.getElementById('subject-selector');
     let response = getDepartmentNamesIDs();
@@ -54,6 +56,17 @@ function setupSearchBar() {
 
 export function switchView() {
     let vis = $("#curClasses-main").css('visibility');
+    let sv = $("#switch-view");
+    let fa = sv.children()[0];
+    let span = sv.children()[1];
+
+    if (span.innerHTML === switchStr[0]) {
+        span.innerHTML = switchStr[1];
+        fa.className = 'fa fa-arrow-circle-o-left'
+    } else {
+        span.innerHTML = switchStr[0];
+        fa.className = 'fa fa-arrow-circle-o-right'
+    }
     $("#curClasses-main").css('visibility', $("#signup-main").css('visibility'));
     $("#signup-main").css('visibility', vis);
 }
