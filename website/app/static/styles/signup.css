@@ -37,7 +37,7 @@ content.signup-holder {
 }
 
 .signup-cur {
-    background-color: rgb(141, 182, 141);
+    background-color: gray;
     grid-area: cur;
     min-height: 400px;
     width: 12vw;
@@ -46,7 +46,7 @@ content.signup-holder {
 }
 
 .signup-sel {
-    background-color: rgb(167, 112, 112);
+    background-color: gray;
     grid-area: sel;
     min-height: 400px;
     width: 13vw;
