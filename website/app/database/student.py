@@ -54,6 +54,12 @@ class Student(BaseTable, UserMixin):
             return cla in self.getClassesTaken()
         else:
             return cla.linkedTo in self.getClassesTaken()
+    
+    def canTake(self, cla):
+        for prereq in cla.prereqs:
+            if prereq not in self.getClassesTaken():
+                return False
+        return True
 
     def passed(self, classTaken):
         if classTaken in self.getClassesTaken():

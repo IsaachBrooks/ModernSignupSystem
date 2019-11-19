@@ -1,3 +1,5 @@
+import { noOverlaps, showCanTake } from './options.js'
+
 export default getSectionTimesDaysFull;
 
 async function baseGetRequest(url) {
@@ -109,7 +111,8 @@ export async function getDepartmentNamesIDs() {
 }
 
 export function getSectionsByDepartment(dpID) {
-    const url = `/api/getSectionsByDepartment/${dpID}`;
+    const url = `/api/getSectionsByDepartment/dpID=${dpID}&noOverlaps=${noOverlaps}&showCanTake=${showCanTake}`;
+    console.log(url);
     return baseGetRequest(url);
 }
 
@@ -168,4 +171,9 @@ export function showLoading() {
 export function hideLoading() {
     let loader = $('#loading-indicator');
     loader.css('visibility', 'hidden');
+}
+
+export function getCurStudentSectionsMinimal() {
+    let url = '/api/getCurStudentSectionsMinimal'
+    return baseGetRequest(url);
 }

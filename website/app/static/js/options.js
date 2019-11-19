@@ -4,14 +4,14 @@ import { updateAllTimes } from "./drawTimes.js";
 export default switchView;
 
 const switchStr = [' Full View', ' Cur View'];
-export let showOverlaps = true;
+export let noOverlaps = false;
 export let showCanTake = false;
 export let viewing_full = true;
 export let viewing_cur = false;
 
+const dSel = document.getElementById('subject-selector');
 
 function setupSubjectSelector() {
-    const dSel = document.getElementById('subject-selector');
     let response = getDepartmentNamesIDs();
     response.then((data) => {
         for (let dept of data) {
@@ -24,12 +24,7 @@ function setupSubjectSelector() {
         }
     });
     dSel.onchange = () => {
-        if (dSel.value) {
-            showLoading();
-            getSectionsByDepartment(dSel.value).then(data => {
-                updateAllTimes(data);
-            });
-        }
+        reloadSections();
     }
 }
 
@@ -62,12 +57,23 @@ function setupCheckBoxes() {
     let SCT = document.getElementById('showCanTake');
     SCT.onchange = () => {
         showCanTake = SCT.checked;
+        reloadSections();
     };
     let SOL = document.getElementById('showOverlaps');
     SOL.onchange = () => {
-        showOverlaps = SOL.checked;
+        noOverlaps = SOL.checked;
+        reloadSections();
     };
 
+}
+
+function reloadSections() {
+    if (dSel.value) {
+        showLoading();
+        getSectionsByDepartment(dSel.value).then(data => {
+            updateAllTimes(data);
+        });
+    }
 }
 
 export function switchView() {

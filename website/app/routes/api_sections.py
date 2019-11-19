@@ -5,7 +5,8 @@ from app.database.degree import Degree
 from app.database.classes import Classes
 from app.database.section import Section
 from app.database.department import Department
-from app.Scripts.validator import verifyCanEnroll 
+from app.Scripts.validator import verifyCanEnroll, filterSection 
+from app.Scripts.inputConversion import strToBool
 from flask_login import current_user
 
 def processSections(sects):
@@ -74,8 +75,8 @@ def getSectionsInfo(sCRNs):
 def getSectionInfo(sCRN):
     return jsonify(Section.query.filter(Section.crn == sCRN).first().serialize())
     
-@app.route("/api/getSectionsByDepartment/<int:dpID>", methods=['GET'])
-def getSectionsByDepartment(dpID):
+@app.route("/api/getSectionsByDepartment/dpID=<int:dpID>&noOverlaps=<string:noOverlaps>&showCanTake=<string:showCanTake>", methods=['GET'])
+def getSectionsByDepartment(dpID, noOverlaps, showCanTake):
     deptClassList = Department.query.filter(Department.dpID == dpID).first().classesMember
     allSects = [Section.query.filter(Section.sectFor == c).all() for c in deptClassList]
     sects = []
@@ -85,6 +86,7 @@ def getSectionsByDepartment(dpID):
                 sects.append(s)
         else:
             sects.append(sublist)
+    filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake))
     fullTimes = processSections(sects)
     return jsonify(fullTimes)
 

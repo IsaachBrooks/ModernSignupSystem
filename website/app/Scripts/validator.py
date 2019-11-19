@@ -2,6 +2,7 @@ from app import db
 from app.database.section import Section
 from app.database.student import Student
 from app.database.classes import Classes
+from flask_login import current_user
 
 def inputNotNull(input):
     if input is None or input == '':
@@ -79,3 +80,28 @@ def verifyCanEnroll(student, section):
         #prompt for additional sections here
         return 'This section is at capacity', False
     return 'Enrolled successfully', True
+
+def filterSection(sectList, noOverlaps, showOnlyCanTake):
+    cur = Student.query.filter(Student.sID == current_user.get_id()).first()
+    if noOverlaps:
+        overlapSections = []
+        curSects = cur.classesEnrolled
+        if curSects:
+            for sect in sectList:
+                for curSect in curSects:
+                    if verifyDayTimeNoOverlap(sect, curSect):
+                        overlapSections.append(sect)
+                        break
+            for sect in overlapSections:
+                sectList.remove(sect)
+    
+    if showOnlyCanTake:
+        cantTakeSections = []
+        taken = cur.getClassesTaken()
+        for sect in sectList:
+            if not cur.canTake(sect.sectFor):
+                cantTakeSections.append(sect)
+                break
+        for sect in cantTakeSections:
+            sectList.remove(sect)
+    return sectList

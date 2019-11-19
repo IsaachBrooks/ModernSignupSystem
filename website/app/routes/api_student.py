@@ -103,3 +103,19 @@ def getCurStudentSections():
     sections = student.classesEnrolled
     ret = [sect.serialize() for sect in sections]
     return jsonify(ret)
+
+@app.route("/api/getCurStudentSectionsMinimal", methods=['GET'])
+def getCurStudentSectionsMinimal():
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    sections = student.classesEnrolled
+    result = []
+    for sect in sections:
+        result.append({
+            'crn': sect.crn,
+            'sec': sect.sec,
+            'cNumber': sect.sectFor.cNumber,
+            'name': sect.sectFor.name,
+            'shortName': sect.sectFor.getShortName()
+        })
+    return jsonify(result)
+

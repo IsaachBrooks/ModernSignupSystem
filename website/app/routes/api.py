@@ -40,7 +40,6 @@ def getDepartmentNamesIDs():
         ret.append({'name': dep.name, 'dpID': dep.dpID})
     return jsonify(ret)
 
-
 """
 @app.route("/api/", methods=[''])
 def api():

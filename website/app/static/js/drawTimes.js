@@ -1,6 +1,5 @@
 import { getStudentSectionsDraw, hideLoading, showLoading } from './databaseAccess.js';
 import { hideSectionInfo } from './selectTimes.js';
-import { showCanTake, showOverlaps }  from './options.js';
 export default drawTimesFull;
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
@@ -34,7 +33,7 @@ let allTimes = {};
 
 let scaleFactor = 1.5;
 
-function pickColor(num) {
+export function pickColor(num) {
     let index = ((num * 17) * 93) % colors.length;
     return colors[index];
 }
@@ -114,11 +113,6 @@ export function drawTimesFull(times) {
         let count = data.count;
         let classes = data.cID;
         let cNums = data.cNumbers
-        /*let rgb = [
-            Math.floor((tStart * 393181 * classes.reduce((a,b) => a+b) - 128) % 255), 
-            Math.floor((tStart * 3187 * classes.reduce((a,b) => a+b) - 128) % 255), 
-            Math.floor((tStart * 477 * classes.reduce((a,b) => a+b) - 128) % 255),
-        ];*/
         let rgb = pickColor(classes.reduce((a,b) => a+b));
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
@@ -138,11 +132,6 @@ export function drawCurTimes(times) {
         let classes = data.cID;
         let cNums = data.cNumbers
         let cShort = data.cShort
-        /*let rgb = [
-            Math.floor((393181 * +cNums - 128) % 255), 
-            Math.floor((3187 * +cNums - 128) % 255), 
-            Math.floor((477 * +cNums - 128) % 255),
-        ];*/
         let rgb = pickColor(+cNums);
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
