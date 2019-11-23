@@ -1,7 +1,13 @@
 import sys
 from getpass import getpass
-from app import db, bc
+from app import app, db, bc
 from app.database.models import *
+from app.database.student import Student
+from app.database.department import Department
+from app.database.degree import Degree
+from app.database.classes import Classes
+from app.database.faculty import Faculty
+from app.database.section import Section
 from app.Scripts.tableLoaderCSVDepartment import departmentFileValidator, departmentFileLoader
 from app.Scripts.tableLoaderCSVDegree import degreeFileValidator, degreeFileLoader
 from app.Scripts.tableLoaderCSVFaculty import facultyFileValidator, facultyFileLoader
@@ -10,6 +16,7 @@ from app.Scripts.tableLoaderCSVSection import sectionFileValidator, sectionFileL
 
 
 password = '$2b$12$He6gTRczz5WA/kndXOu47ehYHbRjQaNvHQAlRtw4tO4Qft1c29vpa'
+app.app_context().push()
 
 print("Imported")
 if not bc.check_password_hash(password, getpass('\nEnter password to reset database: ')):

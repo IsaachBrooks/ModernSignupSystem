@@ -1,7 +1,9 @@
 import csv
 import sys
 from app import db
-from app.database.models import Classes, Department, Degree
+from app.database.classes import Classes
+from app.database.department import Department
+from app.database.degree import Degree
 
 
 #file validation

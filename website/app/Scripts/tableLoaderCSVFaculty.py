@@ -1,7 +1,8 @@
 import csv
 import sys
 from app import db
-from app.database.models import Department, Faculty
+from app.database.faculty import Faculty
+from app.database.department import Department
 import re
 
 #file validation

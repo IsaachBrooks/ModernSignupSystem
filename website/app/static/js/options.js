@@ -43,6 +43,7 @@ function setupSearchBar() {
                     if (viewing_cur) {
                         switchView();
                     }
+                    sBar.val('');
                 });
             }
         }
@@ -58,6 +59,7 @@ function setupSearchBar() {
                         switchView();
                     }
                 });
+                sBar.val('');
             }
         }
     });

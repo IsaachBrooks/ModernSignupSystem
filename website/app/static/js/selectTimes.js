@@ -31,7 +31,7 @@ export function drawSelected(selectedCRNs) {
     });
 }
 
-export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID = $("#sec-info-content").data('cid')) {
+export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID=$("#sec-info-content").data('cid')) {
     const siHeader = $('.si-header');
     const siTime = $('.si-time');
     const siDays = $('.si-days');
