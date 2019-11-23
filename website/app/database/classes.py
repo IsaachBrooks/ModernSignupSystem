@@ -28,8 +28,6 @@ class Classes(BaseTable):
 
     def getShortName(self):
         shortName = f"{self.department.code}{self.cNumber}"
-        if (self.lab):
-            shortName += ' LAB' 
         return shortName
 
     def hasLinkedClass(self):

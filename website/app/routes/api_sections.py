@@ -71,6 +71,25 @@ def getSectionsInfo(sCRNs):
         sectionList.append(Section.query.filter(Section.crn == sect).first().serialize())
     return jsonify(sectionList)
 
+@app.route("/api/getSectionsInfoMinimal/[<string:sCRNs>]", methods=['GET'])
+def getSectionsInfoMinimal(sCRNs):
+    crns = [int(crn) for crn in sCRNs.split(',')]
+    sections = [Section.query.filter(Section.crn == crn).first() for crn in crns]
+
+    response = []
+    for sect in sections:
+        response.append(
+            {
+                'cID': sect.cID,
+                'crn': sect.crn,
+                'sec': sect.sec,
+                'dCode': sect.sectFor.department.code,
+                'cNumber': sect.sectFor.cNumber,
+                'cName': sect.sectFor.name,
+                'shortName': sect.sectFor.getShortName()
+            }
+        )
+    return jsonify(response)
 @app.route("/api/getSectionInfo/<string:sCRN>", methods=['GET'])
 def getSectionInfo(sCRN):
     return jsonify(Section.query.filter(Section.crn == sCRN).first().serialize())
@@ -112,3 +131,4 @@ def searchForSections():
         return jsonify(sections)
     else: 
         return jsonify([])
+

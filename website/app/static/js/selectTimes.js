@@ -1,4 +1,4 @@
-import { getSectionsInfo, getClassInfoMinimal, getSectionInfo, getClassInfo, isCurStudentRegisteredFor } from "./databaseAccess.js";
+import { getSectionsInfoMinimal, getClassInfoMinimal, getSectionInfo, getClassInfo, isCurStudentRegisteredFor } from "./databaseAccess.js";
 
 export default drawSelected;
 
@@ -11,23 +11,19 @@ export function drawSelected(selectedCRNs) {
         selectHolder.css('visibility', 'unset');
     }
     selectListHolder.empty();
-    getSectionsInfo(selectedCRNs).then((data) => {
-        data.forEach((elem) => {
-            getClassInfoMinimal(elem.cID).then((classData) => {
-                let crn = elem.crn;
-                let cName = classData.name;
-                let dCode = classData.deptCode;
-                let cNumber = classData.cNumber.toString()
-                let cCodeNum =  dCode + cNumber;
-                let sec = elem.sec;
-                let sectLi = document.createElement('div');
-                sectLi.className = 'selected-list-elem list-elem';
-                sectLi.innerHTML = `${sec} ${cCodeNum} ${cName}`;
-                sectLi.setAttribute('data-crn', crn);
-                sectLi.setAttribute('data-cid', elem.cID);
-                selectListHolder.append(sectLi);
-            });
-        });
+    getSectionsInfoMinimal(selectedCRNs).then((data) => {
+        for (let sect of data) {
+            let crn = sect.crn;
+            let cName = sect.cName;
+            let cCodeNum =  sect.shortName;
+            let sec = sect.sec;
+            let sectLi = document.createElement('div');
+            sectLi.className = 'selected-list-elem list-elem';
+            sectLi.innerHTML = `${sec} ${cCodeNum} ${cName}`;
+            sectLi.setAttribute('data-crn', crn);
+            sectLi.setAttribute('data-cid', sect.cID);
+            selectListHolder.append(sectLi);
+        }
     });
 }
 

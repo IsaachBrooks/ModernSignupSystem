@@ -38,6 +38,11 @@ export async function getSectionsInfo(sectionList) {
     return baseGetRequest(url);
 }
 
+export async function getSectionsInfoMinimal(sectionList) {
+    const url = `/api/getSectionsInfoMinimal/[${sectionList}]`;
+    return baseGetRequest(url);
+}
+
 export async function getSectionInfo(crn) {
     const url = `/api/getSectionInfo/${crn}`;
     return baseGetRequest(url);
@@ -112,7 +117,6 @@ export async function getDepartmentNamesIDs() {
 
 export function getSectionsByDepartment(dpID) {
     const url = `/api/getSectionsByDepartment/dpID=${dpID}&noOverlaps=${noOverlaps}&showCanTake=${showCanTake}&hideCompleted=${hideCompleted}`;
-    console.log(url);
     return baseGetRequest(url);
 }
 

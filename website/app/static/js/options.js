@@ -81,7 +81,6 @@ function setupCheckBoxes() {
         hideCompleted = HC.checked;
         reloadSections();
     }
-
 }
 
 function reloadSections() {
