@@ -6,6 +6,7 @@ export default switchView;
 const switchStr = [' Full View', ' Cur View'];
 export let noOverlaps = false;
 export let showCanTake = false;
+export let hideCompleted = false;
 export let viewing_full = true;
 export let viewing_cur = false;
 
@@ -25,6 +26,9 @@ function setupSubjectSelector() {
     });
     dSel.onchange = () => {
         reloadSections();
+        if (viewing_cur) {
+            switchView();
+        }
     }
 }
 
@@ -36,6 +40,9 @@ function setupSearchBar() {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
                     updateAllTimes(data);
+                    if (viewing_cur) {
+                        switchView();
+                    }
                 });
             }
         }
@@ -47,6 +54,9 @@ function setupSearchBar() {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
                     updateAllTimes(data);
+                    if (viewing_cur) {
+                        switchView();
+                    }
                 });
             }
         }
@@ -64,6 +74,11 @@ function setupCheckBoxes() {
         noOverlaps = SOL.checked;
         reloadSections();
     };
+    let HC = document.getElementById('hideCompleted');
+    HC.onchange = () => {
+        hideCompleted = HC.checked;
+        reloadSections();
+    }
 
 }
 

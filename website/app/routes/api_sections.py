@@ -75,8 +75,8 @@ def getSectionsInfo(sCRNs):
 def getSectionInfo(sCRN):
     return jsonify(Section.query.filter(Section.crn == sCRN).first().serialize())
     
-@app.route("/api/getSectionsByDepartment/dpID=<int:dpID>&noOverlaps=<string:noOverlaps>&showCanTake=<string:showCanTake>", methods=['GET'])
-def getSectionsByDepartment(dpID, noOverlaps, showCanTake):
+@app.route("/api/getSectionsByDepartment/dpID=<int:dpID>&noOverlaps=<string:noOverlaps>&showCanTake=<string:showCanTake>&hideCompleted=<string:hideCompleted>", methods=['GET'])
+def getSectionsByDepartment(dpID, noOverlaps, showCanTake, hideCompleted):
     deptClassList = Department.query.filter(Department.dpID == dpID).first().classesMember
     allSects = [Section.query.filter(Section.sectFor == c).all() for c in deptClassList]
     sects = []
@@ -86,7 +86,7 @@ def getSectionsByDepartment(dpID, noOverlaps, showCanTake):
                 sects.append(s)
         else:
             sects.append(sublist)
-    filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake))
+    filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake), strToBool(hideCompleted))
     fullTimes = processSections(sects)
     return jsonify(fullTimes)
 

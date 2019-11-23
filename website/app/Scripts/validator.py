@@ -81,27 +81,36 @@ def verifyCanEnroll(student, section):
         return 'This section is at capacity', False
     return 'Enrolled successfully', True
 
-def filterSection(sectList, noOverlaps, showOnlyCanTake):
+def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted):
     cur = Student.query.filter(Student.sID == current_user.get_id()).first()
     if noOverlaps:
-        overlapSections = []
+        toRemove = []
         curSects = cur.classesEnrolled
         if curSects:
             for sect in sectList:
                 for curSect in curSects:
                     if verifyDayTimeNoOverlap(sect, curSect):
-                        overlapSections.append(sect)
+                        toRemove.append(sect)
                         break
-            for sect in overlapSections:
+            for sect in toRemove:
                 sectList.remove(sect)
     
     if showOnlyCanTake:
-        cantTakeSections = []
+        toRemove = []
         taken = cur.getClassesTaken()
         for sect in sectList:
             if not cur.canTake(sect.sectFor):
-                cantTakeSections.append(sect)
-                break
-        for sect in cantTakeSections:
+                toRemove.append(sect)
+                
+        for sect in toRemove:
+            sectList.remove(sect)
+
+    if hideCompleted:
+        complete = cur.getClassesTaken()
+        toRemove = []
+        for sect in sectList:
+            if sect.sectFor in complete:
+                toRemove.append(sect)
+        for sect in toRemove:
             sectList.remove(sect)
     return sectList
