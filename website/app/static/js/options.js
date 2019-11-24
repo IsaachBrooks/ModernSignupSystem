@@ -7,6 +7,7 @@ const switchStr = [' Full View', ' Cur View'];
 export let noOverlaps = false;
 export let showCanTake = false;
 export let hideCompleted = false;
+export let hideCurrent = false;
 export let viewing_full = true;
 export let viewing_cur = false;
 
@@ -71,19 +72,30 @@ function setupCheckBoxes() {
         showCanTake = SCT.checked;
         reloadSections();
     };
-    let SOL = document.getElementById('showOverlaps');
-    SOL.onchange = () => {
-        noOverlaps = SOL.checked;
+    let NOL = document.getElementById('showOverlaps');
+    NOL.onchange = () => {
+        noOverlaps = NOL.checked;
         reloadSections();
     };
-    let HC = document.getElementById('hideCompleted');
-    HC.onchange = () => {
-        hideCompleted = HC.checked;
+    let HCom = document.getElementById('hideCompleted');
+    HCom.onchange = () => {
+        hideCompleted = HCom.checked;
         reloadSections();
     }
+    let HCur = document.getElementById('hideCurrent');
+    HCur.onchange = () => {
+        hideCurrent = HCur.checked;
+        reloadSections();
+    }
+
+    //Check for existing values from cache
+    showCanTake = SCT.checked;
+    noOverlaps = NOL.checked;
+    hideCompleted = HCom.checked;
+    hideCurrent = HCur.checked;
 }
 
-function reloadSections() {
+export function reloadSections() {
     if (dSel.value) {
         showLoading();
         getSectionsByDepartment(dSel.value).then(data => {
@@ -93,7 +105,6 @@ function reloadSections() {
 }
 
 export function switchView() {
-    let vis = $("#curClasses-main").css('visibility');
     let sv = $("#switch-view");
     let fa = sv.children()[0];
     let span = sv.children()[1];
@@ -116,12 +127,10 @@ export function switchView() {
     }
     $("#curClasses-main").fadeToggle(300);
     $("#signup-main").fadeToggle(300);
+
+    //Set scrolling to be the same
     $("#curClasses-main").scrollTop(scroll);
     $("#signup-main").scrollTop(scroll);
-
-    //$("#curClasses-main").css('visibility', $("#signup-main").css('visibility'));
-    //$("#signup-main").css('visibility', vis);
-
 }
 
 setupSubjectSelector();

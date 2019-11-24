@@ -1,4 +1,4 @@
-import { noOverlaps, showCanTake, hideCompleted } from './options.js'
+import { noOverlaps, showCanTake, hideCompleted, hideCurrent } from './options.js'
 
 export default getSectionTimesDaysFull;
 
@@ -116,7 +116,7 @@ export async function getDepartmentNamesIDs() {
 }
 
 export function getSectionsByDepartment(dpID) {
-    const url = `/api/getSectionsByDepartment/dpID=${dpID}&noOverlaps=${noOverlaps}&showCanTake=${showCanTake}&hideCompleted=${hideCompleted}`;
+    const url = `/api/getSectionsByDepartment/dpID=${dpID}&noOverlaps=${noOverlaps}&showCanTake=${showCanTake}&hideCompleted=${hideCompleted}&hideCurrent=${hideCurrent}`;
     return baseGetRequest(url);
 }
 

@@ -18,10 +18,10 @@ def verifyDayTimeNoOverlap(existing, new):
 
     overlap = False
     #eStart is after nEnd
-    if eStart > nEnd:
+    if eStart >= nEnd:
         overlap = False
     #eEnd is before nStart
-    elif eEnd < nStart:
+    elif eEnd <= nStart:
         overlap = False
     #times overlap
     else:
@@ -81,7 +81,7 @@ def verifyCanEnroll(student, section):
         return 'This section is at capacity', False
     return 'Enrolled successfully', True
 
-def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted):
+def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurrent):
     cur = Student.query.filter(Student.sID == current_user.get_id()).first()
     if noOverlaps:
         toRemove = []
@@ -113,4 +113,10 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted):
                 toRemove.append(sect)
         for sect in toRemove:
             sectList.remove(sect)
+    if hideCurrent:
+        curSects = cur.classesEnrolled
+        if curSects:
+            for sect in curSects:
+                if sect in sectList:
+                    sectList.remove(sect)
     return sectList

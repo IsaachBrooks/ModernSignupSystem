@@ -83,9 +83,12 @@ class Student(BaseTable, UserMixin):
                 link = [sec for sec in sects if sec in self.classesEnrolled]
                 if len(link) == 1:
                     link = link[0]
-                self.classesEnrolled.remove(link)
-                reply += ' and associated lab'
-                link.numCurEnrolled -= 1
+                
+                    self.classesEnrolled.remove(link)
+                    reply += ' and associated lab'
+                    link.numCurEnrolled -= 1
+                else:
+                    reply = 'An error has occured. The linked class could not be found'
             section.numCurEnrolled -= 1
             db.session.commit()     
         else:

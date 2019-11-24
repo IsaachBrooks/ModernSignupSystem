@@ -2,7 +2,7 @@ import { drawSelected, updateSectionInfo, showSectionInfo, hideSectionInfo } fro
 import { showCurrentEnrolled } from './drawCurrent.js'
 import { enrollStudent, removeEnrolledClass, completeCurSections } from './databaseAccess.js';
 import { updateCurTimes } from './drawTimes.js';
-import switchView from './options.js';
+import switchView, { reloadSections } from './options.js';
 
 $(document).ready(function () {
 
@@ -121,6 +121,7 @@ $(document).ready(function () {
                 showCurrentEnrolled();
                 updateSectionInfo();
                 updateCurTimes();
+                reloadSections();
             });
         }
     });
@@ -133,6 +134,7 @@ $(document).ready(function () {
                 showCurrentEnrolled();
                 updateSectionInfo();
                 updateCurTimes();
+                reloadSections();
             });
         }
     });
