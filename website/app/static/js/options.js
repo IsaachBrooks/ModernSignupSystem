@@ -104,6 +104,20 @@ export function reloadSections() {
     }
 }
 
+/*
+*   Switch view between current classes and full view
+*/
+function setupSwitchView() {
+    $("#switch-view").on({
+        click: function() {
+            switchView();
+        }
+    });
+}
+
+/*
+*   Switch view between current classes and all loaded sections
+*/
 export function switchView() {
     let sv = $("#switch-view");
     let fa = sv.children()[0];
@@ -133,6 +147,7 @@ export function switchView() {
     $("#signup-main").scrollTop(scroll);
 }
 
+setupSwitchView();
 setupSubjectSelector();
 setupSearchBar();
 setupCheckBoxes();

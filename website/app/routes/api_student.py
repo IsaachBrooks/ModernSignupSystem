@@ -61,7 +61,22 @@ def getStudentSectionsDraw():
     student = Student.query.filter(Student.sID == current_user.get_id()).first()
     sects = student.classesEnrolled
 
-    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri, sect.cID, sect.crn, sect.sectFor.cNumber, sect.sectFor.getShortName()) for sect in sects]
+    times = [
+        (
+            sect.tStart, 
+            sect.tEnd, 
+            sect.mon, 
+            sect.tue, 
+            sect.wed, 
+            sect.thu, 
+            sect.fri, 
+            sect.cID, 
+            sect.crn, 
+            sect.sectFor.cNumber, 
+            sect.sectFor.getShortName()
+        ) 
+        for sect in sects
+    ]
     times = set(times)
     fullTimes = []
 

@@ -19,7 +19,7 @@ def processSections(sects):
             sect.wed, 
             sect.thu, 
             sect.fri
-            ) 
+        ) 
         for sect in sects
     ]
     times = set(times)
