@@ -10,7 +10,18 @@ from app.Scripts.inputConversion import strToBool
 from flask_login import current_user
 
 def processSections(sects):
-    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri) for sect in sects]
+    times = [
+        (
+            sect.tStart, 
+            sect.tEnd, 
+            sect.mon, 
+            sect.tue, 
+            sect.wed, 
+            sect.thu, 
+            sect.fri
+            ) 
+        for sect in sects
+    ]
     times = set(times)
     fullTimes = []
 
@@ -44,7 +55,20 @@ def processSections(sects):
 @app.route("/api/getSectionTimesDaysFull", methods=['GET'])
 def getSectionTimesDaysFull():
     sects = Section.query.all()
-    times = [(sect.tStart, sect.tEnd, sect.mon, sect.tue, sect.wed, sect.thu, sect.fri, sect.cID, sect.crn) for sect in sects]
+    times = [
+        (
+            sect.tStart, 
+            sect.tEnd, 
+            sect.mon, 
+            sect.tue, 
+            sect.wed, 
+            sect.thu, 
+            sect.fri, 
+            sect.cID, 
+            sect.crn
+        ) 
+        for sect in sects
+    ]
     times = set(times)
     fullTimes = processSections(sects)
     return jsonify(fullTimes)
