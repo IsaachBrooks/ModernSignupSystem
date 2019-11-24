@@ -113,6 +113,7 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurr
                 toRemove.append(sect)
         for sect in toRemove:
             sectList.remove(sect)
+            
     if hideCurrent:
         curSects = cur.classesEnrolled
         if curSects:
