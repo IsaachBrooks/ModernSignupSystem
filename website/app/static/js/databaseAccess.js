@@ -174,7 +174,8 @@ export function showLoading() {
 
 export function hideLoading() {
     let loader = $('#loading-indicator');
-    loader.css('visibility', 'hidden');
+    loader.fadeOut(300);
+    //loader.css('visibility', 'hidden');
 }
 
 export function getCurStudentSectionsMinimal() {

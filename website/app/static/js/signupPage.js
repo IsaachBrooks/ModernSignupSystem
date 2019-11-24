@@ -105,12 +105,6 @@ $(document).ready(function () {
     })
 
     /*
-    *   Keep both windows scrolling in sync
-    */
-    syncScroll(signupHolder, curClassesHolder);
-    syncScroll(curClassesHolder, signupHolder);
-
-    /*
     *   Section info buttons
     */
     $("#section-info-close").on({
@@ -154,19 +148,3 @@ $(document).ready(function () {
 
     showCurrentEnrolled();
 });
-
-
-let ignoreScrollEvents = false;
-/*
-*   Lock jquery ele1 and jquery ele2 to stay scroll the same.
-*/
-function syncScroll(ele1, ele2) {
-    ele1.scroll(() => {
-        let ignore = ignoreScrollEvents;
-        ignoreScrollEvents = false;
-        if (ignore) return;
-
-        ignoreScrollEvents = true;
-        ele2.scrollTop(ele1.scrollTop());
-    })
-}

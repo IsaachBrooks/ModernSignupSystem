@@ -11,6 +11,7 @@ export function drawSelected(selectedCRNs) {
         selectHolder.css('visibility', 'unset');
     }
     selectListHolder.empty();
+    let count = 0;
     getSectionsInfoMinimal(selectedCRNs).then((data) => {
         for (let sect of data) {
             let crn = sect.crn;
@@ -22,7 +23,10 @@ export function drawSelected(selectedCRNs) {
             sectLi.innerHTML = `${sec} ${cCodeNum} ${cName}`;
             sectLi.setAttribute('data-crn', crn);
             sectLi.setAttribute('data-cid', sect.cID);
+            $(sectLi).css('display', 'none');
             selectListHolder.append(sectLi);
+            $(sectLi).fadeIn(200 + count);
+            count+=100;
         }
     });
 }

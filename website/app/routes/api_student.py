@@ -111,6 +111,7 @@ def getCurStudentSectionsMinimal():
     result = []
     for sect in sections:
         result.append({
+            'cID': sect.cID,
             'crn': sect.crn,
             'sec': sect.sec,
             'cNumber': sect.sectFor.cNumber,

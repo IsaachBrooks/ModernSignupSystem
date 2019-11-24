@@ -97,7 +97,7 @@ export function switchView() {
     let sv = $("#switch-view");
     let fa = sv.children()[0];
     let span = sv.children()[1];
-
+    let scroll = 0;
     if (span.innerHTML === switchStr[0]) {
         span.innerHTML = switchStr[1];
         fa.className = 'fa fa-arrow-circle-o-left'
@@ -109,8 +109,19 @@ export function switchView() {
         viewing_cur = true;
         viewing_full = false;
     }
-    $("#curClasses-main").css('visibility', $("#signup-main").css('visibility'));
-    $("#signup-main").css('visibility', vis);
+    if (viewing_cur) {
+        scroll = $("#signup-main").scrollTop();
+    } else {
+        scroll = $("#curClasses-main").scrollTop();
+    }
+    $("#curClasses-main").fadeToggle(300);
+    $("#signup-main").fadeToggle(300);
+    $("#curClasses-main").scrollTop(scroll);
+    $("#signup-main").scrollTop(scroll);
+
+    //$("#curClasses-main").css('visibility', $("#signup-main").css('visibility'));
+    //$("#signup-main").css('visibility', vis);
+
 }
 
 setupSubjectSelector();
