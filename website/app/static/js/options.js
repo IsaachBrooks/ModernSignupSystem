@@ -1,5 +1,6 @@
 import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections, showLoading } from "./databaseAccess.js";
 import { updateAllTimes } from "./drawTimes.js";
+import { hideSectionInfo } from "./selectTimes.js";
 
 export default switchView;
 
@@ -139,6 +140,7 @@ export function switchView() {
     } else {
         scroll = $("#curClasses-main").scrollTop();
     }
+    hideSectionInfo();
     $("#curClasses-main").fadeToggle(300);
     $("#signup-main").fadeToggle(300);
 
