@@ -10,7 +10,7 @@ function drawGrid() {
     const ctx = gridCanvas.getContext("2d");
     ctx.strokeStyle = "black";
     let hr = 8;
-    ctx.scale(2, 2);
+    ctx.scale(2, 1.599);
     ctx.font = "12px Arial";
     ctx.beginPath()
     for (let y = 40; y <= 2800; y+= 90) { // y+= 90 because of pixel scaling factor of 1.5x   90 = 60 * 1.5

@@ -10,6 +10,8 @@ let lastClicked;
 const signupHolder = $("#signup-main");
 const curClassesHolder = $("#curClasses-main");
 
+let clickColor = "#fc0"
+
 $(document).ready(function () {
 
     /*
@@ -111,7 +113,7 @@ function setupTimeslotCards() {
             let cName = $(this)[0].className.replace(' ', '.');
             let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
             for (let i = 0; i < fullSect.length; i++) {
-                fullSect.css('background-color', '#fc0');
+                fullSect.css('background-color', clickColor);
             }
         },
         "mouseup mouseleave": function() {
@@ -155,5 +157,65 @@ function setupTimeslotCards() {
             lastTimeSlotHolderIndex = null;
         }
         
-    }, 'div.time-slot-holder');
+    }, 'div.full-slot');
+
+    $(".day-holder").on({
+        click: function() {
+            let crnSel = $(this)[0].getAttribute('data-crn');
+            let cidSel = $(this)[0].getAttribute('data-cid');
+            updateSectionInfo(
+                crnSel,
+                cidSel
+            );
+            showSectionInfo();
+        },
+        mousedown: function() {
+            lastClicked = $(this)
+            lastTimeSlotHolderBGC = lastClicked.css('background-color');
+            let crnSel = $(this)[0].getAttribute('data-crn');
+            let cName = $(this)[0].className.replace(' ', '.');
+            let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
+            for (let i = 0; i < fullSect.length; i++) {
+                fullSect.css('background-color', clickColor);
+            }
+        },
+        "mouseup mouseleave": function() {
+            if (lastClicked != null) {
+                let crnSel = $(this)[0].getAttribute('data-crn');
+                let cName = $(this)[0].className.replace(' ', '.');
+                let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
+                for (let i = 0; i < fullSect.length; i++) {
+                    fullSect.css('background-color', lastTimeSlotHolderBGC);
+                }
+            }
+            lastTimeSlotHolderBGC = null;
+            lastClicked = null;
+        },
+        mouseenter: function () {
+            let crnSel = $(this)[0].getAttribute('data-crn');
+            let cName = $(this)[0].className.replace(' ', '.');
+            let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
+            for (let i = 0; i < fullSect.length; i++) {
+                let cur = fullSect[i];
+                lastTimeSlotHolderIndex = cur.style.zIndex;
+                cur.style.border = '1px solid white';
+                cur.setAttribute('data-orig-width', cur.style.width);
+                cur.style.width = '100%'
+                cur.setAttribute('data-orig-offset-left', cur.style.left);
+                cur.style.left = '0px';
+            }
+        },
+        mouseleave: function() {
+            let crnSel = $(this)[0].getAttribute('data-crn');
+            let cName = $(this)[0].className.replace(' ', '.');
+            let fullSect = $(`[data-crn="${crnSel}"].${cName}`);
+            for (let i = 0; i < fullSect.length; i++) {
+                let cur = fullSect[i];
+                cur.style.border = '1px black solid';
+                cur.style.width = cur.getAttribute('data-orig-width');
+                cur.style.left = cur.getAttribute('data-orig-offset-left');
+            }
+        }
+        
+    }, 'div.cur-slot');
 }

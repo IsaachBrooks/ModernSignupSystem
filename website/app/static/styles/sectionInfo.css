@@ -14,8 +14,9 @@
 .section-info-content {
     background-color: rgb(255, 255, 255);
     position: relative;
-    height: 75%;
+    height: 100%;
     width: 75%;
+    min-width: 790px;
     margin: auto;
     margin-top: auto;
     border-radius: 10px;
@@ -40,7 +41,7 @@
     grid-area: head;
     text-align: center;
     font-weight: bold;
-    font-size: 1.2vw;
+    font-size: 1.1em;
     border-top-left-radius: var(--corner-radius);
     border-top-right-radius: var(--corner-radius);
 
@@ -81,6 +82,7 @@
 .si-description {
     grid-area: desc;
     border-bottom-right-radius: var(--corner-radius);
+    overflow-y: scroll;
     
 }
 

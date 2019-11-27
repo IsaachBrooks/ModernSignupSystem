@@ -11,7 +11,7 @@ content.signup-holder {
     
     margin-left: auto;
     margin-right: auto;
-    max-width: 1920px;
+    max-width: 1600px;
 }
 
 .signdiv {
@@ -28,6 +28,7 @@ content.signup-holder {
     --main-width: 70vw;
     width: var(--main-width);
     min-width: 800px;
+    max-width: 1200px;
     display: grid;
     grid-template-areas:
     ". mon tue wed thu fri";
@@ -42,6 +43,7 @@ content.signup-holder {
     min-height: 400px;
     width: 12vw;
     min-width: 200px;
+    max-width: 300px;
     visibility: hidden;
 }
 
@@ -51,12 +53,10 @@ content.signup-holder {
     min-height: 400px;
     width: 13vw;
     min-width: 200px;
+    max-width: 300px;
     position: relative;
     overflow: auto;
-    visibility: hidden;
 }
-
-
 
 .signup-btn {
     position: relative;
@@ -70,7 +70,7 @@ content.signup-holder {
 .day-holder {
     position: relative;
     width: auto;
-    height: 1230px;
+    height: 1480px;
 }
 
 .day-header {
@@ -123,11 +123,11 @@ content.signup-holder {
 }
 
 #signup-grid-canvas {
-    float:left;
+    float: left;
     width: 100%;
-    height: 1200px;
+    height: 1500px; /*(2, 1.599)*/ /*1800 works at (2,1.3333334)*/ /*1390 works at (2, 1.725)*/ 
     z-index: 0;
-    position:absolute;
+    position: absolute;
 }
 
 #complete-classes {

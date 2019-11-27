@@ -37,7 +37,6 @@
 .option-ele {
     position: relative;
     margin-left: 0.1em;
-    float: left;
 }
 
 #switch-view {
@@ -55,11 +54,24 @@
     color: rgb(139, 139, 139);
 }
 
+
 #opt-search {
-    position: absolute;
-    right: 0;
+    position: relative;        
+}
+
+
+#opt-search-input {
+}
+
+#opt-search-btn {
+    width: auto;
 }
 
 #checked-opts {
     display: block;
+}
+
+.opt-check-label:hover {
+    color: rgb(226, 226, 226);
+    border-color: rgb(226, 226, 226);
 }

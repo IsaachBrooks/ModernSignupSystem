@@ -31,8 +31,6 @@ const colors = [
 ]
 let allTimes = {};
 
-let scaleFactor = 1.5;
-
 export function pickColor(num) {
     let index = ((num * 17) * 93) % colors.length;
     return colors[index];
@@ -41,7 +39,6 @@ export function pickColor(num) {
 function newTimeSlot(day, time, count, rgb, classes, crns, cNums, slot) {
     let dayElement = document.getElementById(`${slot}-${day}-header`);
     let dayHolder = document.getElementById(`${slot}-${day}-holder`);
-    let dayRect = dayElement.getBoundingClientRect();
     let newTime = document.createElement('div');
 
     let tStartHr = Math.floor((time[0] - 800) / 100);
@@ -61,6 +58,7 @@ function newTimeSlot(day, time, count, rgb, classes, crns, cNums, slot) {
         crnConcat = crns.toString();
     }
     newTime.setAttribute('data-crn', crnConcat);
+    newTime.setAttribute('data-cid', classes)
     let r = rgb[0];
     let g = rgb[1];
     let b = rgb[2];
