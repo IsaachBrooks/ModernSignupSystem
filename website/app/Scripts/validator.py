@@ -90,6 +90,7 @@ def verifyCanEnroll(student, sections):
 
 def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurrent):
     cur = Student.query.filter(Student.sID == current_user.get_id()).first()
+    numFiltered = 0
     if noOverlaps:
         toRemove = []
         curSects = cur.classesEnrolled
@@ -99,6 +100,7 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurr
                     if verifyDayTimeNoOverlap(sect, curSect):
                         toRemove.append(sect)
                         break
+            numFiltered += len(toRemove)
             for sect in toRemove:
                 sectList.remove(sect)
     
@@ -108,7 +110,7 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurr
         for sect in sectList:
             if not cur.canTake(sect.sectFor):
                 toRemove.append(sect)
-                
+        numFiltered += len(toRemove)        
         for sect in toRemove:
             sectList.remove(sect)
 
@@ -118,6 +120,7 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurr
         for sect in sectList:
             if sect.sectFor in complete:
                 toRemove.append(sect)
+        numFiltered += len(toRemove)
         for sect in toRemove:
             sectList.remove(sect)
             
@@ -126,5 +129,6 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurr
         if curSects:
             for sect in curSects:
                 if sect in sectList:
+                    numFiltered += 1
                     sectList.remove(sect)
-    return sectList
+    return sectList, numFiltered

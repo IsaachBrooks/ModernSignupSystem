@@ -129,9 +129,10 @@ def getSectionsByDepartment(dpID, noOverlaps, showCanTake, hideCompleted, hideCu
                 sects.append(s)
         else:
             sects.append(sublist)
-    filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake), strToBool(hideCompleted), strToBool(hideCurrent))
+    _, numFiltered = filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake), strToBool(hideCompleted), strToBool(hideCurrent))
     fullTimes, count = processSections(sects)
-    return jsonify(fullTimes)
+    reply = {'sections': fullTimes, 'count': count, 'success': True, 'numFiltered': numFiltered}
+    return jsonify(reply)
 
 @app.route("/api/searchForSections", methods=['POST'])
 def searchForSections():

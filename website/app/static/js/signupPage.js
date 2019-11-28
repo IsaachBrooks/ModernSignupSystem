@@ -273,8 +273,7 @@ function setupTimeslotCards() {
     }, 'div.cur-slot');
 }
 
-function showAlert(reply) {
-    clearAlerts();
+function showAlert(reply) {    
     let success = reply.success; 
     let body = reply.reply;
     let alertClass, alertHead, alertBody;
@@ -286,9 +285,7 @@ function showAlert(reply) {
         alertHead = 'Failure';
     }
     alertBody = body;
-    const alertBox = createAlert(alertClass, alertHead, alertBody);
-    signupHolder.prepend(alertBox);
-    $(alertBox).fadeIn(500).delay(10000).fadeOut(3000)
+    createAlert(alertClass, alertHead, alertBody);
 }
 
 export function clearAlerts() {
@@ -337,6 +334,7 @@ function resetExtraSelect() {
 }
 
 export function createAlert(alertClass = 'alert-primary', headText, bodyText) {
+    clearAlerts();
     let alertBox = document.createElement('div');
     alertBox.id = 'alert-box';
     alertBox.className = `alert ${alertClass}`;
@@ -361,5 +359,6 @@ export function createAlert(alertClass = 'alert-primary', headText, bodyText) {
     alertBox.appendChild(head);
     alertBox.appendChild(body);
     alertBox.appendChild(btn);
-    return alertBox;
+    signupHolder.prepend(alertBox);
+    $(alertBox).fadeIn(500).delay(10000).fadeOut(3000)
 }

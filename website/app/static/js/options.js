@@ -1,6 +1,7 @@
 import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections, showLoading } from "./databaseAccess.js";
 import { updateAllTimes } from "./drawTimes.js";
 import { hideSectionInfo } from "./selectTimes.js";
+import { createAlert } from "./signupPage.js";
 
 export default switchView;
 
@@ -15,8 +16,7 @@ export let viewing_cur = false;
 const dSel = document.getElementById('subject-selector');
 
 function setupSubjectSelector() {
-    let response = getDepartmentNamesIDs();
-    response.then((data) => {
+    getDepartmentNamesIDs().then((data) => {
         for (let dept of data) {
             let entry = dept.name.split('Department of ')[1]
             let id = dept.dpID;
@@ -34,6 +34,10 @@ function setupSubjectSelector() {
     }
 }
 
+function resetSubjectSelector() {
+    dSel.selectedIndex = 0;
+}
+
 function setupSearchBar() {
     let sBar = $('#opt-search-input');
     $('#opt-search-btn').on({
@@ -41,10 +45,12 @@ function setupSearchBar() {
             if (sBar.val()) {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
-                    updateAllTimes(data);
+                    createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
+                    updateAllTimes(data.sections);
                     if (viewing_cur) {
                         switchView();
                     }
+                    resetSubjectSelector();
                     sBar.val('');
                 });
             }
@@ -56,12 +62,14 @@ function setupSearchBar() {
             if (sBar.val()) {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
-                    updateAllTimes(data);
+                    createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
+                    updateAllTimes(data.sections);
                     if (viewing_cur) {
                         switchView();
                     }
-                });
-                sBar.val('');
+                    resetSubjectSelector();
+                    sBar.val('');
+                }); 
             }
         }
     });
@@ -100,7 +108,8 @@ export function reloadSections() {
     if (dSel.value) {
         showLoading();
         getSectionsByDepartment(dSel.value).then(data => {
-            updateAllTimes(data);
+            createAlert('alert-info', `Selected ${$('#subject-selector option:selected').text()}`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`)
+            updateAllTimes(data.sections);
         });
     }
 }
