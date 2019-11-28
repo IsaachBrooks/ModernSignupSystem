@@ -1,5 +1,3 @@
-
-
 content.signup-holder {
     /*border: 1px #fc0 solid;*/
     display: grid;
@@ -164,4 +162,14 @@ content.signup-holder {
     position: absolute;
     top: 50%;
     left: 50%;
+}
+
+.alert {
+    position: relative;
+    grid-area: main;
+    z-index: 99999;
+    margin-top: 1em;
+    margin-right: auto;
+    margin-left: 1em;
+    margin-bottom: auto;
 }

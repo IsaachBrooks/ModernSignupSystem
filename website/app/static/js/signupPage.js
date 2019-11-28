@@ -48,7 +48,7 @@ function setupSectionInfoViewer() {
         click: function() {
             let crn = $('#sec-info-content').data('crn');
             enrollStudent(crn).then((data) => {
-                alert(data.reply);
+                showAlert({reply: data.reply, success: data.success});
                 showCurrentEnrolled();
                 updateSectionInfo();
                 updateCurTimes();
@@ -61,7 +61,7 @@ function setupSectionInfoViewer() {
         click: function() {
             let crn = $('#sec-info-content').data('crn');
             removeEnrolledClass(crn).then((data) => {
-                alert(data.reply);
+                showAlert({reply: data.reply, success: data.success});
                 showCurrentEnrolled();
                 updateSectionInfo();
                 updateCurTimes();
@@ -218,4 +218,26 @@ function setupTimeslotCards() {
         }
         
     }, 'div.cur-slot');
+}
+
+function showAlert(reply) {
+    clearAlerts();
+    const alertBox = $('#alert-box')
+    let success = reply.success; 
+    let body = reply.reply;
+    if (success) {
+        alertBox.attr('class', 'alert alert-success')
+        $('#alert-box-heading').html('Success');
+    } else {
+        alertBox.attr('class', 'alert alert-danger')
+        $('#alert-box-heading').html('Failure');
+    }
+    $('#alert-box-body').html(body);
+    alertBox.fadeIn(500).delay(10000).fadeOut(3000);
+}
+
+export function clearAlerts() {
+    const alertBox = $('#alert-box')
+    alertBox.css('display', 'none');
+    alertBox.stop();
 }
