@@ -8,7 +8,6 @@ let lastTimeSlotHolderIndex;
 let lastTimeSlotHolderBGC;
 let lastClicked;
 const signupHolder = $("#signup-holder");
-const curClassesHolder = $("#curClasses-main");
 const esHold = $('#extra-select-holder');
 
 let clickColor = "#fc0"
@@ -276,18 +275,18 @@ function setupTimeslotCards() {
 
 function showAlert(reply) {
     clearAlerts();
-
-    const alertBox = createAlert();
     let success = reply.success; 
     let body = reply.reply;
+    let alertClass, alertHead, alertBody;
     if (success) {
-        $(alertBox).addClass('alert-success');
-        alertBox.childNodes[0].innerHTML = 'Success';
+        alertClass = 'alert-success';
+        alertHead = 'Success';
     } else {
-        $(alertBox).addClass('alert-danger');
-        alertBox.childNodes[0].innerHTML = 'Failure';
+        alertClass = 'alert-danger';
+        alertHead = 'Failure';
     }
-    alertBox.childNodes[1].innerHTML = body;
+    alertBody = body;
+    const alertBox = createAlert(alertClass, alertHead, alertBody);
     signupHolder.prepend(alertBox);
     $(alertBox).fadeIn(500).delay(10000).fadeOut(3000)
 }
@@ -337,17 +336,19 @@ function resetExtraSelect() {
     esList.empty();
 }
 
-function createAlert() {
+export function createAlert(alertClass = 'alert-primary', headText, bodyText) {
     let alertBox = document.createElement('div');
     alertBox.id = 'alert-box';
-    alertBox.className = 'alert';
+    alertBox.className = `alert ${alertClass}`;
     alertBox.setAttribute('role', 'alert');
     alertBox.style.display = 'none';
     let head = document.createElement('h4');
     head.id = 'alert-box-heading';
     head.className = 'alert-heading';
+    head.innerHTML = headText;
     let body = document.createElement('p');
     body.id = 'alert-box-body';
+    body.innerHTML = bodyText;
     let btn = document.createElement('button');
     btn.setAttribute('type', 'button');
     btn.className = 'close';
