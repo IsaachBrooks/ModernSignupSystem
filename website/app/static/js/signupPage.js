@@ -7,7 +7,7 @@ import { reloadSections } from './options.js';
 let lastTimeSlotHolderIndex;
 let lastTimeSlotHolderBGC;
 let lastClicked;
-const signupHolder = $("#signup-main");
+const signupHolder = $("#signup-holder");
 const curClassesHolder = $("#curClasses-main");
 const esHold = $('#extra-select-holder');
 
@@ -276,24 +276,25 @@ function setupTimeslotCards() {
 
 function showAlert(reply) {
     clearAlerts();
-    const alertBox = $('#alert-box')
+
+    const alertBox = createAlert();
     let success = reply.success; 
     let body = reply.reply;
     if (success) {
-        alertBox.attr('class', 'alert alert-success')
-        $('#alert-box-heading').html('Success');
+        $(alertBox).addClass('alert-success');
+        alertBox.childNodes[0].innerHTML = 'Success';
     } else {
-        alertBox.attr('class', 'alert alert-danger')
-        $('#alert-box-heading').html('Failure');
+        $(alertBox).addClass('alert-danger');
+        alertBox.childNodes[0].innerHTML = 'Failure';
     }
-    $('#alert-box-body').html(body);
-    alertBox.fadeIn(500).delay(10000).fadeOut(3000);
+    alertBox.childNodes[1].innerHTML = body;
+    signupHolder.prepend(alertBox);
+    $(alertBox).fadeIn(500).delay(10000).fadeOut(3000)
 }
 
 export function clearAlerts() {
     const alertBox = $('#alert-box')
-    alertBox.css('display', 'none');
-    alertBox.stop();
+    alertBox.remove()
 }
 
 function forceExtraSelect(crn, sections) {    
@@ -334,4 +335,30 @@ function resetExtraSelect() {
     esHead.data('crn', undefined);
     const esList = $('#extra-sel-list');
     esList.empty();
+}
+
+function createAlert() {
+    let alertBox = document.createElement('div');
+    alertBox.id = 'alert-box';
+    alertBox.className = 'alert';
+    alertBox.setAttribute('role', 'alert');
+    alertBox.style.display = 'none';
+    let head = document.createElement('h4');
+    head.id = 'alert-box-heading';
+    head.className = 'alert-heading';
+    let body = document.createElement('p');
+    body.id = 'alert-box-body';
+    let btn = document.createElement('button');
+    btn.setAttribute('type', 'button');
+    btn.className = 'close';
+    btn.setAttribute('data-dismiss', 'alert');
+    btn.setAttribute('aria-label', 'close');
+    let btnSpan = document.createElement('span');
+    btnSpan.setAttribute('aria-hidden', 'true');
+    btnSpan.innerHTML = '&times;'
+    btn.appendChild(btnSpan);
+    alertBox.appendChild(head);
+    alertBox.appendChild(body);
+    alertBox.appendChild(btn);
+    return alertBox;
 }
