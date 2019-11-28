@@ -360,5 +360,5 @@ export function createAlert(alertClass = 'alert-primary', headText, bodyText) {
     alertBox.appendChild(body);
     alertBox.appendChild(btn);
     signupHolder.prepend(alertBox);
-    $(alertBox).fadeIn(500).delay(10000).fadeOut(3000)
+    $(alertBox).animate({width: 'toggle'}).delay(10000).animate({width: 'toggle'})
 }

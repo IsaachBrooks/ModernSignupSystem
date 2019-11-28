@@ -236,3 +236,8 @@ content.signup-holder {
     left: 0;
 }
 
+.alert-heading, #alert-box-body {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
