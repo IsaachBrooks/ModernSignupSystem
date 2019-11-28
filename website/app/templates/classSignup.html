@@ -35,7 +35,7 @@
     <div id="loading-indicator" class="signdiv loading-div">
         <img src="{{ url_for('static', filename='images/loading.gif') }}" class="loading-icon">
     </div>
-    <div id="curClasses-main" class="signdiv signup-main" style="display: none;">
+    <div id="curClasses-main" class="signdiv signup-main">
         <div class="mon-holder day-holder" id="cur-mon-holder">
             <div class="day-header" id="cur-mon-header">Monday</div>
         </div>
@@ -52,7 +52,7 @@
             <div class="day-header" id="cur-fri-header">Friday</div>
         </div>
     </div>
-    <div id="signup-main" class="signdiv signup-main">
+    <div id="signup-main" class="signdiv signup-main" style="display: none;">
         <div class="mon-holder day-holder" id="full-mon-holder">
             <div class="day-header" id="full-mon-header">Monday</div>
         </div>
@@ -80,7 +80,7 @@
     <div id="option-holder" class="signdiv signup-opt mt-2 mb-4">
         <section id="opt-left" class="opt-section">
             <div id="view-switcher" class="option-ele left-opt">
-                <a id="switch-view" class="btn btn-link"><i class="fa fa-arrow-circle-o-left"></i><span> Cur View</span></a>
+                <a id="switch-view" class="btn btn-link"><i class="fa fa-arrow-circle-o-right"></i><span> Full View</span></a>
             </div>
             <div id="checked-opts" class="left-opt">
                     <label for="showOverlaps" class="opt-label no-sel opt-check-label">

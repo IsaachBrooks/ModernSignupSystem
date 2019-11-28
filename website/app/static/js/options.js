@@ -10,8 +10,8 @@ export let noOverlaps = false;
 export let showCanTake = false;
 export let hideCompleted = false;
 export let hideCurrent = false;
-export let viewing_full = true;
-export let viewing_cur = false;
+export let viewing_full = false;
+export let viewing_cur = true;
 
 const dSel = document.getElementById('subject-selector');
 
