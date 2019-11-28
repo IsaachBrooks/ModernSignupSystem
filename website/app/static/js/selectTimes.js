@@ -99,14 +99,21 @@ export function updateSectionInfo(crn=$("#sec-info-content").data('crn'), cID=$(
     //If student is registered for section already, change view of unregister button
     isCurStudentRegisteredFor(crn).then((data) => {
         const unregister = $('#section-info-unregister');
+        const register = $('#section-info-register');
         if (data.result) {
             unregister.addClass('btn-danger');
             unregister.removeClass('btn-dark');
             unregister.attr('disabled', false);
+            register.removeClass('btn-success');
+            register.addClass('btn-dark');
+            register.attr('disabled', true);
         } else {
             unregister.removeClass('btn-danger');
             unregister.addClass('btn-dark');
             unregister.attr('disabled', true);
+            register.addClass('btn-success');
+            register.removeClass('btn-dark');
+            register.attr('disabled', false);
         }
     });
 }
