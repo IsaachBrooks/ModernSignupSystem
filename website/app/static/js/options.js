@@ -155,6 +155,7 @@ export function switchView() {
         fa.className = 'fa fa-arrow-circle-o-right'
         viewing_cur = true;
         viewing_full = false;
+        resetSubjectSelector();
     }
     if (viewing_cur) {
         scroll = $("#signup-main").scrollTop();

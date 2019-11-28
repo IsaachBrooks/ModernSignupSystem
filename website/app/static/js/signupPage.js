@@ -134,6 +134,7 @@ function setupSelectors() {
                 $(this).data('crn'),
                 $(this).data('cid')
             );
+            collapseAlerts();
             showSectionInfo();
         }
     }, "div.selected-list-elem");
@@ -144,6 +145,7 @@ function setupSelectors() {
                 $(this).data('crn'),
                 $(this).data('cid')
             );
+            collapseAlerts();
             showSectionInfo();
         }
     }, "div.current-list-elem");
@@ -220,6 +222,7 @@ function setupTimeslotCards() {
                 crnSel,
                 cidSel
             );
+            collapseAlerts();
             showSectionInfo();
         },
         mousedown: function() {
@@ -293,6 +296,12 @@ export function clearAlerts() {
     alertBox.remove()
 }
 
+export function collapseAlerts() {
+    const alertBox = $('#alert-box')
+    if (alertBox.css('display') !== 'none')
+        alertBox.stop();
+}
+
 function forceExtraSelect(crn, sections) {    
     const esHead = $('#extra-sel-header');
     esHead.data('crn', crn);
@@ -360,5 +369,5 @@ export function createAlert(alertClass = 'alert-primary', headText, bodyText) {
     alertBox.appendChild(body);
     alertBox.appendChild(btn);
     signupHolder.prepend(alertBox);
-    $(alertBox).animate({width: 'toggle'}).delay(10000).animate({width: 'toggle'})
+    $(alertBox).animate({width: 'toggle'}).delay(10000).animate({width: 'toggle'});
 }
