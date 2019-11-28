@@ -62,3 +62,7 @@
     color: rgb(226, 226, 226);
     border-color: rgb(226, 226, 226);
 }
+
+.opt-check-input:checked + .opt-check-label {
+    color: #fc0;
+}
