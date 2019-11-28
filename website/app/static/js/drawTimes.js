@@ -1,4 +1,4 @@
-import { getStudentSectionsDraw, hideLoading, showLoading } from './databaseAccess.js';
+import { getStudentSectionsDraw, hideLoading } from './databaseAccess.js';
 import { hideSectionInfo } from './selectTimes.js';
 export default drawTimesFull;
 
