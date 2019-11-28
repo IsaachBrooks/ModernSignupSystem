@@ -1,6 +1,6 @@
 import { drawSelected, updateSectionInfo, showSectionInfo, hideSectionInfo } from './selectTimes.js';
 import { showCurrentEnrolled } from './drawCurrent.js'
-import { enrollStudent, removeEnrolledClass, completeCurSections, hasLinkedClass, checkCanEnroll, getSectionsInfoMinimal } from './databaseAccess.js';
+import { enrollStudent, removeEnrolledClass, completeCurSections, hasLinkedClass, checkCanEnroll, getSectionsInfoMinimal, getSectionsInfo } from './databaseAccess.js';
 import { updateCurTimes } from './drawTimes.js';
 import { reloadSections } from './options.js';
 
@@ -307,7 +307,8 @@ function forceExtraSelect(crn, sections) {
     esHead.data('crn', crn);
     const esList = $('#extra-sel-list');
     esList.empty();
-    getSectionsInfoMinimal(sections).then((reply) => {
+    
+    getSectionsInfo(sections).then((reply) => {
         for (let sect of reply) {
             let crn = sect.crn;
             let id = `crnID${crn}`;
@@ -320,11 +321,35 @@ function forceExtraSelect(crn, sections) {
             label.className = "extra-input-label";
             label.setAttribute('for', id);
             label.appendChild(input);
-            label.innerHTML += ` ${sect.sec} ${sect.shortName} ${sect.cName}`;
+            label.innerHTML += ` ${sect.crn} ${sect.sec} ${sect.cNumber} ${sect.cName}, ${sect.days} ${getTimeStartEnd(sect.tStart, sect.tEnd)}`;
             esList.append(label);
         }
     });
     showExtraSelect();
+}
+
+export function getTimeStartEnd(tStart, tEnd) {
+    const dateMatcher = /(\d\d):(\d\d):(\d\d)/;
+    let start = tStart.split(dateMatcher);
+    let end = tEnd.split(dateMatcher);
+    let startString, endString;
+    let startAMPM = 'AM';
+    let endAMPM = 'AM';
+    if (+start[1] >= 12) {
+        startAMPM = 'PM'
+        if (+start[1] > 12) {
+            start[1] = +start[1] % 12;
+        }
+    }
+    if (+end[1] >= 12) {
+        endAMPM = 'PM'
+        if (+end[1] > 12) {
+            end[1] = +end[1] % 12;
+        }
+    }
+    startString = `${start[1].toString().padStart(2, '0')}:${start[2]}${startAMPM}`;
+    endString = `${end[1].toString().padStart(2, '0')}:${end[2]}${endAMPM}`;
+    return startString + ' - ' + endString;
 }
 
 export function showExtraSelect() {

@@ -44,6 +44,8 @@
 
 #switch-view:active {
     color: rgb(139, 139, 139);
+    border-color: rgb(139, 139, 139);
+    background-color: rgb(180, 180, 180);
 }
 
 #opt-search {

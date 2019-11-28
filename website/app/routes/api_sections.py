@@ -92,6 +92,11 @@ def getSectionsInfo(sCRNs):
     sectionList = []
     for sect in sects:
         sectionList.append(Section.query.filter(Section.crn == sect).first().serialize())
+    for sect in sectionList:
+        cla = Classes.query.filter(Classes.cID == sect['cID']).first()
+        sect['cName'] = cla.name
+        sect['cNumber'] = cla.cNumber
+        sect['shortName'] = cla.getShortName()
     return jsonify(sectionList)
 
 @app.route("/api/getSectionsInfoMinimal/crns=[<string:sCRNs>]", methods=['GET'])
