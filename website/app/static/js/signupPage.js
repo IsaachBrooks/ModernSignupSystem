@@ -1,6 +1,6 @@
 import { drawSelected, updateSectionInfo, showSectionInfo, hideSectionInfo } from './selectTimes.js';
 import { showCurrentEnrolled } from './drawCurrent.js'
-import { enrollStudent, removeEnrolledClass, completeCurSections } from './databaseAccess.js';
+import { enrollStudent, removeEnrolledClass, completeCurSections, hasLinkedClass, checkCanEnroll, getSectionsInfoMinimal } from './databaseAccess.js';
 import { updateCurTimes } from './drawTimes.js';
 import { reloadSections } from './options.js';
 
@@ -28,6 +28,7 @@ $(document).ready(function () {
     setupTimeslotCards()
     setupSelectors();
     setupSectionInfoViewer();
+    setupExtraSelect();
     showCurrentEnrolled();
 });
 
@@ -47,12 +48,27 @@ function setupSectionInfoViewer() {
     $("#section-info-register").on({
         click: function() {
             let crn = $('#sec-info-content').data('crn');
-            enrollStudent(crn).then((data) => {
-                showAlert({reply: data.reply, success: data.success});
-                showCurrentEnrolled();
-                updateSectionInfo();
-                updateCurTimes();
-                reloadSections();
+            checkCanEnroll(crn).then( (canEnroll) => {
+                if (canEnroll.success) {
+                    hasLinkedClass(crn).then( (linkedReply) => {
+                        if (linkedReply.hasLinkedClass) {
+                            let linkedSections = linkedReply.crns;
+                            hideSectionInfo();
+                            forceExtraSelect(crn, linkedSections);
+                        }  else {
+                            enrollStudent(crn).then((enrollReply) => {
+                                showCurrentEnrolled();
+                                updateSectionInfo();
+                                updateCurTimes();
+                                reloadSections();
+                                showAlert({reply: enrollReply.reply, success: enrollReply.success});
+                            });
+                        }
+                    });
+                } else {
+                    hideSectionInfo();
+                    showAlert({reply: canEnroll.reply, success: canEnroll.success});
+                }
             });
         }
     });
@@ -61,19 +77,35 @@ function setupSectionInfoViewer() {
         click: function() {
             let crn = $('#sec-info-content').data('crn');
             removeEnrolledClass(crn).then((data) => {
-                showAlert({reply: data.reply, success: data.success});
                 showCurrentEnrolled();
                 updateSectionInfo();
                 updateCurTimes();
                 reloadSections();
+                showAlert({reply: data.reply, success: data.success});
             });
         }
     });
 }
 
 /*
-    *   Show section info once a section is selected
-    */
+ *  Setup buttons for controlling when extra selection is required
+ */
+function setupExtraSelect() {
+    $('#extra-select-confirm').on({
+        click: () => {
+
+        }
+    });
+    $('#extra-select-cancel').on({
+        click: () => {
+
+        }
+    });
+}
+
+/*
+*   Show section info once a section is selected
+*/
 function setupSelectors() {
    $("#selected-holder").on({
         click: function() {
@@ -240,4 +272,29 @@ export function clearAlerts() {
     const alertBox = $('#alert-box')
     alertBox.css('display', 'none');
     alertBox.stop();
+}
+
+function forceExtraSelect(crn, sections) {
+
+    const esHold = $('#extra-select-holder');
+    const esHead = $('#extra-sel-header');
+    const esList = $('#extra-sel-list');
+    getSectionsInfoMinimal(sections).then((reply) => {
+        for (let sect of reply) {
+            let crn = sect.crn;
+            let id = `crnID${crn}`;
+            let label = document.createElement('label');
+            let input = document.createElement('input');
+            input.setAttribute('type', 'radio');
+            input.setAttribute('name', 'extra');
+            input.setAttribute('id', id);
+            input.setAttribute('value', crn);
+            label.className = "extra-input-label";
+            label.setAttribute('for', id);
+            label.appendChild(input);
+            label.innerHTML += ` ${sect.sec} ${sect.shortName} ${sect.cName}`;
+            esList.append(label);
+        }
+    })
+    esHold.fadeIn();
 }

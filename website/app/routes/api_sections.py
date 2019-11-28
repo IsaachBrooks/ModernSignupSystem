@@ -155,3 +155,23 @@ def searchForSections():
     else: 
         return jsonify([])
 
+@app.route("/api/hasLinkedClass/crn=<int:crn>")
+def hasLinkedClass(crn):
+    sect = Section.query.filter(Section.crn == crn).first()
+    if sect.sectFor.hasLinkedClass():
+        cla = sect.sectFor.getLinkedClass()
+        linkedSects = [linkedSect.crn for linkedSect in Section.query.filter(Section.cID == cla.cID).all()]
+        reply = {
+            'hasLinkedClass': True,
+            'crns': linkedSects,
+        }
+    else:
+        reply = {
+            'hasLinkedClass': False,
+            'crns': [],
+        }
+    return jsonify(reply)
+
+
+
+

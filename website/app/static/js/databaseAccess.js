@@ -182,3 +182,13 @@ export function getCurStudentSectionsMinimal() {
     let url = '/api/getCurStudentSectionsMinimal'
     return baseGetRequest(url);
 }
+
+export function hasLinkedClass(crn) {
+    let url = `/api/hasLinkedClass/crn=${crn}`;
+    return baseGetRequest(url);
+}
+
+export function checkCanEnroll(crn) {
+    let url = `/api/checkCanEnroll/crn=${crn}`;
+    return baseGetRequest(url);
+}

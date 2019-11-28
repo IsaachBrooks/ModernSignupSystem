@@ -148,6 +148,7 @@ content.signup-holder {
     position: absolute;
     left: 1em;
     bottom: 1em;
+    z-index: 100000;
 }
 
 .loading-div { 
@@ -173,3 +174,59 @@ content.signup-holder {
     margin-left: 1em;
     margin-bottom: auto;
 }
+
+.extra-select-main {
+    background-color: rgba(0, 0, 0, 0.541);
+    position: relative;
+    grid-area: main;
+    min-height: 400px;
+    height: 60vh;
+    min-width: 800px;
+    z-index: 9999;
+    border-radius: 10px;
+}
+
+.extra-sel-content {
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    height: 100%;
+    width: 75%;
+    min-width: 790px;
+    margin: auto;
+    margin-top: auto;
+    border-radius: 10px;
+    padding: .5em;
+    display: grid;
+    grid-template-areas:
+    "head"
+    "body";
+    grid-template-rows: 3em auto;
+    --corner-radius: 10px;
+}
+
+.extra-sel-header {
+    grid-area: head;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.extra-sel-body {
+    grid-area: body;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow-y: auto;
+}
+
+.extra-input-label {
+    display: block;
+    user-select: none;
+    margin: auto 0;
+    text-align: center;
+}
+

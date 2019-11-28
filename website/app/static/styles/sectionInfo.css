@@ -82,7 +82,7 @@
 .si-description {
     grid-area: desc;
     border-bottom-right-radius: var(--corner-radius);
-    overflow-y: scroll;
+    overflow-y: auto;
     
 }
 

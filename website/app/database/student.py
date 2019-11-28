@@ -90,10 +90,12 @@ class Student(BaseTable, UserMixin):
                 else:
                     reply = 'An error has occured. The linked class could not be found'
             section.numCurEnrolled -= 1
-            db.session.commit()     
+            db.session.commit()
+            success = True     
         else:
             reply = 'Could not unregister for section'
-        return reply
+            success = False
+        return reply, success
 
     def completeCurrent(self):
         for sect in self.classesEnrolled:

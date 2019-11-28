@@ -37,8 +37,8 @@ def removeEnrolledClass():
     crn = json['crn']
     student = Student.query.filter(Student.sID == current_user.get_id()).first()
     section = Section.query.filter(Section.crn == crn).first()
-    reply = student.unenroll(section)
-    return jsonify({'reply': reply})
+    reply, success = student.unenroll(section)
+    return jsonify({'reply': reply, 'success': success})
     
 @app.route("/api/isCurStudentRegisteredFor/<int:crn>", methods=['GET'])
 def isCurStudentRegisteredFor(crn):
@@ -135,3 +135,9 @@ def getCurStudentSectionsMinimal():
         })
     return jsonify(result)
 
+@app.route("/api/checkCanEnroll/crn=<int:crn>")
+def checkCanEnroll(crn):
+    student = Student.query.filter(Student.sID == current_user.get_id()).first()
+    sect = Section.query.filter(Section.crn == crn).first()
+    reply, success = verifyCanEnroll(student, sect)
+    return jsonify({'reply': reply, 'success': success})
