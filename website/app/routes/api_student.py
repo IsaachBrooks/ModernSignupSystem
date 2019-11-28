@@ -23,10 +23,14 @@ def enrollStudent():
     crn = json['crn']
     reply = ''
     student = Student.query.filter(Student.sID == current_user.get_id()).first()
-    section = Section.query.filter(Section.crn == crn).first()
+    if (type(crn) == list):
+        section = [Section.query.filter(Section.crn == crnEl).first() for crnEl in crn]
+    else:
+        section = [Section.query.filter(Section.crn == crn).first()]
     reply, success = verifyCanEnroll(student, section)
     if success: 
-        student.enroll(section)
+        for sect in section:
+            student.enroll(sect) 
     return jsonify({'reply': reply, 'success': success})
 
 @app.route("/api/removeEnrolledClass", methods=['POST'])

@@ -9,6 +9,7 @@ let lastTimeSlotHolderBGC;
 let lastClicked;
 const signupHolder = $("#signup-main");
 const curClassesHolder = $("#curClasses-main");
+const esHold = $('#extra-select-holder');
 
 let clickColor = "#fc0"
 
@@ -91,14 +92,35 @@ function setupSectionInfoViewer() {
  *  Setup buttons for controlling when extra selection is required
  */
 function setupExtraSelect() {
+    
     $('#extra-select-confirm').on({
         click: () => {
-
+            let input = +$('input[name="extra"]:checked').val()
+            let crn = $('#extra-sel-header').data('crn');
+            checkCanEnroll(input).then( (canEnroll) => {
+                if (canEnroll.success) {
+                    enrollStudent([crn, input]).then( (enrollReply) => {
+                        showCurrentEnrolled();
+                        updateSectionInfo();
+                        updateCurTimes();
+                        reloadSections();
+                        hideExtraSelect();
+                        resetExtraSelect();
+                        console.log(enrollReply);
+                        showAlert(enrollReply);
+                    });
+                } else {
+                    hideExtraSelect();
+                    resetExtraSelect();
+                    showAlert(canEnroll);
+                }
+            });
         }
     });
     $('#extra-select-cancel').on({
         click: () => {
-
+            hideExtraSelect();
+            resetExtraSelect();
         }
     });
 }
@@ -274,11 +296,11 @@ export function clearAlerts() {
     alertBox.stop();
 }
 
-function forceExtraSelect(crn, sections) {
-
-    const esHold = $('#extra-select-holder');
+function forceExtraSelect(crn, sections) {    
     const esHead = $('#extra-sel-header');
+    esHead.data('crn', crn);
     const esList = $('#extra-sel-list');
+    esList.empty();
     getSectionsInfoMinimal(sections).then((reply) => {
         for (let sect of reply) {
             let crn = sect.crn;
@@ -295,6 +317,21 @@ function forceExtraSelect(crn, sections) {
             label.innerHTML += ` ${sect.sec} ${sect.shortName} ${sect.cName}`;
             esList.append(label);
         }
-    })
-    esHold.fadeIn();
+    });
+    showExtraSelect();
+}
+
+export function showExtraSelect() {
+    esHold.fadeIn(300);
+}
+
+export function hideExtraSelect() {
+    esHold.fadeOut();
+}
+
+function resetExtraSelect() {
+    const esHead = $('#extra-sel-header');
+    esHead.data('crn', undefined);
+    const esList = $('#extra-sel-list');
+    esList.empty();
 }

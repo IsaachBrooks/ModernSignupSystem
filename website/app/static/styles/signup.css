@@ -230,3 +230,9 @@ content.signup-holder {
     text-align: center;
 }
 
+#extra-select-btns {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
