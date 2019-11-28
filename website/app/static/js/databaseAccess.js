@@ -122,7 +122,13 @@ export function getSectionsByDepartment(dpID) {
 
 export async function searchForSections(query) {
     const url = '/api/searchForSections';
-    let data = {'query': query};
+    let data = {
+        'query': query,
+        'noOverlaps': noOverlaps,
+        'showCanTake': showCanTake,
+        'hideCompleted': hideCompleted,
+        'hideCurrent': hideCurrent
+    };
     try {
         const response = await fetch(url, {
             method: 'POST',

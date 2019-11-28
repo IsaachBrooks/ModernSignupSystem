@@ -1,4 +1,4 @@
-import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections, showLoading } from "./databaseAccess.js";
+import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections, showLoading, hideLoading } from "./databaseAccess.js";
 import { updateAllTimes } from "./drawTimes.js";
 import { hideSectionInfo } from "./selectTimes.js";
 import { createAlert } from "./signupPage.js";
@@ -45,13 +45,19 @@ function setupSearchBar() {
             if (sBar.val()) {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
-                    createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
-                    updateAllTimes(data.sections);
-                    if (viewing_cur) {
-                        switchView();
+                    if (data.count > 0) {
+                        createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Found <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
+                        updateAllTimes(data.sections);
+                        if (viewing_cur) {
+                            switchView();
+                        }
+                        resetSubjectSelector();
+                        sBar.val('');
+                    } else {
+                        createAlert('alert-warning', `Searched for \"${sBar.val()}\"`, `No sections found matching query. Make sure you search for a name, number, or crn and try again.`);
+                        hideLoading();
+                        sBar.val('');
                     }
-                    resetSubjectSelector();
-                    sBar.val('');
                 });
             }
         }
@@ -62,13 +68,19 @@ function setupSearchBar() {
             if (sBar.val()) {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
-                    createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
-                    updateAllTimes(data.sections);
-                    if (viewing_cur) {
-                        switchView();
+                    if (data.count > 0) {
+                        createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Found <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
+                        updateAllTimes(data.sections);
+                        if (viewing_cur) {
+                            switchView();
+                        }
+                        resetSubjectSelector();
+                        sBar.val('');
+                    } else {
+                        createAlert('alert-warning', `Searched for \"${sBar.val()}\"`, `No sections found matching query. Make sure you search for a name, number, or crn and try again.`);
+                        hideLoading();
+                        sBar.val('');
                     }
-                    resetSubjectSelector();
-                    sBar.val('');
                 }); 
             }
         }

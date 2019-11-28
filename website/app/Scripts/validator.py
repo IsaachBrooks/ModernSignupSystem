@@ -131,4 +131,4 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurr
                 if sect in sectList:
                     numFiltered += 1
                     sectList.remove(sect)
-    return sectList, numFiltered
+    return numFiltered

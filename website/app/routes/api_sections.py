@@ -10,7 +10,6 @@ from app.Scripts.inputConversion import strToBool
 from flask_login import current_user
 
 def processSections(sects):
-    count = len(sects)
     times = [
         (
             sect.tStart, 
@@ -50,7 +49,7 @@ def processSections(sects):
         time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
         time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
 
-    return fullTimes, count
+    return fullTimes
 
 @app.route("/api/getSectionTimesDaysFull", methods=['GET'])
 def getSectionTimesDaysFull():
@@ -129,8 +128,9 @@ def getSectionsByDepartment(dpID, noOverlaps, showCanTake, hideCompleted, hideCu
                 sects.append(s)
         else:
             sects.append(sublist)
-    _, numFiltered = filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake), strToBool(hideCompleted), strToBool(hideCurrent))
-    fullTimes, count = processSections(sects)
+    count = len(sects)
+    numFiltered = filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake), strToBool(hideCompleted), strToBool(hideCurrent))
+    fullTimes = processSections(sects)
     reply = {'sections': fullTimes, 'count': count, 'success': True, 'numFiltered': numFiltered}
     return jsonify(reply)
 
@@ -138,6 +138,10 @@ def getSectionsByDepartment(dpID, noOverlaps, showCanTake, hideCompleted, hideCu
 def searchForSections():
     json = request.get_json()
     query = json['query']
+    noOverlaps = json['noOverlaps']
+    showCanTake = json['showCanTake']
+    hideCompleted = json['hideCompleted']
+    hideCurrent = json['hideCurrent']
 
     # match query to section CRN or instructor
     sects = Section.query.filter(Section.crn.like(query)).all()
@@ -152,11 +156,13 @@ def searchForSections():
                 for sect in c.sections:
                     sects.append(sect)
     if sects:
-        sections, count = processSections(sects)
-        reply = {'sections': sections, 'count': count, 'success': True}
+        count = len(sects)
+        numFiltered = filterSection(sects, noOverlaps, showCanTake, hideCompleted, hideCurrent)
+        sections = processSections(sects)
+        reply = {'sections': sections, 'count': count, 'numFiltered': numFiltered, 'success': True}
         return jsonify(reply)
     else: 
-        reply = {'sections': [], 'count': 0, 'success': False}
+        reply = {'sections': [], 'count': 0, 'numFiltered': 0, 'success': False}
         return jsonify(reply)
 
 @app.route("/api/hasLinkedClass/crn=<int:crn>")
