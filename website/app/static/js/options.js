@@ -1,7 +1,7 @@
 import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections, showLoading, hideLoading } from "./databaseAccess.js";
 import { updateAllTimes } from "./drawTimes.js";
 import { hideSectionInfo } from "./selectTimes.js";
-import { createAlert } from "./signupPage.js";
+import { createAlert, hideExtraSelect } from "./signupPage.js";
 
 export default switchView;
 
@@ -51,6 +51,7 @@ function setupSearchBar() {
                         if (viewing_cur) {
                             switchView();
                         }
+                        
                         resetSubjectSelector();
                         sBar.val('');
                     } else {
@@ -58,6 +59,7 @@ function setupSearchBar() {
                         hideLoading();
                         sBar.val('');
                     }
+                    hideExtraSelect();
                 });
             }
         }
@@ -81,6 +83,7 @@ function setupSearchBar() {
                         hideLoading();
                         sBar.val('');
                     }
+                    hideExtraSelect();
                 }); 
             }
         }
