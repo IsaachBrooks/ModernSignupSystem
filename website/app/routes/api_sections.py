@@ -35,7 +35,6 @@ def processSections(sects):
         d['crn'] = []
         d['cNumbers'] = []
         fullTimes.append(d)
-    
     for time in fullTimes:
         for sect in sects:
             if (sect.tStart == time['tStart'] and sect.tEnd == time['tEnd'] and sect.getDaysArray() == time['days']):
@@ -44,7 +43,7 @@ def processSections(sects):
                     time['cID'].append(sect.cID)
                 if sect.crn not in time['crn']:
                     time['crn'].append(sect.crn)
-                if sect.sectFor.cNumber not in d['cNumbers']:
+                if sect.sectFor.cNumber not in time['cNumbers']:
                    time['cNumbers'].append(sect.sectFor.cNumber)
     for time in fullTimes:
         time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
