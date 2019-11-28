@@ -1,13 +1,5 @@
 
-.signup-opt {
-    background-color: gray;
-    position: relative;
-    grid-area: opt;
-    overflow: auto;
-    width: var(--main-width);
-    grid-template-areas: "L R";
-    display: grid;
-}
+
 
 #opt-left {
     position: relative;

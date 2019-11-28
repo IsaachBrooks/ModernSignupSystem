@@ -28,8 +28,8 @@ function drawTaken() {
     })
 }
 
-$(document).ready(function () {
+$(
 
-    drawTaken();
+    drawTaken()
 
-});
+);

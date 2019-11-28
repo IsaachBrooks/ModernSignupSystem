@@ -1,4 +1,5 @@
 
+
 content.signup-holder {
     /*border: 1px #fc0 solid;*/
     display: grid;
@@ -8,10 +9,10 @@ content.signup-holder {
     "cur main main main sel"
     "cur main main main sel"
     ". btn btn btn .";
-    
+    --main-width: 70vw;
     margin-left: auto;
     margin-right: auto;
-    max-width: 1600px;
+    max-width: 1750px;
 }
 
 .signdiv {
@@ -25,7 +26,7 @@ content.signup-holder {
     grid-area: main;
     min-height: 400px;
     height: 60vh;
-    --main-width: 70vw;
+    
     width: var(--main-width);
     min-width: 800px;
     max-width: 1200px;
@@ -33,7 +34,8 @@ content.signup-holder {
     grid-template-areas:
     ". mon tue wed thu fri";
     grid-template-columns: 5em 1fr 1fr 1fr 1fr 1fr;
-    
+    margin-left: auto;
+    margin-right: auto;
     overflow: auto;
 }
 
@@ -51,11 +53,25 @@ content.signup-holder {
     background-color: gray;
     grid-area: sel;
     min-height: 400px;
-    width: 13vw;
+    width: 12vw;
     min-width: 200px;
     max-width: 300px;
     position: relative;
     overflow: auto;
+}
+
+.signup-opt {
+    background-color: gray;
+    position: relative;
+    grid-area: opt;
+    overflow: auto;
+    width: var(--main-width);
+    min-width: 800px;
+    max-width: 1200px;
+    grid-template-areas: "L R";
+    display: grid;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .signup-btn {
@@ -64,7 +80,11 @@ content.signup-holder {
     grid-area: btn;
     overflow: auto;
     width: var(--main-width);
+    min-width: 800px;
+    max-width: 1200px;
     height: 100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .day-holder {
@@ -116,10 +136,6 @@ content.signup-holder {
     text-shadow: 1px 0 black;
     /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
-}
-
-.time-slot-holder:active {
-
 }
 
 #signup-grid-canvas {

@@ -149,7 +149,9 @@ export function switchView() {
     $("#signup-main").scrollTop(scroll);
 }
 
-setupSwitchView();
-setupSubjectSelector();
-setupSearchBar();
-setupCheckBoxes();
+$(
+    setupSwitchView(),
+    setupSubjectSelector(),
+    setupSearchBar(),
+    setupCheckBoxes()
+);

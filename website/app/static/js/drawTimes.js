@@ -36,8 +36,7 @@ export function pickColor(num) {
     return colors[index];
 }
 
-function newTimeSlot(day, time, count, rgb, classes, crns, cNums, slot) {
-    let dayElement = document.getElementById(`${slot}-${day}-header`);
+function newTimeSlot(day, time, rgb, classes, crns, cNums, slot) {
     let dayHolder = document.getElementById(`${slot}-${day}-holder`);
     let newTime = document.createElement('div');
 
@@ -64,11 +63,9 @@ function newTimeSlot(day, time, count, rgb, classes, crns, cNums, slot) {
     let b = rgb[2];
     let bgColor = "rgba(" + r + "," + g + "," + b + ", 1)";
     newTime.style.backgroundColor = bgColor;
-    //newTime.innerHTML = `<p>${time[0]} - ${time[1]}<br>${count} Classes</p>`
     newTime.innerHTML = `
             <p class='time-slot-classes'>${cNums}</p>
             <p class='time-slot-time'>${timeConvert(time[0])} - ${timeConvert(time[1])}<p>`
-
     //Deals with multiple times within the same slot only in full list.
     if (slot === 'full') {
         if (!allTimes[`${day}-${time[0]}`]) {
@@ -108,13 +105,12 @@ export function drawTimesFull(times) {
         let tStart = data.tStart;
         let tEnd = data.tEnd;
         let time = [tStart, tEnd];
-        let count = data.count;
         let classes = data.cID;
         let cNums = data.cNumbers
-        let rgb = pickColor(classes.reduce((a,b) => a+b));
+        let rgb = pickColor(cNums.reduce((a,b) => a+b));
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
-                newTimeSlot(weekdays[i], time, count, rgb, classes, crns, cNums, 'full');
+                newTimeSlot(weekdays[i], time, rgb, classes, crns, cNums, 'full');
             }
         }
     });
@@ -126,14 +122,13 @@ export function drawCurTimes(times) {
         let tStart = data.tStart;
         let tEnd = data.tEnd;
         let time = [tStart, tEnd];
-        let count = data.count;
         let classes = data.cID;
         let cNums = data.cNumbers
         let cShort = data.cShort
         let rgb = pickColor(+cNums);
         for (let i = 0; i < 5; i++) {
             if (data.days[i]) {
-                newTimeSlot(weekdays[i], time, count, rgb, classes, crn, cShort, 'cur');
+                newTimeSlot(weekdays[i], time, rgb, classes, crn, cShort, 'cur');
             }
         }
     });
@@ -178,4 +173,6 @@ export function updateAllTimes(data) {
     hideSectionInfo();
 }
 
-updateCurTimes();
+$(
+    updateCurTimes()
+);
