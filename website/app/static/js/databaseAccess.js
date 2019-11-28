@@ -34,27 +34,27 @@ export async function getSectionTimesDay() {
 }
 
 export async function getSectionsInfo(sectionList) {
-    const url = `/api/getSectionsInfo/[${sectionList}]`;
+    const url = `/api/getSectionsInfo/crns=[${sectionList}]`;
     return baseGetRequest(url);
 }
 
 export async function getSectionsInfoMinimal(sectionList) {
-    const url = `/api/getSectionsInfoMinimal/[${sectionList}]`;
+    const url = `/api/getSectionsInfoMinimal/crns=[${sectionList}]`;
     return baseGetRequest(url);
 }
 
 export async function getSectionInfo(crn) {
-    const url = `/api/getSectionInfo/${crn}`;
+    const url = `/api/getSectionInfo/crn=${crn}`;
     return baseGetRequest(url);
 }
 
 export async function getClassInfo(cID) {
-    const url = `/api/getClassInfo/${cID}`;
+    const url = `/api/getClassInfo/cid=${cID}`;
     return baseGetRequest(url);
 }
 
 export async function getClassInfoMinimal(cID) {
-    const url = `/api/getClassInfoMinimal/${cID}`;
+    const url = `/api/getClassInfoMinimal/cid=${cID}`;
     return baseGetRequest(url);
 }
 
@@ -106,7 +106,7 @@ export async function getCurStudentSections() {
 }
 
 export async function isCurStudentRegisteredFor(crn) {
-    const url = `/api/isCurStudentRegisteredFor/${crn}`
+    const url = `/api/isCurStudentRegisteredFor/crn=${crn}`
     return baseGetRequest(url);
 }
 

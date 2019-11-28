@@ -10,6 +10,7 @@ from app.Scripts.inputConversion import strToBool
 from flask_login import current_user
 
 def processSections(sects):
+    count = len(sects)
     times = [
         (
             sect.tStart, 
@@ -49,7 +50,7 @@ def processSections(sects):
         time['tStart'] = time['tStart'].hour * 100 + time['tStart'].minute
         time['tEnd'] = time['tEnd'].hour * 100 + time['tEnd'].minute
 
-    return fullTimes
+    return fullTimes, count
 
 @app.route("/api/getSectionTimesDaysFull", methods=['GET'])
 def getSectionTimesDaysFull():
@@ -86,7 +87,7 @@ def getSectionTimesDays():
     }
     return jsonify(section)
 
-@app.route("/api/getSectionsInfo/[<string:sCRNs>]", methods=['GET'])
+@app.route("/api/getSectionsInfo/crns=[<string:sCRNs>]", methods=['GET'])
 def getSectionsInfo(sCRNs):
     sects = [int(crn) for crn in sCRNs.split(',')]
     sectionList = []
@@ -94,7 +95,7 @@ def getSectionsInfo(sCRNs):
         sectionList.append(Section.query.filter(Section.crn == sect).first().serialize())
     return jsonify(sectionList)
 
-@app.route("/api/getSectionsInfoMinimal/[<string:sCRNs>]", methods=['GET'])
+@app.route("/api/getSectionsInfoMinimal/crns=[<string:sCRNs>]", methods=['GET'])
 def getSectionsInfoMinimal(sCRNs):
     crns = [int(crn) for crn in sCRNs.split(',')]
     sections = [Section.query.filter(Section.crn == crn).first() for crn in crns]
@@ -113,7 +114,7 @@ def getSectionsInfoMinimal(sCRNs):
             }
         )
     return jsonify(response)
-@app.route("/api/getSectionInfo/<string:sCRN>", methods=['GET'])
+@app.route("/api/getSectionInfo/crn=<int:sCRN>", methods=['GET'])
 def getSectionInfo(sCRN):
     return jsonify(Section.query.filter(Section.crn == sCRN).first().serialize())
     
@@ -129,7 +130,7 @@ def getSectionsByDepartment(dpID, noOverlaps, showCanTake, hideCompleted, hideCu
         else:
             sects.append(sublist)
     filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake), strToBool(hideCompleted), strToBool(hideCurrent))
-    fullTimes = processSections(sects)
+    fullTimes, count = processSections(sects)
     return jsonify(fullTimes)
 
 @app.route("/api/searchForSections", methods=['POST'])
@@ -150,10 +151,12 @@ def searchForSections():
                 for sect in c.sections:
                     sects.append(sect)
     if sects:
-        sections = processSections(sects)
-        return jsonify(sections)
+        sections, count = processSections(sects)
+        reply = {'sections': sections, 'count': count, 'success': True}
+        return jsonify(reply)
     else: 
-        return jsonify([])
+        reply = {'sections': [], 'count': 0, 'success': False}
+        return jsonify(reply)
 
 @app.route("/api/hasLinkedClass/crn=<int:crn>")
 def hasLinkedClass(crn):
