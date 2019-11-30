@@ -415,5 +415,5 @@ export function createAlert(alertClass = 'alert-primary', headText, bodyText, mi
     alertBox.appendChild(body);
     alertBox.appendChild(btn);
     signupHolder.prepend(alertBox);
-    $(alertBox).animate({width: 'toggle'}).delay(10000).animate({width: 'toggle'});
+    $(alertBox).animate({width: 'toggle'}).delay(30000).animate({width: 'toggle'});
 }
