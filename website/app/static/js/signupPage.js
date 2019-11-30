@@ -1,6 +1,6 @@
 import { drawSelected, updateSectionInfo, showSectionInfo, hideSectionInfo } from './selectTimes.js';
 import { showCurrentEnrolled } from './drawCurrent.js'
-import { enrollStudent, removeEnrolledClass, completeCurSections, hasLinkedClass, checkCanEnroll, getSectionsInfoMinimal, getSectionsInfo } from './databaseAccess.js';
+import { enrollStudent, removeEnrolledClass, completeCurSections, hasLinkedClass, checkCanEnroll, getSectionsInfo } from './databaseAccess.js';
 import { updateCurTimes } from './drawTimes.js';
 import { reloadSections } from './options.js';
 
@@ -80,7 +80,7 @@ function setupSectionInfoViewer() {
                 showCurrentEnrolled();
                 updateSectionInfo();
                 updateCurTimes();
-                reloadSections();
+                reloadSections(alert=false);
                 showAlert({reply: data.reply, success: data.success});
             });
         }
@@ -102,10 +102,9 @@ function setupExtraSelect() {
                         showCurrentEnrolled();
                         updateSectionInfo();
                         updateCurTimes();
-                        reloadSections();
+                        reloadSections(alert=false);
                         hideExtraSelect();
                         resetExtraSelect();
-                        console.log(enrollReply);
                         showAlert(enrollReply);
                     });
                 } else {
@@ -291,13 +290,17 @@ function showAlert(reply) {
     createAlert(alertClass, alertHead, alertBody);
 }
 
-export function clearAlerts() {
-    const alertBox = $('#alert-box')
+export function clearMajorAlerts() {
+    const alertBox = $('#alert-box-major')
+    alertBox.remove()
+}
+export function clearMinorAlerts() {
+    const alertBox = $('#alert-box-minor')
     alertBox.remove()
 }
 
 export function collapseAlerts() {
-    const alertBox = $('#alert-box')
+    const alertBox = $('#alert-box-major')
     if (alertBox.css('display') !== 'none')
         alertBox.stop();
 }
@@ -367,17 +370,35 @@ function resetExtraSelect() {
     esList.empty();
 }
 
-export function createAlert(alertClass = 'alert-primary', headText, bodyText) {
-    clearAlerts();
+/*
+*   Creates and displays a custom alert using bootstrap classes. 
+*/
+export function createAlert(alertClass = 'alert-primary', headText, bodyText, minor=false) {
     let alertBox = document.createElement('div');
-    alertBox.id = 'alert-box';
     alertBox.className = `alert ${alertClass}`;
+    if (minor) {
+        clearMinorAlerts();
+        alertBox.id = 'alert-box-minor';
+        alertBox.className += ' alert-minor';
+    } else {
+        clearMajorAlerts();
+        alertBox.id = 'alert-box-major';
+        alertBox.className += ' alert-major';
+    }
     alertBox.setAttribute('role', 'alert');
     alertBox.style.display = 'none';
-    let head = document.createElement('h4');
-    head.id = 'alert-box-heading';
-    head.className = 'alert-heading';
-    head.innerHTML = headText;
+    if (headText) {
+        let head;
+        if (minor) {
+            head = document.createElement('h5');
+        } else {
+            head = document.createElement('h4');
+        }
+        head.id = 'alert-box-heading';
+        head.className = 'alert-heading';
+        head.innerHTML = headText;
+        alertBox.appendChild(head);
+    }
     let body = document.createElement('p');
     body.id = 'alert-box-body';
     body.innerHTML = bodyText;
@@ -390,7 +411,7 @@ export function createAlert(alertClass = 'alert-primary', headText, bodyText) {
     btnSpan.setAttribute('aria-hidden', 'true');
     btnSpan.innerHTML = '&times;'
     btn.appendChild(btnSpan);
-    alertBox.appendChild(head);
+    
     alertBox.appendChild(body);
     alertBox.appendChild(btn);
     signupHolder.prepend(alertBox);

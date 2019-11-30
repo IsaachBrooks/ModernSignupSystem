@@ -10,6 +10,7 @@ export let noOverlaps = false;
 export let showCanTake = false;
 export let hideCompleted = false;
 export let hideCurrent = false;
+let noSubjCount = 0;
 export let viewing_full = false;
 export let viewing_cur = true;
 
@@ -46,7 +47,7 @@ function setupSearchBar() {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
                     if (data.count > 0) {
-                        createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Found <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
+                        createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Found <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`, true);
                         updateAllTimes(data.sections);
                         if (viewing_cur) {
                             switchView();
@@ -55,7 +56,7 @@ function setupSearchBar() {
                         resetSubjectSelector();
                         sBar.val('');
                     } else {
-                        createAlert('alert-warning', `Searched for \"${sBar.val()}\"`, `No sections found matching query. Make sure you search for a name, number, or crn and try again.`);
+                        createAlert('alert-warning', `Searched for \"${sBar.val()}\"`, `No sections found matching query. Make sure you search for a name, number, or crn and try again.`, true);
                         hideLoading();
                         sBar.val('');
                     }
@@ -71,7 +72,7 @@ function setupSearchBar() {
                 showLoading();
                 searchForSections(sBar.val()).then((data) => {
                     if (data.count > 0) {
-                        createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Found <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`);
+                        createAlert('alert-info', `Searched for \"${sBar.val()}\"`, `Found <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`, true);
                         updateAllTimes(data.sections);
                         if (viewing_cur) {
                             switchView();
@@ -79,7 +80,7 @@ function setupSearchBar() {
                         resetSubjectSelector();
                         sBar.val('');
                     } else {
-                        createAlert('alert-warning', `Searched for \"${sBar.val()}\"`, `No sections found matching query. Make sure you search for a name, number, or crn and try again.`);
+                        createAlert('alert-warning', `Searched for \"${sBar.val()}\"`, `No sections found matching query. Make sure you search for a name, number, or crn and try again.`, true);
                         hideLoading();
                         sBar.val('');
                     }
@@ -94,21 +95,25 @@ function setupCheckBoxes() {
     let SCT = document.getElementById('showCanTake');
     SCT.onchange = () => {
         showCanTake = SCT.checked;
+        noSubjectCheck();
         reloadSections();
     };
     let NOL = document.getElementById('showOverlaps');
     NOL.onchange = () => {
         noOverlaps = NOL.checked;
+        noSubjectCheck();
         reloadSections();
     };
     let HCom = document.getElementById('hideCompleted');
     HCom.onchange = () => {
         hideCompleted = HCom.checked;
+        noSubjectCheck();
         reloadSections();
     }
     let HCur = document.getElementById('hideCurrent');
     HCur.onchange = () => {
         hideCurrent = HCur.checked;
+        noSubjectCheck();
         reloadSections();
     }
 
@@ -119,15 +124,26 @@ function setupCheckBoxes() {
     hideCurrent = HCur.checked;
 }
 
-export function reloadSections() {
+function noSubjectCheck() {
+    if (! dSel.value && noSubjCount++ == 10) {
+        createAlert('alert-secondary', `No Subject Selected`, `You've changed filter options several times without a subject selected. Try selecting one from the list above.`, true)
+        noSubjCount = 0;
+    }
+}
+
+/*
+*   Reloads all sections based on selected department and filter settings
+*/
+export function reloadSections(alert=true) {
     if (dSel.value) {
         showLoading();
         getSectionsByDepartment(dSel.value).then(data => {
-            createAlert('alert-info', `Selected ${$('#subject-selector option:selected').text()}`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`)
+            if (alert) createAlert('alert-info', `Selected ${$('#subject-selector option:selected').text()}`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`, true)
             updateAllTimes(data.sections);
         });
     }
 }
+
 
 /*
 *   Switch view between current classes and full view
@@ -158,7 +174,6 @@ export function switchView() {
         fa.className = 'fa fa-arrow-circle-o-right'
         viewing_cur = true;
         viewing_full = false;
-        resetSubjectSelector();
     }
     if (viewing_cur) {
         scroll = $("#signup-main").scrollTop();
