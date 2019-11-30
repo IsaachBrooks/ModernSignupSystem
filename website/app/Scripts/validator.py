@@ -120,6 +120,12 @@ def filterSection(sectList, noOverlaps, showOnlyCanTake, hideCompleted, hideCurr
         for sect in sectList:
             if sect.sectFor in complete:
                 toRemove.append(sect)
+                if sect.sectFor.hasLinkedClass():
+                    cID = sect.sectFor.getLinkedClass().cID
+                    links = Section.query.filter(Section.cID == cID).all()
+                    for link in links:
+                        if (link not in toRemove and link in sectList):
+                            toRemove.append(link)
         numFiltered += len(toRemove)
         for sect in toRemove:
             sectList.remove(sect)
