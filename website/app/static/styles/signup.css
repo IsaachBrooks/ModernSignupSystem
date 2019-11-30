@@ -149,6 +149,7 @@ content.signup-holder {
     left: 1em;
     bottom: 1em;
     z-index: 100000;
+    font-size: .8em;
 }
 
 .loading-div { 
@@ -163,16 +164,6 @@ content.signup-holder {
     position: absolute;
     top: 50%;
     left: 50%;
-}
-
-.alert {
-    position: relative;
-    grid-area: main;
-    z-index: 99999;
-    margin-top: 1em;
-    margin-right: auto;
-    margin-left: 1em;
-    margin-bottom: auto;
 }
 
 .extra-select-main {
@@ -234,6 +225,26 @@ content.signup-holder {
     position: absolute;
     bottom: 0;
     left: 0;
+}
+
+.alert {
+    position: relative;
+    grid-area: main;
+    z-index: 99999;
+}
+
+.alert-major {
+    margin-top: 1em;
+    margin-right: auto;
+    margin-left: 1em;
+    margin-bottom: auto;
+}
+
+.alert-minor {
+    margin-top: auto;
+    margin-right: auto;
+    margin-left: 1em;
+    margin-bottom: -8em;
 }
 
 .alert-heading, #alert-box-body {
