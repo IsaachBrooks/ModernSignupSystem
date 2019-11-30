@@ -73,11 +73,6 @@ def verifyCanEnroll(student, sections):
             if verifyDayTimeNoOverlap(eSect, sect):
                 return f'This section overlaps with your existing section for {eSect.sectFor.getShortName()}', False
 
-        #check for lab sections and prompt response on webpage
-        #if sectClass.linkedClass or sectClass.linkedTo:
-        #   print('evil')
-        #  return 'Couldn\'t Enroll', False
-
         #check section at capacity and prompt response if section is full
         if sect.capacity == sect.numCurEnrolled:
             #prompt for additional sections here
@@ -85,6 +80,12 @@ def verifyCanEnroll(student, sections):
     if len(sections) == 1:
         return f'Enrolled successfully in {sections[0].sectFor.name}', True
     else:
+        # if multiple sections, make sure those dont overlap only if they pass all other checks
+        for sect in sections:
+            for sect2 in sections:
+                if sect is not sect2:
+                    if (verifyDayTimeNoOverlap(sect, sect2)):
+                        return f'These sections overlap with eachother', False
         return f'Enrolled successfully in {sections[0].sectFor.name} and {sections[1].sectFor.name}', True
 
 
