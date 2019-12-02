@@ -176,11 +176,27 @@ export async function getStudentCompleted() {
 export function showLoading() {
     let loader = $('#loading-indicator');
     loader.css('display', 'unset');
+    let chkLabels = $('.opt-check-label');
+    chkLabels.prop('disabled', true);
+    let chkInputs = $('.opt-check-input');
+    chkInputs.prop('disabled', true);
+    let search = $('#opt-search-input');
+    search.prop('disabled', true);
+    let searchbtn = $('#opt-search-btn');
+    searchbtn.prop('disabled', true);
 }
 
 export function hideLoading() {
     let loader = $('#loading-indicator');
     loader.fadeOut(300);
+    let chkLabels = $('.opt-check-label');
+    chkLabels.prop('disabled', false);
+    let chkInputs = $('.opt-check-input');
+    chkInputs.prop('disabled', false);
+    let search = $('#opt-search-input');
+    search.prop('disabled',false);
+    let searchbtn = $('#opt-search-btn');
+    searchbtn.prop('disabled',false);
 }
 
 export function getCurStudentSectionsMinimal() {
