@@ -175,13 +175,12 @@ export async function getStudentCompleted() {
 
 export function showLoading() {
     let loader = $('#loading-indicator');
-    loader.css('visibility', 'visible');
+    loader.css('display', 'unset');
 }
 
 export function hideLoading() {
     let loader = $('#loading-indicator');
     loader.fadeOut(300);
-    //loader.css('visibility', 'hidden');
 }
 
 export function getCurStudentSectionsMinimal() {

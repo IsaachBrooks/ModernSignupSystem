@@ -131,7 +131,7 @@ content.signup-holder {
     border-radius: 5px;
     border: 1px black solid;
     color: white;
-    text-shadow: 1px 0 black;
+    text-shadow: 1px 1px 0 black;
     /*https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting*/
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
 }
@@ -157,7 +157,7 @@ content.signup-holder {
     grid-area: main;
     z-index: 9999;
     background-color: rgba(0, 0, 0, 0.541);
-    visibility: hidden;
+    display: none;
 }
 
 .loading-icon {
