@@ -10,6 +10,7 @@
 
 .list-elem {
     color: white;
+    text-shadow: 1px 1px 0 black;
     padding: .25em;
     margin-left: 0;
     margin-right: 0;
@@ -39,8 +40,4 @@
 
 .current-list-elem {
     background-color: rgb(66, 97, 66);
-}
-
-.selected-list-elem {
-    background-color: rgb(143, 117, 46);
 }

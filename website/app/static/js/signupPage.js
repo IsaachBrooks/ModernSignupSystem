@@ -10,7 +10,7 @@ let lastClicked;
 const signupHolder = $("#signup-holder");
 const esHold = $('#extra-select-holder');
 
-let clickColor = "#fc0"
+let clickColor = "#fc0";
 
 $(document).ready(function () {
 
@@ -142,7 +142,7 @@ function setupSelectors() {
         click: function() {
             updateSectionInfo(
                 $(this).data('crn'),
-                $(this).data('cid')
+                $(this).data('cid'),
             );
             collapseAlerts();
             showSectionInfo();
@@ -158,7 +158,7 @@ function setupTimeslotCards() {
     $(".day-holder").on({
         click: function() {
             let crnSel = $(this)[0].getAttribute('data-crn');
-            drawSelected(crnSel);
+            drawSelected(crnSel, $(this)[0].style.backgroundColor);
         },
         mousedown: function() {
             lastClicked = $(this)

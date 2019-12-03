@@ -1,10 +1,10 @@
-import { getSectionsInfoMinimal, getClassInfoMinimal, getSectionInfo, getClassInfo, isCurStudentRegisteredFor } from "./databaseAccess.js";
+import { getSectionsInfoMinimal, getSectionInfo, getClassInfo, isCurStudentRegisteredFor } from "./databaseAccess.js";
 
 export default drawSelected;
 
 const sectionInfo = $('.section-info-main');
 
-export function drawSelected(selectedCRNs) {
+export function drawSelected(selectedCRNs, rgb) {
     const selectHolder = $('#selected-holder');
     const selectListHolder =  $('#selected-list-holder');
     if (selectHolder.css('visibility') === 'hidden') {
@@ -24,6 +24,7 @@ export function drawSelected(selectedCRNs) {
             sectLi.setAttribute('data-crn', crn);
             sectLi.setAttribute('data-cid', sect.cID);
             $(sectLi).css('display', 'none');
+            $(sectLi).css('background-color', rgb);
             selectListHolder.append(sectLi);
             $(sectLi).fadeIn(200 + count);
             count+=100;
