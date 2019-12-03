@@ -1,3 +1,5 @@
+import { scaleFactor } from "./signupPage.js";
+
 const signupMain = document.getElementById('signup-main');
 const curClassesMain = document.getElementById('curClasses-main');
 
@@ -13,7 +15,7 @@ function drawGrid() {
     ctx.scale(2, 1.599);
     ctx.font = "12px Arial";
     ctx.beginPath()
-    for (let y = 40; y <= 2800; y+= 90) { // y+= 90 because of pixel scaling factor of 1.5x   90 = 60 * 1.5
+    for (let y = 40; y <= (16 * 60 * scaleFactor) + 40; y+= 60 * scaleFactor) { // y+= 90 because of pixel scaling factor of 1.5x   90 = 60 * 1.5
         ctx.moveTo(0, y);
         ctx.lineTo(width * 2, y);
         if (hr > 12)
@@ -29,7 +31,7 @@ function drawGrid() {
 
     ctx.beginPath();
     ctx.setLineDash([5]);
-    for (let y = 85; y <= 2400; y+= 90) { // y+= 90 because of pixel scaling factor of 1.5x   90 = 60 * 1.5
+    for (let y = (40 + (30 * scaleFactor)); y <= (15 * 60 * scaleFactor) + (40 + (30 * scaleFactor)); y+= 60 * scaleFactor) { // y+= 90 because of pixel scaling factor of 1.5x   90 = 60 * 1.5
         ctx.moveTo(30, y);
         ctx.lineTo(width * 2, y);
     }
@@ -39,8 +41,8 @@ function drawGrid() {
     return gridCanvas
 }
 $(() => {
-grid1 = drawGrid();
-grid2 = drawGrid();
+let grid1 = drawGrid();
+let grid2 = drawGrid();
 signupMain.append(grid1);
 curClassesMain.append(grid2);
 })

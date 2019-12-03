@@ -1,6 +1,6 @@
 import { getStudentSectionsDraw, hideLoading } from './databaseAccess.js';
 import { hideSectionInfo } from './selectTimes.js';
-import { hideExtraSelect } from './signupPage.js';
+import { hideExtraSelect, scaleFactor } from './signupPage.js';
 export default drawTimesFull;
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
@@ -46,9 +46,10 @@ function newTimeSlot(day, time, rgb, classes, crns, cNums, slot) {
     let tStart = tStartHr + tStartMin;
     let len = getSectionLength(time[0], time[1]);
     newTime.className = `time-slot-holder ${slot}-slot`;
-    newTime.style.height = `${1.5 * len}px`;
+    newTime.style.height = `${len * scaleFactor}px`;
     newTime.style.zIndex = `${time[0]}`;
-    newTime.style.top = `${tStart * (1.5 * 60) + 40}px`;
+    newTime.style.fontSize = `${scaleFactor/1.5}em`
+    newTime.style.top = `${tStart * (60) * scaleFactor + 40}px`;
     let crnConcat;
     if (typeof crns == typeof []) {
         crnConcat = crns.reduce((accumulator, currentValue) => {

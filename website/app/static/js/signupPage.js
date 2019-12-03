@@ -4,6 +4,8 @@ import { enrollStudent, removeEnrolledClass, completeCurSections, hasLinkedClass
 import { updateCurTimes } from './drawTimes.js';
 import { reloadSections } from './options.js';
 
+export let scaleFactor = 1.5;
+
 let lastTimeSlotHolderIndex;
 let lastTimeSlotHolderBGC;
 let lastClicked;
@@ -11,6 +13,7 @@ const signupHolder = $("#signup-holder");
 const esHold = $('#extra-select-holder');
 
 let clickColor = "#fc0";
+
 
 $(document).ready(function () {
 
