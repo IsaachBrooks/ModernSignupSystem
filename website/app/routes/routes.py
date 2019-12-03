@@ -25,7 +25,7 @@ def login():
 @app.route("/classSignup")
 @login_required
 def signup():
-    return render_template('classSignup.html', title='Main', debug=app.debug)
+    return render_template('classSignup.html', title='Registration', debug=app.debug)
 
 @app.route("/degree")
 @login_required
