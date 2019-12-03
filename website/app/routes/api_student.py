@@ -145,3 +145,4 @@ def checkCanEnroll(crn):
     sect = Section.query.filter(Section.crn == crn).first()
     reply, success = verifyCanEnroll(student, sect)
     return jsonify({'reply': reply, 'success': success})
+    

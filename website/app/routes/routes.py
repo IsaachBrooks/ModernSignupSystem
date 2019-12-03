@@ -52,3 +52,4 @@ def logout():
 @app.route("/testing", methods=['GET', 'POST'])
 def testing():
     return render_template('testing.html', title='Testing page')
+    

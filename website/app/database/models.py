@@ -69,7 +69,3 @@ class asc_degree_classes(BaseTable):
 
     def __repr__(self):
         return f"DegreeClass(degree={self.degree} class={self.dClass.getShortName()} cID={self.cID} priority={self.priority})"
-
-
-
-

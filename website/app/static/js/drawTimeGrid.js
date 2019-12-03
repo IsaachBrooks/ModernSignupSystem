@@ -38,8 +38,9 @@ function drawGrid() {
     ctx.beginPath();
     return gridCanvas
 }
-
+$(() => {
 grid1 = drawGrid();
 grid2 = drawGrid();
 signupMain.append(grid1);
 curClassesMain.append(grid2);
+})

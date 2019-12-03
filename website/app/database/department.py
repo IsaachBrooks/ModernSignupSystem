@@ -21,3 +21,4 @@ class Department(BaseTable):
 
     def __repr__(self):
         return f"Department(dpID={self.dpID} name='{self.name}' code={self.code})"
+        

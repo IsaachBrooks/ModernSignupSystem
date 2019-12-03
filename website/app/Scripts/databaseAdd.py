@@ -18,3 +18,4 @@ def registerStudent(form):
     db.session.add(student)
     db.session.commit()
     return username
+    

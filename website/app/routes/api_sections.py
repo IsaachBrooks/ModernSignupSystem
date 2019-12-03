@@ -186,7 +186,3 @@ def hasLinkedClass(crn):
             'crns': [],
         }
     return jsonify(reply)
-
-
-
-

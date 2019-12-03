@@ -39,21 +39,3 @@ def getDepartmentNamesIDs():
     for dep in deps:
         ret.append({'name': dep.name, 'dpID': dep.dpID})
     return jsonify(ret)
-
-"""
-@app.route("/api/", methods=[''])
-def api():
-    result = {}
-    return jsonify(result)
-
-@app.route("/api/", methods=[''])
-def api():
-    result = {}
-    return jsonify(result)
-
-@app.route("/api/", methods=[''])
-def api():
-    result = {}
-    return jsonify(result)
-"""
-

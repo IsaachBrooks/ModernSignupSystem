@@ -28,3 +28,4 @@ class Faculty(BaseTable):
         }    
     def __repr__(self):
         return f"Faculty('{self.fname + ' ' + self.lname}', id={self.fID})"
+        

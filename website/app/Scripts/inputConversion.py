@@ -6,3 +6,4 @@ def strToBool(input):
         return True
     else:
         return False
+        

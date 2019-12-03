@@ -67,4 +67,3 @@ class Classes(BaseTable):
 
     def __repr__(self):
         return f"Classes(cID={self.cID} shortName={self.getShortName()} name='{self.name}')"
-

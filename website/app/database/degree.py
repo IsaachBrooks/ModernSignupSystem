@@ -29,3 +29,4 @@ class Degree(BaseTable):
 
     def __repr__(self):
         return f"Degree(degreeID={self.degreeID} name='{self.name}')"
+        
