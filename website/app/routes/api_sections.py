@@ -186,3 +186,22 @@ def hasLinkedClass(crn):
             'crns': [],
         }
     return jsonify(reply)
+
+@app.route("/api/getSectionsByClass/cID=<int:cID>&noOverlaps=<string:noOverlaps>&showCanTake=<string:showCanTake>&hideCompleted=<string:hideCompleted>&hideCurrent=<string:hideCurrent>")
+def getSectionsByClass(cID, noOverlaps, showCanTake, hideCompleted, hideCurrent):
+    cla = Classes.query.filter(Classes.cID == cID).first()
+    sects = Section.query.filter(Section.cID == cID).all()
+    if cla.hasLinkedClass():
+        links = Section.query.filter(Section.cID == cla.getLinkedClass().cID).all()
+        for link in links:
+            sects.append(link)
+    if sects:
+        count = len(sects)
+        numFiltered = filterSection(sects, strToBool(noOverlaps), strToBool(showCanTake), strToBool(hideCompleted), strToBool(hideCurrent))
+        sections = processSections(sects)
+        reply = {'sections': sections, 'count': count, 'numFiltered': numFiltered, 'success': True}
+        return jsonify(reply)
+    else: 
+        reply = {'sections': [], 'count': 0, 'numFiltered': 0, 'success': False}
+        return jsonify(reply)
+

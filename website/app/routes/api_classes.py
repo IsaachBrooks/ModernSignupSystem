@@ -23,3 +23,19 @@ def getClassInfoMinimal(cID):
         'deptCode' : singleClass.department.code
     }
     return jsonify(ret)
+
+@app.route("/api/getClassesByDepartment/dpID=<int:dpID>", methods=['GET'])
+def getClassesByDepartmentMinimal(dpID):
+    dp = Department.query.filter(Department.dpID == dpID).first()
+    classesMember = dp.classesMember
+    classList = []
+    for cla in classesMember:
+        if not cla.lab:
+            classList.append({
+                'cID': cla.cID,
+                'cNum': cla.cNumber,
+                'name': cla.name,
+                'shortName': cla.getShortName()
+            })
+    
+    return jsonify(classList)

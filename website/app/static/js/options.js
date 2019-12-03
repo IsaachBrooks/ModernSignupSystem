@@ -1,4 +1,4 @@
-import { getDepartmentNamesIDs, getSectionsByDepartment, searchForSections, showLoading, hideLoading } from "./databaseAccess.js";
+import { getDepartmentNamesIDs, getSectionsByDepartment, getSectionsByClass, getClassesByDepartment, searchForSections, showLoading, hideLoading } from "./databaseAccess.js";
 import { updateAllTimes } from "./drawTimes.js";
 import { hideSectionInfo } from "./selectTimes.js";
 import { createAlert, hideExtraSelect } from "./signupPage.js";
@@ -15,6 +15,7 @@ export let viewing_full = false;
 export let viewing_cur = true;
 
 const dSel = document.getElementById('subject-selector');
+const cSel = document.getElementById('class-selector');
 
 function setupSubjectSelector() {
     getDepartmentNamesIDs().then((data) => {
@@ -29,6 +30,7 @@ function setupSubjectSelector() {
     });
     dSel.onchange = () => {
         reloadSections();
+        fillClassSelector();
         if (viewing_cur) {
             switchView();
         }
@@ -37,6 +39,43 @@ function setupSubjectSelector() {
 
 function resetSubjectSelector() {
     dSel.selectedIndex = 0;
+}
+
+function fillClassSelector() {
+    let dpID = dSel.value
+    $(cSel).empty();
+    if (dpID) {
+        $(cSel).prop('disabled', false);
+        let first = document.createElement('option');
+        first.innerHTML = ' Pick a class';
+        first.value = '';
+        $(first).prop('selected', true);
+        $(cSel).append(first)
+        getClassesByDepartment(dpID).then((data) => {
+            for (let elem of data) {
+                let opt = document.createElement('option');
+                opt.innerHTML = `${elem.cNum} ${elem.name}`;
+                opt.value = elem.cID;
+                $(cSel).append(opt);
+            }
+        });
+    } else {
+        $(cSel).prop('disabled', true);
+        let first = document.createElement('option');
+        first.innerHTML = ' --- ';
+        first.value = '';
+        $(first).prop('selected', true);
+        $(cSel).append(first)
+    }
+}
+
+function setupClassSelector() {
+    cSel.onchange = () => {
+        reloadSections();
+        if (viewing_cur) {
+            switchView();
+        }
+    }
 }
 
 function setupSearchBar() {
@@ -135,7 +174,13 @@ function noSubjectCheck() {
 *   Reloads all sections based on selected department and filter settings
 */
 export function reloadSections(alert=true) {
-    if (dSel.value) {
+    if (cSel.value) {
+        showLoading();
+        getSectionsByClass(cSel.value).then(data => {
+            if (alert) createAlert('alert-info', `Selected ${$('#subject-selector option:selected').text()}`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`, true)
+            updateAllTimes(data.sections);
+        });
+    } else if (dSel.value) {
         showLoading();
         getSectionsByDepartment(dSel.value).then(data => {
             if (alert) createAlert('alert-info', `Selected ${$('#subject-selector option:selected').text()}`, `Loaded <b>${data.count}</b> sections, ${data.numFiltered} of which were filtered out.`, true)
@@ -192,6 +237,7 @@ export function switchView() {
 $(
     setupSwitchView(),
     setupSubjectSelector(),
+    setupClassSelector(),
     setupSearchBar(),
     setupCheckBoxes()
 );

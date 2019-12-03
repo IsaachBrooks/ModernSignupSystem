@@ -52,7 +52,7 @@ function newTimeSlot(day, time, rgb, classes, crns, cNums, slot) {
     let crnConcat;
     if (typeof crns == typeof []) {
         crnConcat = crns.reduce((accumulator, currentValue) => {
-            return accumulator.toString() +',' + currentValue.toString();
+            return accumulator.toString() + ',' + currentValue.toString();
         })
     } else {
         crnConcat = crns.toString();

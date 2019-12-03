@@ -213,3 +213,13 @@ export function checkCanEnroll(crn) {
     let url = `/api/checkCanEnroll/crn=${crn}`;
     return baseGetRequest(url);
 }
+
+export function getClassesByDepartment(dpID) {
+    let url = `/api/getClassesByDepartment/dpID=${dpID}`;
+    return baseGetRequest(url);
+}
+
+export function getSectionsByClass(cID) {
+    let url = `/api/getSectionsByClass/cID=${cID}&noOverlaps=${noOverlaps}&showCanTake=${showCanTake}&hideCompleted=${hideCompleted}&hideCurrent=${hideCurrent}`;
+    return baseGetRequest(url);
+}
