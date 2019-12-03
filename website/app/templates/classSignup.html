@@ -79,39 +79,42 @@
     </div>
     <div id="option-holder" class="signdiv signup-opt mt-2 mb-4">
         <section id="opt-left" class="opt-section">
-            <div id="view-switcher" class="option-ele left-opt">
+            <div id="view-switcher" class="option-ele">
                 <a id="switch-view" class="btn btn-link"><i class="fa fa-arrow-circle-o-right"></i><span> Full View</span></a>
             </div>
-            <div id="checked-opts" class="left-opt">
+            <div id="checked-opts" class="">
+                <div id="showOverlaps-holder" class="opt-holder">
                     <input type="checkbox" id="showOverlaps" class="opt-check-input">
                     <label for="showOverlaps" class="opt-label no-sel opt-check-label"> Hide Overlapping</label>
-                    
+                </div>
+                <div id="showCanTake-holder" class="opt-holder">
                     <input type="checkbox" id="showCanTake" class="opt-check-input"> 
                     <label for="showCanTake" class="opt-label no-sel opt-check-label">Can Take Only</label>
-
-                    <br>
-                    
+                </div>
+                <div id="hideCompleted-holder" class="opt-holder">    
                     <input type="checkbox" id="hideCompleted" class="opt-check-input">
                     <label for="hideCompleted" class="opt-label no-sel opt-check-label"> Hide Completed</label>
-                    
+                </div>              
+                <div id="hideCurrent-holder" class="opt-holder">
                     <input type="checkbox" id="hideCurrent" class="opt-check-input">
                     <label for="hideCurrent" class="opt-label no-sel opt-check-label"> Hide Current</label>
+                </div>
             </div>
         </section>
         <section id="opt-right" class="opt-section">
-            <div class="input-group md-form form-sm form-2 pl-0">
+            <div id="opt-search" class="input-group md-form form-sm form-2 pl-0">
                 <input id="opt-search-input" class="form-control my-0 py-1 red-border" type="text" placeholder="Search" aria-label="Search">
                 <div id="opt-search-btn" class="input-group-append">
                   <span class="input-group-text red lighten-3" id="basic-text1">
                       <i class="fas fa-search text-grey" aria-hidden="true"></i></span>
                 </div>
               </div>
-            <div id="subject-switcher" class="option-ele right-opt"> 
+            <div id="subject-switcher" class="pl-0 pr-0"> 
                 <select id="subject-selector">
                     <option value='' selected> Pick a subject</option>
                 </select>
             </div>
-            <div id="class-switcher" class="option-ele right-opt"> 
+            <div id="class-switcher" class="pl-0 pr-0"> 
                 <select id="class-selector" disabled>
                     <option value='' selected> --- </option>
                 </select>

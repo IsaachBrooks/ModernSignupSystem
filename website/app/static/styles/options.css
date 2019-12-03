@@ -1,25 +1,21 @@
-
-
-
 #opt-left {
     position: relative;
     grid-area: L;
-}
-
-.left-opt {
-    float: left;
-    margin-right: 10px;
+    grid-template-areas: "sv filters";
+    grid-template-columns: auto auto ;
+    display: grid;
 }
 
 #opt-right {
     position: relative;
     grid-area: R;
+    grid-template-areas: 
+    "sr sr"
+    "cla dept";
+    grid-template-columns: 70% 30%;
+    display: grid;
 }
 
-.right-opt {
-    float: right;
-    margin-left: 10px;
-}
 .opt-section {
     position: relative;
     padding: .1em;
@@ -28,11 +24,14 @@
 
 .option-ele {
     position: relative;
-    margin-left: 0.1em;
+}
+
+#view-switcher {
+    grid-area: sv;
 }
 
 #switch-view {
-    font-size: 2em;
+    font-size: 2.1em;
     font-family: Arial, Helvetica, sans-serif;
     border: 1px solid black;
 }
@@ -49,7 +48,8 @@
 }
 
 #opt-search {
-    position: relative;        
+    position: relative;    
+    grid-area: sr;    
 }
 
 #opt-search-btn {
@@ -57,7 +57,46 @@
 }
 
 #checked-opts {
-    display: block;
+    grid-area: filters;
+    display: grid;
+    grid-template-areas: 
+    "hol cto"
+    "hcom hcur";
+    grid-template-columns: 1fr 1fr;
+}
+
+#showOverlaps-holder {
+    grid-area: hol;
+}
+
+#showCanTake-holder {
+    grid-area: cto;
+}
+
+#hideCompleted-holder {
+    grid-area: hcom;
+}
+
+#hideCurrent-holder {
+    grid-area: hcur;
+}
+
+.opt-holder {
+    position: relative;
+}
+
+.opt-check-input {
+    display: inline;
+    vertical-align: middle;
+}
+
+.opt-check-label {
+    display: inline;
+    vertical-align: middle;
+}
+
+.opt-check-label, .opt-check-input {
+    position: relative;
 }
 
 .opt-check-label:hover {
@@ -65,6 +104,27 @@
     border-color: rgb(226, 226, 226);
 }
 
+.opt-check-input:hover + .opt-check-label {
+    color: #fc0;    
+}
+
 .opt-check-input:checked + .opt-check-label {
     color: #fc0;
+}
+
+#subject-switcher {
+    grid-area: dept;
+    margin-right: 0;
+}
+
+#subject-selector {
+    width: 100%;
+}
+
+#class-switcher {
+    grid-area: cla;
+}
+
+#class-selector {
+    width: 100%;
 }

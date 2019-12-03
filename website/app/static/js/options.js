@@ -29,6 +29,7 @@ function setupSubjectSelector() {
         }
     });
     dSel.onchange = () => {
+        cSel.selectedIndex = 0;
         reloadSections();
         fillClassSelector();
         if (viewing_cur) {
@@ -50,7 +51,11 @@ function fillClassSelector() {
         first.innerHTML = ' Pick a class';
         first.value = '';
         $(first).prop('selected', true);
-        $(cSel).append(first)
+        $(cSel).append(first);
+        let showAll = document.createElement('option');
+        showAll.innerHTML = ' Show all (default)';
+        showAll.value = '';
+        $(cSel).append(showAll)
         getClassesByDepartment(dpID).then((data) => {
             for (let elem of data) {
                 let opt = document.createElement('option');
