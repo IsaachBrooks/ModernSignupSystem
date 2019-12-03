@@ -2,7 +2,7 @@
     position: relative;
     grid-area: L;
     grid-template-areas: "sv filters";
-    grid-template-columns: auto auto ;
+    grid-template-columns: 40% 60% ;
     display: grid;
 }
 

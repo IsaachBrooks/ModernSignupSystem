@@ -5,7 +5,7 @@ import { createAlert, hideExtraSelect } from "./signupPage.js";
 
 export default switchView;
 
-const switchStr = [' Full View', ' Cur View'];
+const switchStr = [' Schedule', ' Current&nbsp;&nbsp;&nbsp;'];
 export let noOverlaps = false;
 export let showCanTake = false;
 export let hideCompleted = false;

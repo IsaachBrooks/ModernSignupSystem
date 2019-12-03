@@ -28,12 +28,19 @@ $(document).ready(function () {
             });
         }
     });
+
     setupTimeslotCards()
     setupSelectors();
     setupSectionInfoViewer();
     setupExtraSelect();
     showCurrentEnrolled();
 });
+
+function setupWindowScaling() {
+    let dayHolders = $('.day-holder');
+    let canvasHolder = $('#signup-grid-canvas');
+    
+}
 
 function setupSectionInfoViewer() {
     /*

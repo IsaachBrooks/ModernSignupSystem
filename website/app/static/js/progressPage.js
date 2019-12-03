@@ -1,6 +1,5 @@
 import { getStudentCompleted } from "./databaseAccess.js";
 
-
 const passedSpan = '<span class="text-center"><i class="fa fa-check text-success"></i></span>'
 const failedSpan = '<span class="text-center"><i class="fa fa-check text-danger"></i></span>'
 
