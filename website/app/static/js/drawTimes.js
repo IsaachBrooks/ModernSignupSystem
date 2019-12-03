@@ -1,6 +1,7 @@
-import { getStudentSectionsDraw, hideLoading } from './databaseAccess.js';
+import { getStudentSectionsDraw } from './databaseAccess.js';
 import { hideSectionInfo } from './selectTimes.js';
 import { hideExtraSelect, scaleFactor } from './signupPage.js';
+import { hideLoading } from './options.js';
 export default drawTimesFull;
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri'];
