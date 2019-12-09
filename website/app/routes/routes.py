@@ -41,7 +41,7 @@ def hiddenRegister():
         username = registerStudent(form)
         flash(f'Registered {form.firstName.data} {form.lastName.data} with username {username}. Please log in.', 'success')
         return redirect(url_for('login'))
-    return render_template('secretRegister.html', title='Hidden Register', form=form, debug=app.debug)
+    return render_template('secretRegister.html', title='Register', form=form, debug=app.debug)
 
 @app.route("/logout")
 def logout():

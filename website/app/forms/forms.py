@@ -18,7 +18,7 @@ class RegistrationForm(FlaskForm):
         DataRequired(),
         EqualTo('password')], render_kw={"placeholder": "confirm password"})
 
-    submit = SubmitField('Secret Register')
+    submit = SubmitField('Register')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()], render_kw={"placeholder": "login or email"})
