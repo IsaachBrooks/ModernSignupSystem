@@ -39,13 +39,13 @@ To load the default dataset properly load order MUST be as follows:
 5. Section
 """
 
-defaultDepartment_path = 'defaultdata/defaultDataset_Department.csv'
-defaultDegree_path = 'defaultdata/defaultDataset_Degree.csv'
-defaultFaculty_path = 'defaultdata/defaultDataset_Faculty.csv'
-defaultDegreeClassLists_path = ['defaultdata/defaultDataset_CSClassList.csv']
-defaultSection_path = 'defaultdata/defaultDataset_Section.csv'
+defaultDepartment_path = 'exampledata/exampleDataset_Department.csv'
+defaultDegree_path = 'exampledata/exampleDataset_Degree.csv'
+defaultFaculty_path = 'exampletdata/exampleDataset_Faculty.csv'
+defaultDegreeClassLists_path = ['exampledata/exampleDataset_CSClassList.csv']
+defaultSection_path = 'exampledata/exampleDataset_Section.csv'
 
-print('Validating default Department dataset at path = {default_path} .')
+print('Validating default Department dataset at path = {defaultDepartment_path} .')
 if departmentFileValidator(defaultDepartment_path):
     departmentFileLoader(defaultDepartment_path)
 else:
