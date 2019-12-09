@@ -15,13 +15,7 @@ from app.Scripts.tableLoaderCSVDegreeClassList import degreeClassesListFileValid
 from app.Scripts.tableLoaderCSVSection import sectionFileValidator, sectionFileLoader
 
 
-password = '$2b$12$He6gTRczz5WA/kndXOu47ehYHbRjQaNvHQAlRtw4tO4Qft1c29vpa'
 app.app_context().push()
-
-print("Imported")
-if not bc.check_password_hash(password, getpass('\nEnter password to reset database: ')):
-    sys.exit('Incorrect password. Exiting.')
-print('Password confirmed.')
 print("Dropping all tables...")
 db.drop_all()
 print("Tables dropped.")
